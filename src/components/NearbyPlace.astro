@@ -1,0 +1,39 @@
+---
+/** Un lugar de "Todo está cerca": el nombre enlaza a Google Maps cuando hay un link cargado. */
+import ExternalLink from "./ui/ExternalLink.astro";
+
+interface Props {
+  name: string;
+  kind: string;
+  detail: string;
+  /** URL de Google Maps; sin ella, el nombre se muestra como texto. */
+  href: string | undefined;
+  linkHint: string;
+}
+
+const { name, kind, detail, href, linkHint } = Astro.props;
+---
+
+<li class="flex items-baseline justify-between gap-6 border-t border-stone/40 py-5 last:border-b">
+  <div>
+    <h3 class="font-serif text-2xl">
+      {
+        href ? (
+          <ExternalLink href={href} newTabHint={linkHint} class="group inline-flex items-baseline gap-2">
+            <span class="text-link">{name}</span>
+            <span
+              aria-hidden="true"
+              class="text-base text-stone-text transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            >
+              &#8599;
+            </span>
+          </ExternalLink>
+        ) : (
+          name
+        )
+      }
+    </h3>
+    <p class="mt-1 text-sm text-stone-text">{detail}</p>
+  </div>
+  <span class="shrink-0 text-[0.6875rem] font-semibold tracking-[0.2em] uppercase text-stone-text">{kind}</span>
+</li>

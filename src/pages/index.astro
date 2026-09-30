@@ -1,0 +1,43 @@
+---
+/**
+ * La raíz sólo elige idioma. En Vercel la redirección ocurre antes, en el servidor,
+ * según Accept-Language (ver vercel.json). Esta página es el respaldo para otros
+ * hosts y para `astro dev`: detecta el idioma del navegador con /lang-redirect.js
+ * y, sin JavaScript, ofrece los tres idiomas como links.
+ */
+import Logo from "../components/brand/Logo.astro";
+import { studio } from "../content/studio";
+import { getDictionary, interpolate } from "../i18n";
+import { DEFAULT_LOCALE, LOCALE_META, LOCALES } from "../i18n/locales";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { templateVars } from "../lib/content";
+import { localePath } from "../lib/urls";
+
+const dict = getDictionary(DEFAULT_LOCALE);
+---
+
+<BaseLayout
+  locale={DEFAULT_LOCALE}
+  title={dict.meta.title}
+  description={interpolate(dict.meta.description, templateVars(studio))}
+  ogImageAlt={dict.meta.ogImageAlt}
+  indexable={false}
+>
+  <script is:inline src="/lang-redirect.js"></script>
+  <main class="grid min-h-[100svh] place-items-center bg-sand px-5 text-center">
+    <div>
+      <h1><Logo variant="on-light" label={studio.name} class="mx-auto h-32 w-auto" /></h1>
+      <ul class="mt-8 flex flex-col gap-3">
+        {
+          LOCALES.map((code) => (
+            <li lang={LOCALE_META[code].htmlLang}>
+              <a href={localePath(code)} hreflang={LOCALE_META[code].hreflang} class="text-link">
+                {getDictionary(code).a11y.chooseLanguage}: {LOCALE_META[code].name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </main>
+</BaseLayout>

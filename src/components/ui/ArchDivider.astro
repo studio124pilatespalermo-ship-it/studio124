@@ -1,0 +1,16 @@
+---
+/** Separador decorativo con el arco del estudio. */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div aria-hidden="true" class:list={["flex items-center justify-center gap-4 text-stone", className]}>
+  <span class="h-px w-12 bg-current opacity-50"></span>
+  <svg width="22" height="26" viewBox="0 0 22 26" fill="none" class="opacity-80">
+    <path d="M1 26V11a10 10 0 0 1 20 0v15" stroke="currentColor" stroke-width="1"></path>
+  </svg>
+  <span class="h-px w-12 bg-current opacity-50"></span>
+</div>

@@ -1,0 +1,225 @@
+{
+  "meta": {
+    "title": "Aula avulsa de Pilates Reformer em Palermo Soho | Studio124",
+    "description": "Aula avulsa de Pilates Reformer em um estúdio boutique em Palermo Soho, Buenos Aires. Turmas de até {max} pessoas. Reserve e pague online em minutos.",
+    "ogImageAlt": "Studio124, estúdio boutique de Pilates Reformer em Palermo Soho"
+  },
+  "a11y": {
+    "skipToContent": "Pular para o conteúdo",
+    "languageNav": "Idioma",
+    "home": "Studio124, início",
+    "opensInNewTab": "(abre em uma nova aba)",
+    "bookingBar": "Reserva rápida",
+    "chooseLanguage": "Escolha seu idioma"
+  },
+  "cta": {
+    "book": "Reserve e pague sua aula",
+    "bookShort": "Reservar"
+  },
+  "hero": {
+    "eyebrow": "Palermo Soho · Buenos Aires",
+    "title": "Buenos Aires + Pilates",
+    "subtitle": "Conheça a cidade. Viva a experiência. Movimente seu corpo.",
+    "pauseVideo": "Pausar vídeo de fundo",
+    "playVideo": "Reproduzir vídeo de fundo",
+    "directions": "Como chegar"
+  },
+  "intro": {
+    "eyebrow": "Para quem está de visita",
+    "title": "Uma aula. Uma pausa. Um novo jeito de conhecer Buenos Aires.",
+    "lead": "Está de passagem por Buenos Aires ou planejando sua viagem?",
+    "body": [
+      "Entre cafés, restaurantes, compras, passeios e as noites portenhas, reserve também um momento de bem-estar só para você.",
+      "No Studio124, convidamos você a viver uma experiência de Pilates Reformer em um espaço boutique, acolhedor e cuidado nos mínimos detalhes, no coração de Palermo Soho."
+    ],
+    "note": "Você não precisa ser aluno do Studio124 nem morar na cidade.",
+    "tag": "Máximo de {max} pessoas por aula"
+  },
+  "pillars": {
+    "eyebrow": "Studio124",
+    "title": "Por que vir",
+    "items": [
+      {
+        "label": "Palermo Soho",
+        "text": "A localização ideal para combinar sua aula com um dia explorando a cidade."
+      },
+      {
+        "label": "Boutique Pilates Studio",
+        "text": "Turmas reduzidas e atenção personalizada, com no máximo {max} pessoas por aula."
+      },
+      {
+        "label": "Visitors welcome",
+        "text": "Aulas pensadas para quem está visitando Buenos Aires."
+      }
+    ]
+  },
+  "steps": {
+    "eyebrow": "Como funciona",
+    "title": "Reserve em quatro passos",
+    "items": [
+      {
+        "title": "Escolha dia e horário",
+        "text": "Veja a disponibilidade e escolha a aula que combina com seu roteiro."
+      },
+      {
+        "title": "Faça seu cadastro",
+        "text": "Crie sua conta no app de reservas com alguns dados básicos."
+      },
+      {
+        "title": "Pague online",
+        "text": "Pague sua aula no próprio app."
+      },
+      {
+        "title": "Venha para a aula",
+        "text": "Chegue alguns minutos antes, acomode-se e aproveite."
+      }
+    ],
+    "note": "O cadastro e o pagamento são feitos no app de reservas do estúdio. Não precisa mandar mensagem para reservar."
+  },
+  "pricing": {
+    "eyebrow": "Preço e horários",
+    "title": "Aula avulsa",
+    "priceNote": "Por pessoa, por aula.",
+    "duration": "Aula de {minutes} minutos",
+    "scheduleTitle": "Horários",
+    "availability": "A disponibilidade em tempo real e as vagas livres aparecem na hora de reservar."
+  },
+  "space": {
+    "title": "O espaço",
+    "caption": "Um espaço acolhedor e cuidado no coração de Palermo Soho."
+  },
+  "photos": {
+    "hero": "Aluna fazendo uma ponte sobre o reformer, com luz quente e cortinas brancas ao fundo",
+    "classroom": "Reformers de madeira junto às janelas, com plantas e espelhos",
+    "detail": "Pé apoiado no reformer, com os espelhos em arco iluminados ao fundo",
+    "space1": "Área de espera com sofá e os reformers junto às janelas",
+    "space2": "Aula em andamento vista da recepção, com o letreiro do Studio124",
+    "space3": "Mãos segurando um anel de Pilates diante da janela",
+    "pillarPalermo": "Mulher empurrando a bicicleta entre arcos de tijolo e lojas numa rua arborizada de Palermo",
+    "pillarVisitors": "Turistas assistindo a um casal dançando tango numa rua colorida de Buenos Aires"
+  },
+  "nearby": {
+    "eyebrow": "Pilates + Buenos Aires",
+    "title": "Tudo fica perto",
+    "lead": "Sua aula no coração de Palermo Soho",
+    "body": "O Studio124 está cercado por alguns dos lugares mais conhecidos e queridos de Palermo. Venha treinar e depois siga o seu dia a pé pela cidade: descubra cafés, restaurantes, praças, lojas, galerias e alguns dos pontos mais emblemáticos de Buenos Aires.",
+    "places": [
+      {
+        "id": "plaza-serrano",
+        "name": "Plaza Serrano",
+        "kind": "Praça",
+        "detail": "A poucos minutos a pé."
+      },
+      {
+        "id": "plaza-armenia",
+        "name": "Plaza Armenia",
+        "kind": "Praça",
+        "detail": "Bem perto do estúdio."
+      },
+      {
+        "id": "don-julio",
+        "name": "Don Julio",
+        "kind": "Parrilla",
+        "detail": "Um dos restaurantes mais reconhecidos de Palermo."
+      },
+      {
+        "id": "el-preferido",
+        "name": "El Preferido de Palermo",
+        "kind": "Restaurante",
+        "detail": "Bem ao lado do estúdio."
+      },
+      {
+        "id": "corazon-social",
+        "name": "Corazón Social",
+        "kind": "Bar",
+        "detail": "Bem em frente."
+      },
+      {
+        "id": "distrito-arcos",
+        "name": "Distrito Arcos",
+        "kind": "Compras",
+        "detail": "A cerca de cinco quadras."
+      }
+    ],
+    "note": "Referências do bairro para montar seu roteiro.",
+    "closingLine": "Faça do Studio124 mais uma parada no seu roteiro por Buenos Aires.",
+    "motto": "Entre. Explore. Aproveite Palermo.",
+    "mapHint": "Ver no Google Maps"
+  },
+  "location": {
+    "title": "Localização",
+    "addressLabel": "Endereço",
+    "mapAlt": "Mapa de Palermo Soho com a localização do Studio124",
+    "openMap": "Ver rota no Google Maps",
+    "between": "entre {a} e {b}"
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "items": [
+      {
+        "question": "Que roupa devo usar?",
+        "answer": "Roupa confortável, de preferência justa ao corpo. Por favor, evite peças com zíperes ou detalhes de metal."
+      },
+      {
+        "question": "Serve para quem nunca fez Pilates?",
+        "answer": "Sim. Com no máximo {max} pessoas por aula, conseguimos acompanhar você de perto e adaptar cada exercício ao seu nível."
+      },
+      {
+        "question": "Qual é a política de cancelamento?",
+        "answer": "Você pode remarcar sua aula para outro dia ou horário avisando com pelo menos {hours} horas de antecedência. As aulas não são reembolsáveis."
+      },
+      {
+        "question": "Posso treinar se tiver uma lesão?",
+        "answer": "Sim, desde que você não sinta dor aguda e tenha a liberação do seu médico. Avise a gente antes da aula para adaptarmos os exercícios."
+      },
+      {
+        "question": "Pilates é um método de reabilitação?",
+        "answer": "Não. O Pilates ajuda a prevenir lesões e a melhorar a mobilidade, mas não substitui a reabilitação médica."
+      },
+      {
+        "question": "Posso fazer Pilates grávida?",
+        "answer": "Com certeza! Desde que você tenha a liberação do seu obstetra. O ideal é começar a partir do terceiro mês."
+      },
+      {
+        "question": "Existe idade mínima?",
+        "answer": "Sim: a partir dos {age} anos você é super bem-vindo(a)!"
+      },
+      {
+        "question": "Pilates é só para mulheres?",
+        "answer": "De jeito nenhum! É um treino completo pensado para qualquer pessoa, independentemente do gênero."
+      }
+    ]
+  },
+  "closing": {
+    "title": "Reserve sua aula",
+    "body": "Pilates, movimento e bem-estar no coração de Palermo. Reserve sua aula e viva Buenos Aires em movimento."
+  },
+  "footer": {
+    "addressTitle": "Endereço",
+    "hoursTitle": "Horário de atendimento",
+    "hoursRange": "{opens} às {closes}",
+    "followTitle": "Siga a gente",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "reviews": "Avaliações no Google",
+    "help": "Outra dúvida?",
+    "whatsapp": "Fale com a gente no WhatsApp",
+    "rights": "Todos os direitos reservados.",
+    "emailLabel": "ou por e-mail em"
+  },
+  "days": {
+    "mon": "Segunda",
+    "tue": "Terça",
+    "wed": "Quarta",
+    "thu": "Quinta",
+    "fri": "Sexta",
+    "sat": "Sábado",
+    "sun": "Domingo",
+    "range": "{from} a {to}"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "body": "A página que você procura não existe ou mudou de lugar.",
+    "back": "Voltar ao início"
+  }
+}

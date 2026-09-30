@@ -1,0 +1,80 @@
+---
+import type { GetStaticPaths } from "astro";
+import { PUBLIC_BOOKING_URL } from "astro:env/client";
+import ClosingCta from "../../components/ClosingCta.astro";
+import Faq from "../../components/Faq.astro";
+import Footer from "../../components/Footer.astro";
+import Gallery from "../../components/Gallery.astro";
+import Header from "../../components/Header.astro";
+import Hero from "../../components/Hero.astro";
+import HowItWorks from "../../components/HowItWorks.astro";
+import Intro from "../../components/Intro.astro";
+import Location from "../../components/Location.astro";
+import MobileBookingBar from "../../components/MobileBookingBar.astro";
+import Nearby from "../../components/Nearby.astro";
+import Pillars from "../../components/Pillars.astro";
+import PriceSchedule from "../../components/PriceSchedule.astro";
+import { studio } from "../../content/studio";
+import { getDictionary, interpolate } from "../../i18n";
+import { LOCALES, type Locale } from "../../i18n/locales";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { resolveFaq, templateVars } from "../../lib/content";
+import { buildJsonLd } from "../../lib/jsonld";
+import { absoluteUrl, localePath } from "../../lib/urls";
+
+export const getStaticPaths = (() => LOCALES.map((lang) => ({ params: { lang }, props: { lang } }))) satisfies GetStaticPaths;
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const dict = getDictionary(lang);
+const site = Astro.site;
+if (!site) throw new Error("Falta `site` en astro.config.mjs");
+
+const description = interpolate(dict.meta.description, templateVars(studio));
+const faq = resolveFaq(dict, studio);
+const jsonLd = buildJsonLd({
+  studio,
+  pageUrl: absoluteUrl(localePath(lang), site),
+  siteUrl: absoluteUrl("/", site),
+  imageUrl: absoluteUrl("/og-image.jpg", site),
+  logoUrl: absoluteUrl("/logo.png", site),
+  description,
+  offerName: dict.pricing.title,
+  bookingUrl: PUBLIC_BOOKING_URL,
+  faq,
+});
+---
+
+<BaseLayout
+  locale={lang}
+  title={dict.meta.title}
+  description={description}
+  ogImageAlt={dict.meta.ogImageAlt}
+  jsonLd={jsonLd}
+  hasBookingBar
+>
+  <a
+    href="#contenido"
+    class="sr-only z-50 rounded-full bg-ink px-5 py-3 text-sm text-bone focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+  >
+    {dict.a11y.skipToContent}
+  </a>
+  <Header locale={lang} dict={dict} />
+  <main id="contenido" tabindex="-1" class="outline-none">
+    <Hero dict={dict} />
+    <Intro dict={dict} />
+    <Pillars dict={dict} />
+    <HowItWorks dict={dict} />
+    <PriceSchedule locale={lang} dict={dict} />
+    <Gallery dict={dict} />
+    <Nearby dict={dict} />
+    <Location dict={dict} />
+    <Faq dict={dict} items={faq} />
+    <ClosingCta dict={dict} />
+  </main>
+  <Footer locale={lang} dict={dict} />
+  <MobileBookingBar locale={lang} dict={dict} />
+</BaseLayout>

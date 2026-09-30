@@ -1,0 +1,36 @@
+---
+/**
+ * Botón principal de reserva: el único elemento en terracota del sitio.
+ * Lleva a la app externa en la misma pestaña para no perder al visitante en mobile.
+ */
+import { PUBLIC_BOOKING_URL } from "astro:env/client";
+
+interface Props {
+  label: string;
+  size?: "sm" | "md" | "lg";
+  block?: boolean;
+  class?: string;
+}
+
+const { label, size = "md", block = false, class: className } = Astro.props;
+
+const sizes = {
+  sm: "h-10 px-4 text-[0.6875rem] gap-2",
+  md: "h-12 px-6 text-xs gap-3",
+  lg: "h-14 px-8 text-[0.8125rem] gap-3",
+} as const;
+---
+
+<a
+  href={PUBLIC_BOOKING_URL}
+  rel="noopener"
+  class:list={[
+    "inline-flex shrink-0 items-center justify-center rounded-full bg-terracotta font-semibold uppercase tracking-[0.16em] whitespace-nowrap text-white transition-colors duration-200 hover:bg-terracotta-deep",
+    sizes[size],
+    block && "w-full",
+    className,
+  ]}
+>
+  <span>{label}</span>
+  <span aria-hidden="true" class="text-[1.2em] leading-none">&rarr;</span>
+</a>

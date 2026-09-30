@@ -1,0 +1,14 @@
+---
+/**
+ * Muestra un texto y resalta los datos pendientes ({{ASI}}) para que se vean en revisión.
+ */
+import { isPlaceholder } from "../../lib/placeholders";
+
+interface Props {
+  text: string;
+}
+
+const parts = Astro.props.text.split(/(\{\{[A-Z0-9_]+\}\})/);
+---
+
+{parts.map((part) => (isPlaceholder(part) ? <span class="is-placeholder">{part}</span> : part))}

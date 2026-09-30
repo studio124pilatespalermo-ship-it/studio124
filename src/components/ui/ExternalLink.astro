@@ -1,0 +1,29 @@
+---
+/**
+ * Link a un sitio externo. Si la URL todavía es un placeholder, muestra el texto
+ * con el placeholder resaltado en lugar de un link roto.
+ */
+import { isPlaceholder } from "../../lib/placeholders";
+
+interface Props {
+  href: string;
+  newTabHint: string;
+  class?: string;
+}
+
+const { href, newTabHint, class: className } = Astro.props;
+const pending = isPlaceholder(href);
+---
+
+{
+  pending ? (
+    <span class={className}>
+      <slot /> <span class="is-placeholder">{href}</span>
+    </span>
+  ) : (
+    <a href={href} target="_blank" rel="noopener noreferrer" class={className}>
+      <slot />
+      <span class="sr-only"> {newTabHint}</span>
+    </a>
+  )
+}

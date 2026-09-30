@@ -1,0 +1,94 @@
+---
+import { Image } from "astro:assets";
+import { heroVideoUrl } from "../content/media";
+import { photos } from "../content/photos";
+import { studio } from "../content/studio";
+import type { Dictionary } from "../i18n";
+import BookButton from "./ui/BookButton.astro";
+import Container from "./ui/Container.astro";
+import ExternalLink from "./ui/ExternalLink.astro";
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+---
+
+<!--
+  Capas (de abajo hacia arriba): foto (se ve mientras carga el video y si se pide reducir
+  movimiento) → video en loop → degradado → contenido. En mobile el contenido deja lugar
+  abajo para la barra fija de reserva.
+-->
+<section aria-labelledby="hero-title" class="on-dark relative isolate flex min-h-[100svh] items-end overflow-hidden bg-ink text-bone">
+  <Image
+    src={photos.hero}
+    alt={dict.photos.hero}
+    priority
+    widths={[640, 960, 1200]}
+    sizes="100vw"
+    class="absolute inset-0 z-0 h-full w-full object-cover"
+  />
+  {
+    heroVideoUrl && (
+      <video
+        data-hero-video
+        src={heroVideoUrl}
+        autoplay
+        loop
+        muted
+        playsinline
+        disablepictureinpicture
+        aria-hidden="true"
+        class="absolute inset-0 z-0 h-full w-full object-cover"
+      />
+    )
+  }
+  <div aria-hidden="true" class="hero-scrim absolute inset-0 z-10"></div>
+
+  <Container class="relative z-20 pt-32 pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-20 lg:pb-24">
+    <p class="mb-5 text-[0.6875rem] font-semibold tracking-[0.28em] uppercase text-bone/90">{dict.hero.eyebrow}</p>
+    <h1 id="hero-title" class="max-w-[11ch] font-serif text-[3.5rem] leading-[0.92] italic sm:text-7xl lg:text-[6.5rem]">
+      {dict.hero.title}
+    </h1>
+    <p class="mt-6 max-w-sm text-base leading-relaxed text-bone/90 md:text-lg">{dict.hero.subtitle}</p>
+    <div class="mt-9 flex flex-wrap items-center gap-3">
+      <BookButton label={dict.cta.book} size="lg" />
+      <!-- Secundario a propósito: contorno sin relleno, para no competir con la reserva. -->
+      <ExternalLink
+        href={studio.links.googleMaps}
+        newTabHint={dict.a11y.opensInNewTab}
+        class="inline-flex h-12 items-center gap-2.5 rounded-full border border-bone/60 px-5 text-xs font-semibold tracking-[0.16em] whitespace-nowrap uppercase text-bone transition-colors hover:bg-bone/10 md:h-14 md:px-6 md:text-[0.8125rem]"
+      >
+        <svg aria-hidden="true" width="12" height="15" viewBox="0 0 12 15" fill="none" class="shrink-0">
+          <path d="M6 14s5-4.6 5-8.5A5 5 0 0 0 1 5.5C1 9.4 6 14 6 14Z" stroke="currentColor" stroke-width="1.3"></path>
+          <circle cx="6" cy="5.5" r="1.7" fill="currentColor"></circle>
+        </svg>
+        <span>{dict.hero.directions}</span>
+      </ExternalLink>
+    </div>
+  </Container>
+
+  {
+    heroVideoUrl && (
+      <button
+        type="button"
+        hidden
+        data-hero-video-toggle
+        data-state="playing"
+        data-label-pause={dict.hero.pauseVideo}
+        data-label-play={dict.hero.playVideo}
+        aria-label={dict.hero.pauseVideo}
+        class="hero-toggle absolute top-24 right-5 z-20 grid size-10 place-items-center rounded-full border border-bone/50 text-bone transition-colors hover:bg-bone/15 md:top-auto md:right-10 md:bottom-10"
+      >
+        <svg class="icon-pause" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M2 1h3v10H2zM7 1h3v10H7z" fill="currentColor"></path>
+        </svg>
+        <svg class="icon-play" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M2.5 1l8 5-8 5z" fill="currentColor"></path>
+        </svg>
+      </button>
+    )
+  }
+  {heroVideoUrl && <script is:inline src="/hero-video.js" defer />}
+</section>

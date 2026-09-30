@@ -1,0 +1,178 @@
+@import "tailwindcss";
+@import "@fontsource-variable/cormorant-garamond/wght.css";
+@import "@fontsource-variable/cormorant-garamond/wght-italic.css";
+@import "@fontsource-variable/manrope/wght.css";
+
+/*
+ * Tokens de diseño. Cambiar un color o una fuente acá lo cambia en todo el sitio.
+ * Contraste verificado (WCAG 2.2 AA):
+ *   ink / bone ............ 15.9:1
+ *   stone-text / bone ..... 5.3:1  · stone-text / sand ... 4.7:1
+ *   white / terracotta .... 5.0:1  (texto del botón principal)
+ * `stone` (#7C756D) queda sólo para filetes y detalles decorativos: con texto chico
+ * no llega a 4.5:1 sobre los fondos claros, por eso existe `stone-text`.
+ */
+@theme {
+  --color-sand: #ece4d9;
+  --color-bone: #f6f2ec;
+  --color-ink: #1f1d1b;
+  --color-stone: #7c756d;
+  --color-stone-text: #6a635b;
+  --color-olive: #3d3a2f;
+  --color-terracotta: #a45d41;
+  --color-terracotta-deep: #8a4b33;
+
+  --font-serif: "Cormorant Garamond Variable", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Manrope Variable", Manrope, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-arch: 9999px;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-bone);
+    min-height: 100svh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-bone);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Motivo del estudio: arco de medio punto. El radio gigante se recorta al ancho del marco. */
+  .arch {
+    border-radius: var(--radius-arch) var(--radius-arch) 0 0;
+    overflow: hidden;
+  }
+
+  /* Arco de una sola esquina, como las aberturas laterales del estudio. */
+  .arch-corner {
+    border-top-right-radius: clamp(7rem, 38vw, 16rem);
+    overflow: hidden;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-stone-text);
+  }
+
+  .eyebrow::after {
+    content: "";
+    width: 4.5rem;
+    height: 1px;
+    background-color: color-mix(in srgb, var(--color-stone) 55%, transparent);
+  }
+
+  .section-title {
+    font-size: clamp(2.25rem, 1.6rem + 3vw, 3.5rem);
+  }
+
+  /* Datos pendientes de completar: visibles a propósito para que nadie los publique sin querer. */
+  .is-placeholder {
+    background-color: color-mix(in srgb, var(--color-terracotta) 12%, transparent);
+    outline: 1px dashed var(--color-terracotta-deep);
+    outline-offset: 1px;
+    padding-inline: 0.2em;
+    font-family: ui-monospace, "Cascadia Mono", Menlo, monospace;
+    font-size: 0.85em;
+    letter-spacing: 0;
+    font-style: normal;
+  }
+
+  /*
+   * Degradado del hero, más denso donde va el texto: abajo en mobile, a la izquierda en
+   * desktop. La franja superior oscurece el techo claro de las fotos para que se lea el header.
+   */
+  .hero-scrim {
+    background:
+      linear-gradient(to bottom, rgb(31 29 27 / 0.6) 0%, rgb(31 29 27 / 0) 24%),
+      linear-gradient(to top, rgb(31 29 27 / 0.9) 0%, rgb(31 29 27 / 0.62) 42%, rgb(31 29 27 / 0.12) 78%);
+  }
+
+  @media (min-width: 768px) {
+    .hero-scrim {
+      background:
+        linear-gradient(to bottom, rgb(31 29 27 / 0.55) 0%, rgb(31 29 27 / 0) 22%),
+        linear-gradient(to right, rgb(31 29 27 / 0.88) 0%, rgb(31 29 27 / 0.55) 45%, rgb(31 29 27 / 0.1) 82%);
+    }
+  }
+
+  .hero-toggle[data-state="playing"] .icon-play,
+  .hero-toggle[data-state="paused"] .icon-pause {
+    display: none;
+  }
+
+  /* Acordeón nativo: se oculta el triángulo del navegador y se usa el chevron propio. */
+  .faq-item summary {
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .text-link {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+    transition: text-decoration-color 150ms ease;
+  }
+
+  .text-link:hover {
+    text-decoration-color: currentColor;
+  }
+}

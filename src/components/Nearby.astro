@@ -1,0 +1,51 @@
+---
+import { studio } from "../content/studio";
+import type { Dictionary } from "../i18n";
+import { nearbyPlaceMapsUrl } from "../lib/content";
+import NearbyPlace from "./NearbyPlace.astro";
+import ArchDivider from "./ui/ArchDivider.astro";
+import Container from "./ui/Container.astro";
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+const linkHint = `${dict.nearby.mapHint} ${dict.a11y.opensInNewTab}`;
+---
+
+<section aria-labelledby="nearby-title" class="bg-sand py-20 md:py-28">
+  <Container>
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
+      <div>
+        <p class="eyebrow">{dict.nearby.eyebrow}</p>
+        <h2 id="nearby-title" class="section-title mt-6">{dict.nearby.title}</h2>
+        <p class="mt-6 font-serif text-2xl italic">{dict.nearby.lead}</p>
+        <p class="mt-4 max-w-prose leading-relaxed text-stone-text">{dict.nearby.body}</p>
+      </div>
+
+      <div>
+        <ul>
+          {
+            dict.nearby.places.map((place) => (
+              <NearbyPlace
+                name={place.name}
+                kind={place.kind}
+                detail={place.detail}
+                href={nearbyPlaceMapsUrl(studio, place.id)}
+                linkHint={linkHint}
+              />
+            ))
+          }
+        </ul>
+        <p class="mt-4 text-xs text-stone-text">{dict.nearby.note}</p>
+      </div>
+    </div>
+
+    <div class="mt-20 text-center md:mt-24">
+      <ArchDivider />
+      <p class="mx-auto mt-8 max-w-xl text-sm font-semibold tracking-[0.16em] uppercase">{dict.nearby.closingLine}</p>
+      <p class="mt-4 font-serif text-4xl italic md:text-5xl">{dict.nearby.motto}</p>
+    </div>
+  </Container>
+</section>

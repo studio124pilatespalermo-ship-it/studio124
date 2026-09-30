@@ -1,0 +1,31 @@
+---
+/**
+ * Logo de Studio124 como SVG en línea (sin pedido extra, nítido en cualquier pantalla).
+ * - `on-dark`: colores originales (texto crema), para fondos oscuros o tinta.
+ * - `on-light`: texto en tinta, para fondos claros donde el crema no se vería.
+ */
+import { LOGO_FIGURE_PATH, LOGO_TYPE_PATH, LOGO_VIEWBOX } from "./logo-paths";
+
+interface Props {
+  variant: "on-dark" | "on-light";
+  /** Nombre accesible. Sin él, el logo es decorativo (por ejemplo, dentro de un link con su propio nombre). */
+  label?: string;
+  class?: string;
+}
+
+const { variant, label, class: className } = Astro.props;
+const typeFill = variant === "on-dark" ? "#fbf9ec" : "var(--color-ink)";
+---
+
+<svg
+  viewBox={LOGO_VIEWBOX}
+  xmlns="http://www.w3.org/2000/svg"
+  class={className}
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  focusable="false"
+>
+  <path d={LOGO_FIGURE_PATH} fill="#c2c1b9"></path>
+  <path d={LOGO_TYPE_PATH} fill={typeFill}></path>
+</svg>

@@ -1,0 +1,40 @@
+---
+import { LOCALE_META, LOCALES, type Locale } from "../i18n/locales";
+import { localePath } from "../lib/urls";
+import Flag from "./ui/Flag.astro";
+
+interface Props {
+  current: Locale;
+  label: string;
+  class?: string;
+}
+
+const { current, label, class: className } = Astro.props;
+---
+
+<nav aria-label={label} class={className}>
+  <ul class="flex items-center text-[0.6875rem] font-semibold tracking-[0.12em] md:gap-0.5 md:tracking-[0.18em]">
+    {
+      LOCALES.map((code) => (
+        <li>
+          <a
+            href={localePath(code)}
+            hreflang={LOCALE_META[code].hreflang}
+            lang={LOCALE_META[code].htmlLang}
+            aria-current={code === current ? "page" : undefined}
+            class:list={[
+              "inline-flex h-10 items-center gap-1 px-1 transition-opacity md:gap-1.5 md:px-1.5",
+              code === current ? "opacity-100" : "opacity-75 hover:opacity-100",
+            ]}
+          >
+            <Flag code={LOCALE_META[code].flag} />
+            <span class:list={[code === current && "underline decoration-1 underline-offset-[0.45em]"]}>
+              {LOCALE_META[code].label}
+            </span>
+            <span class="sr-only"> · {LOCALE_META[code].name}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

@@ -1,0 +1,28 @@
+---
+import type { Dictionary } from "../i18n";
+import type { Locale } from "../i18n/locales";
+import { localePath } from "../lib/urls";
+import Logo from "./brand/Logo.astro";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import BookButton from "./ui/BookButton.astro";
+import Container from "./ui/Container.astro";
+
+interface Props {
+  locale: Locale;
+  dict: Dictionary;
+}
+
+const { locale, dict } = Astro.props;
+---
+
+<header class="on-dark absolute inset-x-0 top-0 z-20 text-bone">
+  <Container class="flex items-center justify-between gap-3 py-3 md:py-5">
+    <a href={localePath(locale)} aria-label={dict.a11y.home} class="block shrink-0">
+      <Logo variant="on-dark" class="h-16 w-auto md:h-20" />
+    </a>
+    <div class="flex items-center gap-2 md:gap-6">
+      <LanguageSwitcher current={locale} label={dict.a11y.languageNav} />
+      <BookButton label={dict.cta.bookShort} size="sm" class="hidden min-[370px]:inline-flex" />
+    </div>
+  </Container>
+</header>

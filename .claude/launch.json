@@ -1,0 +1,27 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "studio124-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 4321
+    },
+    {
+      "name": "studio124-preview",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "preview", "--", "--port", "4322"],
+      "port": 4322
+    },
+    {
+      "name": "cotizacion-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "C:\\Users\\JUANCR~1\\AppData\\Local\\Temp\\claude\\C--Users-Juan-Cruz-IT-Oeste-OneDrive-Desktop-jc-react-studio124\\2a1b65d1-84fc-4924-90f1-1ffc036a16f3\\scratchpad\\static-server.mjs",
+        "C:\\Users\\Juan Cruz IT Oeste\\OneDrive\\Desktop\\jc\\react\\studio124-cotizacion",
+        "4330"
+      ],
+      "port": 4330
+    }
+  ]
+}

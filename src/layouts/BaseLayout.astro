@@ -1,0 +1,68 @@
+---
+import "../styles/global.css";
+import serifItalicFont from "@fontsource-variable/cormorant-garamond/files/cormorant-garamond-latin-wght-italic.woff2?url";
+import sansFont from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
+import { studio } from "../content/studio";
+import { LOCALE_META, LOCALES, type Locale } from "../i18n/locales";
+import { absoluteUrl, alternates } from "../lib/urls";
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  ogImageAlt: string;
+  /** `false` para páginas que no deben indexarse (raíz que redirige, 404). */
+  indexable?: boolean;
+  /** Deja lugar abajo para la barra fija de reserva en mobile. */
+  hasBookingBar?: boolean;
+  jsonLd?: string;
+}
+
+const { locale, title, description, ogImageAlt, indexable = true, hasBookingBar = false, jsonLd } = Astro.props;
+const site = Astro.site;
+if (!site) throw new Error("Falta `site` en astro.config.mjs");
+
+const meta = LOCALE_META[locale];
+const canonical = absoluteUrl(Astro.url.pathname, site);
+const ogImage = absoluteUrl("/og-image.jpg", site);
+const otherOgLocales = LOCALES.filter((code) => code !== locale).map((code) => LOCALE_META[code].ogLocale);
+---
+
+<!doctype html>
+<html lang={meta.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {!indexable && <meta name="robots" content="noindex, follow" />}
+    {indexable && <link rel="canonical" href={canonical} />}
+    {indexable && alternates(site).map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
+
+    <link rel="preload" href={serifItalicFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansFont} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#f6f2ec" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={studio.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:locale" content={meta.ogLocale} />
+    {otherOgLocales.map((code) => <meta property="og:locale:alternate" content={code} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {jsonLd && <script type="application/ld+json" is:inline set:html={jsonLd} />}
+    <slot name="head" />
+  </head>
+  <body class:list={["antialiased", hasBookingBar && "pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-0"]}>
+    <slot />
+  </body>
+</html>

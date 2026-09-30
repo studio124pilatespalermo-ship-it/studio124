@@ -1,0 +1,38 @@
+---
+import { Image } from "astro:assets";
+import { photos } from "../content/photos";
+import { studio } from "../content/studio";
+import { interpolate, type Dictionary } from "../i18n";
+import Container from "./ui/Container.astro";
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+const tag = interpolate(dict.intro.tag, { max: studio.maxPeoplePerClass });
+---
+
+<section aria-labelledby="intro-title" class="bg-bone py-20 md:py-28">
+  <Container class="grid items-center gap-12 md:grid-cols-[1.05fr_1fr] md:gap-16">
+    <div>
+      <p class="eyebrow">{dict.intro.eyebrow}</p>
+      <h2 id="intro-title" class="section-title mt-6">{dict.intro.title}</h2>
+      <p class="mt-8 font-serif text-2xl leading-snug italic">{dict.intro.lead}</p>
+      {dict.intro.body.map((paragraph) => <p class="mt-4 max-w-prose leading-relaxed text-stone-text">{paragraph}</p>)}
+      <p class="mt-8 border-l border-stone/60 pl-4 text-sm font-medium leading-relaxed">{dict.intro.note}</p>
+      <p class="mt-8 inline-flex rounded-full bg-olive px-4 py-2 text-[0.6875rem] font-semibold tracking-[0.18em] uppercase text-bone">
+        {tag}
+      </p>
+    </div>
+    <div class="arch mx-auto aspect-[6/7] w-full max-w-md bg-sand">
+      <Image
+        src={photos.classroom}
+        alt={dict.photos.classroom}
+        widths={[400, 600, 900, 1200]}
+        sizes="(min-width: 768px) 28rem, 100vw"
+        class="h-full w-full object-cover"
+      />
+    </div>
+  </Container>
+</section>

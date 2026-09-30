@@ -1,0 +1,50 @@
+---
+import { Image } from "astro:assets";
+import { photos, pillarPhotos } from "../content/photos";
+import { studio } from "../content/studio";
+import { interpolate, type Dictionary } from "../i18n";
+import Container from "./ui/Container.astro";
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+const numerals = ["i", "ii", "iii"];
+---
+
+<section aria-labelledby="pillars-title" class="bg-sand py-20 md:py-28">
+  <Container>
+    <p class="eyebrow">{dict.pillars.eyebrow}</p>
+    <h2 id="pillars-title" class="section-title mt-6">{dict.pillars.title}</h2>
+    <ul class="mt-12 grid gap-5 md:grid-cols-3 md:gap-6">
+      {
+        dict.pillars.items.map((item, index) => {
+          const photo = pillarPhotos[index];
+          return (
+            <li class="arch flex flex-col border border-stone/45 bg-bone/70 text-center">
+              {photo && (
+                <Image
+                  src={photos[photo.id]}
+                  alt={dict.photos[photo.id]}
+                  widths={[360, 540, 720, 1080, 1400]}
+                  sizes={photo.sizes}
+                  class:list={["aspect-[5/4] w-full object-cover md:aspect-square", photo.position]}
+                />
+              )}
+              <div class="flex flex-col items-center px-7 pt-7 pb-10">
+                <span aria-hidden="true" class="font-serif text-xl text-stone-text italic">
+                  {numerals[index]}
+                </span>
+                <h3 class="mt-2 font-serif text-[1.75rem]">{item.label}</h3>
+                <p class="mt-3 max-w-[26ch] text-sm leading-relaxed text-stone-text">
+                  {interpolate(item.text, { max: studio.maxPeoplePerClass })}
+                </p>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </Container>
+</section>

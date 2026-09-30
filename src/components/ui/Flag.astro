@@ -1,0 +1,53 @@
+---
+/**
+ * Bandera simplificada para el selector de idioma, en SVG propio: los emojis de
+ * banderas no se ven en Windows. Es decorativa: el nombre del idioma ya está en el link.
+ */
+import type { FlagCode } from "../../i18n/locales";
+
+interface Props {
+  code: FlagCode;
+  class?: string;
+}
+
+const { code, class: className } = Astro.props;
+const usStripes = Array.from({ length: 13 }, (_, index) => index);
+---
+
+<svg
+  viewBox="0 0 18 12"
+  width="18"
+  height="12"
+  aria-hidden="true"
+  focusable="false"
+  class:list={["shrink-0 overflow-hidden rounded-[2px] ring-1 ring-black/15", className]}
+>
+  {
+    code === "us" && (
+      <>
+        {usStripes.map((index) => (
+          <rect y={(index * 12) / 13} width="18" height={12 / 13 + 0.02} fill={index % 2 === 0 ? "#b22234" : "#ffffff"} />
+        ))}
+        <rect width="7.4" height={(7 * 12) / 13} fill="#3c3b6e" />
+      </>
+    )
+  }
+  {
+    code === "br" && (
+      <>
+        <rect width="18" height="12" fill="#009c3b" />
+        <path d="M9 1.3 16.6 6 9 10.7 1.4 6z" fill="#ffdf00" />
+        <circle cx="9" cy="6" r="2.6" fill="#002776" />
+      </>
+    )
+  }
+  {
+    code === "ar" && (
+      <>
+        <rect width="18" height="12" fill="#74acdf" />
+        <rect y="4" width="18" height="4" fill="#ffffff" />
+        <circle cx="9" cy="6" r="1.3" fill="#f6b40e" />
+      </>
+    )
+  }
+</svg>

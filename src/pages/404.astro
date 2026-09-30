@@ -1,0 +1,41 @@
+---
+import Logo from "../components/brand/Logo.astro";
+import { studio } from "../content/studio";
+import { getDictionary, interpolate } from "../i18n";
+import { DEFAULT_LOCALE, LOCALE_META, LOCALES } from "../i18n/locales";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { templateVars } from "../lib/content";
+import { localePath } from "../lib/urls";
+
+const dict = getDictionary(DEFAULT_LOCALE);
+---
+
+<BaseLayout
+  locale={DEFAULT_LOCALE}
+  title={`${dict.notFound.title} | ${studio.name}`}
+  description={interpolate(dict.meta.description, templateVars(studio))}
+  ogImageAlt={dict.meta.ogImageAlt}
+  indexable={false}
+>
+  <main class="grid min-h-[100svh] place-items-center bg-sand px-5 text-center">
+    <div>
+      <Logo variant="on-light" label={studio.name} class="mx-auto h-24 w-auto" />
+      <h1 class="section-title mt-8 italic">{dict.notFound.title}</h1>
+      <ul class="mt-10 flex flex-col gap-4">
+        {
+          LOCALES.map((code) => {
+            const localized = getDictionary(code).notFound;
+            return (
+              <li lang={LOCALE_META[code].htmlLang}>
+                <span class="block text-sm text-stone-text">{localized.body}</span>
+                <a href={localePath(code)} class="text-link text-sm font-semibold">
+                  {localized.back} ({LOCALE_META[code].label})
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </main>
+</BaseLayout>

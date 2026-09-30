@@ -1,0 +1,30 @@
+---
+import { studio } from "../content/studio";
+import type { Dictionary } from "../i18n";
+import { LOCALE_META, type Locale } from "../i18n/locales";
+import { formatMoney } from "../lib/format";
+import BookButton from "./ui/BookButton.astro";
+import Text from "./ui/Text.astro";
+
+interface Props {
+  locale: Locale;
+  dict: Dictionary;
+}
+
+const { locale, dict } = Astro.props;
+const price = formatMoney(studio.dropInPrice, LOCALE_META[locale].intl);
+---
+
+<!-- Barra fija sólo en mobile: el botón de reserva queda siempre al alcance del pulgar. -->
+<aside
+  aria-label={dict.a11y.bookingBar}
+  class="fixed inset-x-0 bottom-0 z-30 border-t border-stone/35 bg-bone px-5 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] md:hidden"
+>
+  <div class="flex items-center justify-between gap-4">
+    <p class="min-w-0 leading-tight">
+      <span class="block text-[0.625rem] font-semibold tracking-[0.2em] uppercase text-stone-text">{dict.pricing.title}</span>
+      <span class="block truncate font-serif text-xl"><Text text={price.text} /></span>
+    </p>
+    <BookButton label={dict.cta.bookShort} />
+  </div>
+</aside>
