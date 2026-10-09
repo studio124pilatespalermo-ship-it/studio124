@@ -7,3 +7,4 @@ dist/
 !.env.example
 npm-debug.log*
 .DS_Store
+docs/pdf/
