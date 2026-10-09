@@ -2,7 +2,8 @@ import { eq } from "drizzle-orm";
 import type { Database } from "../db/client.ts";
 import { secrets } from "../db/schema.ts";
 import { AppError } from "../lib/errors.ts";
-import { SecretBox, secretHint } from "../lib/crypto.ts";
+import { secretHint } from "../lib/crypto.ts";
+import type { SecretBox } from "../lib/crypto.ts";
 
 /**
  * Credenciales de integraciones, cargadas desde /admin → Configuración → Credenciales.

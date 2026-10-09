@@ -4,13 +4,22 @@
     {
       "name": "studio124-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 4321
     },
     {
       "name": "studio124-preview",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "preview", "--", "--port", "4322"],
+      "runtimeArgs": [
+        "run",
+        "preview",
+        "--",
+        "--port",
+        "4322"
+      ],
       "port": 4322
     },
     {
@@ -22,6 +31,17 @@
         "4330"
       ],
       "port": 4330
+    },
+    {
+      "name": "studio124-api",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "api",
+        "run",
+        "dev"
+      ],
+      "port": 3000
     }
   ]
 }

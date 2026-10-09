@@ -3,6 +3,8 @@ import { drizzle as drizzlePglite } from "drizzle-orm/pglite";
 import { migrate as migratePglite } from "drizzle-orm/pglite/migrator";
 import { drizzle as drizzlePg } from "drizzle-orm/node-postgres";
 import { migrate as migratePg } from "drizzle-orm/node-postgres/migrator";
+import { mkdirSync } from "node:fs";
+import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
 import * as schema from "./schema.ts";
@@ -28,7 +30,10 @@ export async function openDatabase(options: { url?: string | undefined; dataDir?
     await migratePg(db, { migrationsFolder });
     return { db, close: () => pool.end() };
   }
-  const client = new PGlite(options.dataDir ?? "memory://");
+  const dataDir = options.dataDir ?? "memory://";
+  // PGlite no crea los directorios intermedios: si falta el padre, falla al abrir.
+  if (!dataDir.startsWith("memory://")) mkdirSync(dirname(dataDir), { recursive: true });
+  const client = new PGlite(dataDir);
   const db = drizzlePglite(client, { schema });
   await migratePglite(db, { migrationsFolder });
   return { db: db as unknown as Database, close: () => client.close() };

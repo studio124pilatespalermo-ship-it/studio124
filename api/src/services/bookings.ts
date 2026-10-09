@@ -44,6 +44,36 @@ function hoursUntil(date: IsoDate, time: string, now: Date): number {
   return (slotStart(date, time).getTime() - now.getTime()) / 3_600_000;
 }
 
+/** Validaciones que sólo aplican al cliente; el panel las saltea a propósito. */
+async function assertClientCanBook(db: Database, slot: { date: IsoDate; startTime: string }, now: Date): Promise<void> {
+  const config = await readSettings(db);
+  if (!config["portal.allowBooking"]) {
+    throw new AppError("forbidden", "Las reservas desde el portal están desactivadas.");
+  }
+  if (hoursUntil(slot.date, slot.startTime, now) < config["booking.changeWindowHours"]) {
+    throw new AppError("outside_window", "Ya pasó el plazo para reservar este turno.");
+  }
+}
+
+async function assertSeatAvailable(db: Database, slotId: string, clientId: string, capacity: number): Promise<void> {
+  const [already] = await db
+    .select({ id: bookings.id })
+    .from(bookings)
+    .where(
+      and(eq(bookings.classSlotId, slotId), eq(bookings.clientId, clientId), inArray(bookings.status, [...ACTIVE])),
+    )
+    .limit(1);
+  if (already) throw new AppError("conflict", "El cliente ya tiene lugar en ese turno.");
+  if ((await takenSeats(db, slotId)) >= capacity) throw new AppError("slot_full", "El turno está completo.");
+}
+
+async function resolvePack(db: Database, clientId: string, date: IsoDate, packId?: string): Promise<string> {
+  if (packId) return packId;
+  const found = await packForDate(db, clientId, date);
+  if (!found) throw new AppError("no_credits", "El cliente no tiene un abono vigente con clases disponibles.");
+  return found.packId;
+}
+
 export interface BookInput {
   readonly clientId: string;
   readonly slotId: string;
@@ -60,39 +90,13 @@ export async function createBooking(db: Database, input: BookInput): Promise<{ i
 
   const [client] = await db.select().from(clients).where(eq(clients.id, input.clientId)).limit(1);
   if (!client) throw notFound("Cliente");
-  if (client.status === "inactive" && !override) throw new AppError("forbidden", "El cliente está inactivo.");
-
   if (!override) {
-    const config = await readSettings(db);
-    if (!config["portal.allowBooking"]) {
-      throw new AppError("forbidden", "Las reservas desde el portal están desactivadas.");
-    }
-    if (hoursUntil(slot.date, slot.startTime, now) < config["booking.changeWindowHours"]) {
-      throw new AppError("outside_window", "Ya pasó el plazo para reservar este turno.");
-    }
+    if (client.status === "inactive") throw new AppError("forbidden", "El cliente está inactivo.");
+    await assertClientCanBook(db, slot, now);
   }
 
-  const [already] = await db
-    .select({ id: bookings.id })
-    .from(bookings)
-    .where(
-      and(
-        eq(bookings.classSlotId, input.slotId),
-        eq(bookings.clientId, input.clientId),
-        inArray(bookings.status, [...ACTIVE]),
-      ),
-    )
-    .limit(1);
-  if (already) throw new AppError("conflict", "El cliente ya tiene lugar en ese turno.");
-
-  if ((await takenSeats(db, input.slotId)) >= slot.capacity) throw new AppError("slot_full", "El turno está completo.");
-
-  let packId = input.packId;
-  if (!packId) {
-    const found = await packForDate(db, input.clientId, slot.date);
-    if (!found) throw new AppError("no_credits", "El cliente no tiene un abono vigente con clases disponibles.");
-    packId = found.packId;
-  }
+  await assertSeatAvailable(db, input.slotId, input.clientId, slot.capacity);
+  const packId = await resolvePack(db, input.clientId, slot.date, input.packId);
 
   const [created] = await db
     .insert(bookings)

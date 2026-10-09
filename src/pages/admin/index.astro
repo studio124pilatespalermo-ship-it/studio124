@@ -1,0 +1,27 @@
+---
+import "../../styles/global.css";
+import AdminApp from "../../admin/AdminApp";
+
+/**
+ * Panel de administración. Es una aplicación de cliente (`client:only`) para que la
+ * landing siga siendo un sitio estático: acá no se renderiza nada en el servidor ni se
+ * filtra información del estudio al HTML.
+ */
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panel · Studio124</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body class="bg-sand antialiased">
+    <AdminApp client:only="react" />
+    <noscript>
+      <p class="p-8 text-center">El panel necesita JavaScript para funcionar.</p>
+    </noscript>
+  </body>
+</html>

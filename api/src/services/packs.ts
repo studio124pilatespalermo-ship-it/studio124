@@ -34,15 +34,23 @@ export interface RegisterPaymentInput {
   readonly actor?: Actor;
 }
 
-export async function registerPayment(db: Database, input: RegisterPaymentInput): Promise<{ id: string }> {
+/** Carga las referencias del pago y valida que existan. */
+async function resolveRefs(db: Database, input: RegisterPaymentInput) {
   const [client] = await db.select().from(clients).where(eq(clients.id, input.clientId)).limit(1);
   if (!client) throw notFound("Cliente");
-
-  const [category] = await db.select().from(paymentCategories).where(eq(paymentCategories.id, input.categoryId)).limit(1);
+  const [category] = await db
+    .select()
+    .from(paymentCategories)
+    .where(eq(paymentCategories.id, input.categoryId))
+    .limit(1);
   if (!category) throw notFound("Categoría de pago");
-
   const [method] = await db.select().from(paymentMethods).where(eq(paymentMethods.id, input.methodId)).limit(1);
   if (!method) throw notFound("Medio de pago");
+  return { category, method };
+}
+
+export async function registerPayment(db: Database, input: RegisterPaymentInput): Promise<{ id: string }> {
+  const { category, method } = await resolveRefs(db, input);
 
   const classesTotal = input.classes ?? category.classes;
   if (classesTotal < 1) throw new AppError("bad_request", "El abono tiene que incluir al menos una clase.");

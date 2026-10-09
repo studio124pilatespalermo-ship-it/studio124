@@ -1,4 +1,14 @@
+import { existsSync } from "node:fs";
 import { z } from "zod";
+
+/**
+ * Carga .env si existe (desarrollo). En Railway y Vercel las variables ya vienen en el
+ * entorno y este archivo no está, así que no se pisa nada.
+ */
+function loadDotEnv(): void {
+  if (process.env["SKIP_DOTENV"] === "true" || !existsSync(".env")) return;
+  process.loadEnvFile(".env");
+}
 
 /**
  * Variables de entorno, validadas al arrancar. Si falta algo obligatorio la API no levanta:
@@ -32,8 +42,10 @@ const EnvSchema = z.object({
 
 export type Env = z.infer<typeof EnvSchema>;
 
-export function loadEnv(source: NodeJS.ProcessEnv = process.env): Env {
-  const parsed = EnvSchema.safeParse(source);
+export function loadEnv(source?: NodeJS.ProcessEnv): Env {
+  if (!source) loadDotEnv();
+  const values = source ?? process.env;
+  const parsed = EnvSchema.safeParse(values);
   if (!parsed.success) {
     const detail = parsed.error.issues.map((issue) => `- ${issue.path.join(".")}: ${issue.message}`).join("\n");
     throw new Error(`Configuración inválida de la API:\n${detail}`);
