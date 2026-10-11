@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
-import { api } from "../../lib/api";
-import { shortDate } from "../../lib/format";
-import { messageOf, useAsync } from "../../lib/useAsync";
-import { useDerivedState } from "../../lib/useDerivedState";
-import type { SuggestedSlot } from "../../lib/types";
-import { Button, Empty, ErrorNote } from "../../components/ui";
+import { api } from "../../../client/lib/api";
+import { shortDate } from "../../../client/lib/format";
+import { messageOf, useAsync } from "../../../client/lib/useAsync";
+import { useDerivedState } from "../../../client/lib/useDerivedState";
+import type { SuggestedSlot } from "../../../client/lib/types";
+import { Button, Empty, ErrorNote } from "../../../client/components/ui";
 
 /**
  * Vista previa de "Cargar turnos": el sistema propone según los turnos fijos del cliente,

@@ -1,7 +1,7 @@
-import { and, eq, inArray, sql } from "drizzle-orm";
+import { and, asc, eq, inArray, sql } from "drizzle-orm";
 import { Hono } from "hono";
 import { z } from "zod";
-import { bookings, classSlots, clients } from "../../db/schema.ts";
+import { bookings, classSlots, clients, paymentCategories } from "../../db/schema.ts";
 import { addDays, todayInStudio } from "../../lib/dates.ts";
 import { AppError } from "../../lib/errors.ts";
 import { cancelBooking, changeBooking, createBooking } from "../../services/bookings.ts";
@@ -124,6 +124,25 @@ export function portalRoutes(ctx: AppContext) {
       by: { kind: "client", clientId: clientIdOf(c) },
     });
     return c.json({ booking: created });
+  });
+
+  /** Paquetes que el estudio habilitó para comprar online. */
+  app.get("/categories", async (c) => {
+    const config = await readSettings(ctx.db);
+    if (!config["portal.showPayments"]) throw new AppError("forbidden", "Sección no disponible.");
+    const rows = await ctx.db
+      .select({
+        id: paymentCategories.id,
+        name: paymentCategories.name,
+        classes: paymentCategories.classes,
+        validityDays: paymentCategories.validityDays,
+        priceMinor: paymentCategories.priceMinor,
+        currency: paymentCategories.currency,
+      })
+      .from(paymentCategories)
+      .where(and(eq(paymentCategories.active, true), eq(paymentCategories.sellOnline, true)))
+      .orderBy(asc(paymentCategories.sortOrder));
+    return c.json({ categories: rows });
   });
 
   /** Inicia el pago: devuelve el link al checkout de Mercado Pago. */

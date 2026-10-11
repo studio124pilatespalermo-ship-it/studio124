@@ -1,9 +1,9 @@
 import { useState, type SubmitEvent } from "react";
-import { api } from "../lib/api";
-import { CATEGORY_KIND_LABEL, longDate, money } from "../lib/format";
-import { messageOf, useAsync } from "../lib/useAsync";
-import type { Holiday, PaymentCategory, PaymentMethod, Professional } from "../lib/types";
-import { Badge, Button, Card, Empty, ErrorNote, Field, inputClass, Spinner } from "../components/ui";
+import { api } from "../../client/lib/api";
+import { CATEGORY_KIND_LABEL, longDate, money } from "../../client/lib/format";
+import { messageOf, useAsync } from "../../client/lib/useAsync";
+import type { Holiday, PaymentCategory, PaymentMethod, Professional } from "../../client/lib/types";
+import { Badge, Button, Card, Empty, ErrorNote, Field, inputClass, Spinner } from "../../client/components/ui";
 
 interface CatalogData {
   readonly categories: PaymentCategory[];

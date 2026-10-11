@@ -1,0 +1,26 @@
+---
+import "../../styles/global.css";
+import PortalApp from "../../portal/PortalApp";
+
+/**
+ * Portal del cliente: sus clases, reservas y pagos. Aplicación de cliente, igual que
+ * /admin, para que la landing siga siendo un sitio estático.
+ */
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Mi cuenta · Studio124</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body class="bg-sand antialiased">
+    <PortalApp client:only="react" />
+    <noscript>
+      <p class="p-8 text-center">Tu cuenta necesita JavaScript. Escribinos y reservamos tu clase.</p>
+    </noscript>
+  </body>
+</html>

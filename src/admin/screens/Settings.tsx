@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { api } from "../lib/api";
-import { dateTime } from "../lib/format";
-import { messageOf, useAsync } from "../lib/useAsync";
-import { useDerivedState } from "../lib/useDerivedState";
-import type { SecretStatus, Settings } from "../lib/types";
-import { Badge, Button, Card, ErrorNote, Field, inputClass, Spinner } from "../components/ui";
+import { api } from "../../client/lib/api";
+import { dateTime } from "../../client/lib/format";
+import { messageOf, useAsync } from "../../client/lib/useAsync";
+import { useDerivedState } from "../../client/lib/useDerivedState";
+import type { SecretStatus, Settings } from "../../client/lib/types";
+import { Badge, Button, Card, ErrorNote, Field, inputClass, Spinner } from "../../client/components/ui";
 
 const NUMBERS: { key: keyof Settings; label: string; hint: string }[] = [
   { key: "booking.changeWindowHours", label: "Horas para cambiar", hint: "Antes de la clase. El panel puede saltearlo." },

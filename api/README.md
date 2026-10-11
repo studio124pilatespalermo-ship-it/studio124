@@ -15,6 +15,14 @@ npm run dev
 
 Sin `DATABASE_URL` usa una base Postgres embebida en `./.data`: no hace falta instalar nada.
 
+> **Importante con la base embebida:** PGlite abre el directorio en exclusiva. Si corrés un
+> seed con el servidor levantado, cada proceso trabaja sobre su propia copia y los cambios se
+> pisan. **Parar el servidor antes de cualquier seed**, o usar un Postgres real con
+> `DATABASE_URL` (ahí no pasa).
+
+`npm run seed:demo` carga datos de prueba: profesional, categorías, agenda modelo de lunes a
+sábado, dos meses de turnos y tres clientas con su abono y sus turnos fijos.
+
 | Script | Qué hace |
 | --- | --- |
 | `npm run dev` | Servidor con recarga |
@@ -23,6 +31,7 @@ Sin `DATABASE_URL` usa una base Postgres embebida en `./.data`: no hace falta in
 | `npm run db:generate` | Genera la migración SQL tras cambiar el esquema |
 | `npm run db:migrate` | Aplica migraciones |
 | `npm run seed:admin` | Crea el admin y los medios de pago base |
+| `npm run seed:demo` | Datos de prueba (no corre en producción) |
 
 ## Credenciales
 

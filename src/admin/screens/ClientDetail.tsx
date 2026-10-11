@@ -1,9 +1,9 @@
 import { useState, type SubmitEvent } from "react";
-import { api } from "../lib/api";
-import { longDate, money, MOVEMENT_LABEL, PACK_STATUS_LABEL, shortDate, weekdayName } from "../lib/format";
-import { messageOf, useAsync } from "../lib/useAsync";
-import type { Client, CreditMovement, PackBalance, PackRow, TemplateSlot } from "../lib/types";
-import { Badge, Button, Card, Empty, ErrorNote, Spinner } from "../components/ui";
+import { api } from "../../client/lib/api";
+import { longDate, money, MOVEMENT_LABEL, PACK_STATUS_LABEL, shortDate, weekdayName } from "../../client/lib/format";
+import { messageOf, useAsync } from "../../client/lib/useAsync";
+import type { Client, CreditMovement, PackBalance, PackRow, TemplateSlot } from "../../client/lib/types";
+import { Badge, Button, Card, Empty, ErrorNote, Spinner } from "../../client/components/ui";
 import { RegisterPaymentForm } from "./client/RegisterPayment";
 import { LoadSlotsPanel } from "./client/LoadSlots";
 import { FixedSlotsForm } from "./client/FixedSlots";

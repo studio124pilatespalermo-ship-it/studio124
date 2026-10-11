@@ -1,6 +1,6 @@
 import { useState, type SubmitEvent } from "react";
-import { api, ApiError } from "../lib/api";
-import { Button, ErrorNote, Field, inputClass } from "../components/ui";
+import { api, ApiError } from "../../client/lib/api";
+import { Button, ErrorNote, Field, inputClass } from "../../client/components/ui";
 
 export function LoginScreen({ onLogin }: { onLogin: () => Promise<void> }) {
   const [email, setEmail] = useState("");

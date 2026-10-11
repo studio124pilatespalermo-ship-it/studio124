@@ -1,8 +1,8 @@
-import { api } from "../lib/api";
-import { addDaysIso, money, shortDate, todayIso } from "../lib/format";
-import { useAsync } from "../lib/useAsync";
-import type { AgendaSlot, PackRow } from "../lib/types";
-import { Card, Empty, ErrorNote, Spinner } from "../components/ui";
+import { api } from "../../client/lib/api";
+import { addDaysIso, money, shortDate, todayIso } from "../../client/lib/format";
+import { useAsync } from "../../client/lib/useAsync";
+import type { AgendaSlot, PackRow } from "../../client/lib/types";
+import { Card, Empty, ErrorNote, Spinner } from "../../client/components/ui";
 
 interface ClientStats {
   readonly active: number;

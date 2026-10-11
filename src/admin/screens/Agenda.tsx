@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { api } from "../lib/api";
-import { addDaysIso, shortDate, startOfWeek, todayIso } from "../lib/format";
-import { messageOf, useAsync } from "../lib/useAsync";
-import type { AgendaBooking, AgendaSlot } from "../lib/types";
-import { Badge, Button, Card, Empty, ErrorNote, Spinner } from "../components/ui";
+import { api } from "../../client/lib/api";
+import { addDaysIso, shortDate, startOfWeek, todayIso } from "../../client/lib/format";
+import { messageOf, useAsync } from "../../client/lib/useAsync";
+import type { AgendaBooking, AgendaSlot } from "../../client/lib/types";
+import { Badge, Button, Card, Empty, ErrorNote, Spinner } from "../../client/components/ui";
+import { MonthView } from "./agenda/MonthView";
 
 /**
- * Agenda de la semana. Los indicadores replican los que usa el estudio:
- * cambió de turno, abono vencido, ausente y clase de prueba.
+ * Agenda. La vista de mes sirve para ver la ocupación de un vistazo; la de semana, para
+ * operar. Los indicadores replican los que usa el estudio: cambió de turno, ausente y
+ * clase de prueba.
  */
 export function AgendaScreen({ canEdit }: { canEdit: boolean }) {
+  const [view, setView] = useState<"week" | "month">("week");
   const [from, setFrom] = useState(() => startOfWeek(todayIso()));
   const [note, setNote] = useState<string | null>(null);
   const to = addDaysIso(from, 6);
@@ -48,29 +51,70 @@ export function AgendaScreen({ canEdit }: { canEdit: boolean }) {
       <Card
         title="Agenda"
         actions={
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" onClick={() => setFrom(addDaysIso(from, -7))}>
-              ← Semana anterior
-            </Button>
-            <Button variant="ghost" onClick={() => setFrom(startOfWeek(todayIso()))}>
-              Hoy
-            </Button>
-            <Button variant="ghost" onClick={() => setFrom(addDaysIso(from, 7))}>
-              Semana siguiente →
-            </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex rounded-full border border-stone/45 p-0.5">
+              {(["week", "month"] as const).map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => setView(option)}
+                  aria-current={view === option ? "true" : undefined}
+                  className={`inline-flex h-8 items-center rounded-full px-3.5 text-sm transition-colors ${
+                    view === option ? "bg-ink text-bone" : "text-stone-text"
+                  }`}
+                >
+                  {option === "week" ? "Semana" : "Mes"}
+                </button>
+              ))}
+            </div>
+            {view === "week" && (
+              <>
+                <Button variant="ghost" onClick={() => setFrom(addDaysIso(from, -7))}>
+                  ← Anterior
+                </Button>
+                <Button variant="ghost" onClick={() => setFrom(startOfWeek(todayIso()))}>
+                  Hoy
+                </Button>
+                <Button variant="ghost" onClick={() => setFrom(addDaysIso(from, 7))}>
+                  Siguiente →
+                </Button>
+              </>
+            )}
+            {view === "month" && (
+              <>
+                <Button variant="ghost" onClick={() => setFrom(addDaysIso(from, -28))}>
+                  ← Mes anterior
+                </Button>
+                <Button variant="ghost" onClick={() => setFrom(addDaysIso(from, 28))}>
+                  Mes siguiente →
+                </Button>
+              </>
+            )}
           </div>
         }
       >
         <p className="text-sm text-stone-text">
-          Del {shortDate(from)} al {shortDate(to)}. Hora de Buenos Aires.
+          {view === "week" ? `Del ${shortDate(from)} al ${shortDate(to)}.` : `${monthLabel(from)}.`} Hora de Buenos
+          Aires.
         </p>
         {note && <p className="mt-3 rounded-lg bg-sand px-3 py-2 text-sm">{note}</p>}
         {state.error && <div className="mt-3"><ErrorNote>{state.error}</ErrorNote></div>}
       </Card>
 
-      {state.loading && <Spinner />}
+      {view === "month" && (
+        <MonthView
+          year={Number(from.slice(0, 4))}
+          month={Number(from.slice(5, 7))}
+          onPickDay={(date) => {
+            setFrom(startOfWeek(date));
+            setView("week");
+          }}
+        />
+      )}
 
-      {!state.loading && (
+      {view === "week" && state.loading && <Spinner />}
+
+      {view === "week" && !state.loading && (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {days.map((date) => (
             <Card key={date} title={shortDate(date)}>
@@ -88,6 +132,12 @@ export function AgendaScreen({ canEdit }: { canEdit: boolean }) {
         </div>
       )}
     </>
+  );
+}
+
+function monthLabel(isoDate: string): string {
+  return new Intl.DateTimeFormat("es-AR", { month: "long", year: "numeric", timeZone: "UTC" }).format(
+    new Date(`${isoDate}T12:00:00Z`),
   );
 }
 

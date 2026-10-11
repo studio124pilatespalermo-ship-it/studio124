@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { api } from "../lib/api";
-import { longDate, money, PACK_STATUS_LABEL } from "../lib/format";
-import { useAsync } from "../lib/useAsync";
-import type { PackRow } from "../lib/types";
-import { Badge, Card, Empty, ErrorNote, Spinner } from "../components/ui";
+import { api } from "../../client/lib/api";
+import { longDate, money, PACK_STATUS_LABEL } from "../../client/lib/format";
+import { useAsync } from "../../client/lib/useAsync";
+import type { PackRow } from "../../client/lib/types";
+import { Badge, Card, Empty, ErrorNote, Spinner } from "../../client/components/ui";
 
 interface ExpiredRow {
   readonly packId: string;

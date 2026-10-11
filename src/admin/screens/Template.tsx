@@ -1,9 +1,9 @@
 import { useState, type SubmitEvent } from "react";
-import { api } from "../lib/api";
-import { shortDate, todayIso, weekdayName, WEEKDAYS } from "../lib/format";
-import { messageOf, useAsync } from "../lib/useAsync";
-import type { Professional, TemplateSlot } from "../lib/types";
-import { Button, Card, Empty, ErrorNote, Field, inputClass, Spinner } from "../components/ui";
+import { api } from "../../client/lib/api";
+import { shortDate, todayIso, weekdayName, WEEKDAYS } from "../../client/lib/format";
+import { messageOf, useAsync } from "../../client/lib/useAsync";
+import type { Professional, TemplateSlot } from "../../client/lib/types";
+import { Button, Card, Empty, ErrorNote, Field, inputClass, Spinner } from "../../client/components/ui";
 
 interface GeneratePreview {
   readonly from: string;

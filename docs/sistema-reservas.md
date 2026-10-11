@@ -8,7 +8,7 @@ cliente que habla con la API.
 
 | Pieza | Dónde corre | Qué hace |
 | --- | --- | --- |
-| Landing + panel `/admin` | Vercel | Sitio estático. El panel pide todo a la API |
+| Landing, panel `/admin` y portal `/cuenta` | Vercel | Sitio estático. Panel y portal piden todo a la API |
 | API | Railway | Clientes, abonos, agenda, cobros, emails |
 | Postgres | Railway | Única fuente de datos |
 | Mercado Pago | Externo | Checkout Pro y webhook de confirmación |
@@ -78,12 +78,28 @@ volvé a desplegar. El panel queda en `https://studio124.com.ar/admin/`.
 Un aviso de pago con firma inválida se descarta y queda en los registros. Sin la clave
 secreta cargada, el webhook ignora todo: es a propósito.
 
-### 4. Emails (opcional)
+### 4. Ingreso de clientes con Google
+
+1. En Google Cloud Console: **APIs y servicios → Credenciales → Crear credenciales → ID de
+   cliente de OAuth**, tipo *Aplicación web*.
+2. En **URI de redireccionamiento autorizados**, cargá exactamente:
+   `https://api.studio124.com.ar/api/auth/google/callback`
+3. Cargá `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET` en las variables de Railway.
+
+Sin estas variables, el portal no ofrece el botón y avisa que todavía no está habilitado.
+
+Quién puede entrar lo decide **Configuración → Permitir que se registren solos**:
+
+- Apagado (por defecto): sólo entran las personas ya cargadas como clientes. Se las reconoce
+  por su email y se les asocia la cuenta de Google.
+- Encendido: cualquiera con cuenta de Google puede crearse la suya.
+
+### 5. Emails (opcional)
 
 Cargá en **Credenciales** la API key de Resend y el remitente verificado
 (`Studio124 <hola@studio124.com.ar>`). Sin eso, el sistema funciona pero no envía avisos.
 
-### 5. Tarea diaria
+### 6. Tarea diaria
 
 Marca abonos vencidos, manda los avisos y limpia sesiones. Es idempotente.
 
@@ -109,8 +125,18 @@ Se programa con el cron de Railway o el de Vercel, una vez por día.
 Verificá que el plan de Postgres elegido incluya copias automáticas y probá una
 restauración antes de pasar datos reales. Una copia que nunca se restauró es una suposición.
 
+## El portal del cliente
+
+En `/cuenta/` el cliente ve su abono y sus clases, reserva y cancela, y compra paquetes con
+Mercado Pago. Qué secciones aparecen se controla desde **Configuración → Qué ve y qué puede
+hacer el cliente**.
+
+Al volver de Mercado Pago cae en `/cuenta/pago/ok`, `/pendiente` o `/error`. Ninguna de esas
+páginas acredita nada: la acreditación la hace el webhook, que es la única fuente confiable.
+
 ## Qué falta
 
-- Portal del cliente (`/cuenta`): la API ya está (`/api/portal/*`), falta la interfaz.
-- Ingreso de clientes con Google: las variables están previstas, falta el flujo OAuth.
 - Importar clientes y abonos vigentes desde SigueFit.
+- Cambiar de turno desde el portal (hoy el cliente cancela y vuelve a reservar; la API ya
+  soporta el cambio en un paso).
+- Recordatorio por email el día anterior a la clase.

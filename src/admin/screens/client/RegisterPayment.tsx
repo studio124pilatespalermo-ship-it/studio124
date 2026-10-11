@@ -1,9 +1,9 @@
 import { useState, type SubmitEvent } from "react";
-import { api } from "../../lib/api";
-import { money, todayIso } from "../../lib/format";
-import { messageOf, useAsync } from "../../lib/useAsync";
-import type { PaymentCategory, PaymentMethod } from "../../lib/types";
-import { Button, ErrorNote, Field, inputClass } from "../../components/ui";
+import { api } from "../../../client/lib/api";
+import { money, todayIso } from "../../../client/lib/format";
+import { messageOf, useAsync } from "../../../client/lib/useAsync";
+import type { PaymentCategory, PaymentMethod } from "../../../client/lib/types";
+import { Button, ErrorNote, Field, inputClass } from "../../../client/components/ui";
 
 /**
  * Registrar un pago crea el abono con sus clases y su vigencia. No genera turnos:

@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
-import { api } from "../../lib/api";
-import { weekdayName } from "../../lib/format";
-import { messageOf } from "../../lib/useAsync";
-import { useDerivedState } from "../../lib/useDerivedState";
-import type { TemplateSlot } from "../../lib/types";
-import { Button, Empty, ErrorNote } from "../../components/ui";
+import { api } from "../../../client/lib/api";
+import { weekdayName } from "../../../client/lib/format";
+import { messageOf } from "../../../client/lib/useAsync";
+import { useDerivedState } from "../../../client/lib/useDerivedState";
+import type { TemplateSlot } from "../../../client/lib/types";
+import { Button, Empty, ErrorNote } from "../../../client/components/ui";
 
 function toggled(current: Set<string>, id: string): Set<string> {
   const next = new Set(current);

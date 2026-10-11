@@ -1,4 +1,4 @@
-import { and, asc, eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { z } from "zod";
 import { holidays, paymentCategories, paymentMethods, professionals } from "../../db/schema.ts";
@@ -116,16 +116,6 @@ export function catalogRoutes(ctx: AppContext) {
     await ctx.db.delete(holidays).where(eq(holidays.id, id));
     await audit(ctx.db, staffOf(c), "holiday.delete", "holiday", id, null);
     return c.json({ ok: true });
-  });
-
-  /** Categorías que el cliente puede comprar online. */
-  app.get("/public-categories", async (c) => {
-    const rows = await ctx.db
-      .select()
-      .from(paymentCategories)
-      .where(and(eq(paymentCategories.active, true), eq(paymentCategories.sellOnline, true)))
-      .orderBy(asc(paymentCategories.sortOrder));
-    return c.json({ categories: rows });
   });
 
   return app;

@@ -30,7 +30,7 @@ export default defineConfig(
   },
   {
     // Hooks de React: las reglas detectan errores reales (dependencias, estado en efectos).
-    files: ["src/admin/**/*.{ts,tsx}"],
+    files: ["src/admin/**/*.{ts,tsx}", "src/client/**/*.{ts,tsx}", "src/portal/**/*.{ts,tsx}"],
     plugins: { "react-hooks": reactHooks },
     rules: reactHooks.configs.recommended.rules,
   },
@@ -55,7 +55,7 @@ export default defineConfig(
     // En la frontera con la base y con APIs externas abundan los `?? null` y los `?.`, que
     // ESLint cuenta como ramas. Son valores por defecto, no control de flujo: el umbral sube
     // a 15 para que la regla siga marcando funciones realmente enredadas.
-    files: ["api/src/services/*.ts", "api/src/http/routes/*.ts", "src/admin/lib/*.ts"],
+    files: ["api/src/services/*.ts", "api/src/http/routes/*.ts", "src/client/lib/*.ts"],
     rules: { complexity: ["error", 15] },
   },
   {

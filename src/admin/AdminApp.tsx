@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { api } from "./lib/api";
-import { useAsync } from "./lib/useAsync";
-import type { PanelUser } from "./lib/types";
+import { api } from "../client/lib/api";
+import { useAsync } from "../client/lib/useAsync";
+import type { PanelUser } from "../client/lib/types";
 import { LoginScreen } from "./screens/Login";
 import { AgendaScreen } from "./screens/Agenda";
 import { ClientsScreen } from "./screens/Clients";
@@ -11,7 +11,7 @@ import { TemplateScreen } from "./screens/Template";
 import { CatalogScreen } from "./screens/Catalog";
 import { SettingsScreen } from "./screens/Settings";
 import { DashboardScreen } from "./screens/Dashboard";
-import { Spinner } from "./components/ui";
+import { Spinner } from "../client/components/ui";
 
 /**
  * Panel de administración. Es una SPA chica con rutas por hash, así la landing sigue

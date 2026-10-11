@@ -1,8 +1,8 @@
 import { useState, type SubmitEvent } from "react";
-import { api } from "../lib/api";
-import { messageOf, useAsync } from "../lib/useAsync";
-import type { Client } from "../lib/types";
-import { Badge, Button, Card, Empty, ErrorNote, Field, inputClass, Spinner } from "../components/ui";
+import { api } from "../../client/lib/api";
+import { messageOf, useAsync } from "../../client/lib/useAsync";
+import type { Client } from "../../client/lib/types";
+import { Badge, Button, Card, Empty, ErrorNote, Field, inputClass, Spinner } from "../../client/components/ui";
 
 export function ClientsScreen() {
   const [search, setSearch] = useState("");
