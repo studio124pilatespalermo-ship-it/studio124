@@ -15,6 +15,8 @@ export interface PortalClient {
   readonly id: string;
   readonly name: string;
   readonly email: string | null;
+  /** Idioma guardado en su ficha: define el portal y, más adelante, sus emails. */
+  readonly locale: "es" | "en" | "pt";
 }
 
 export interface PortalBalance {

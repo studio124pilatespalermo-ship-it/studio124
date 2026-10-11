@@ -1,0 +1,73 @@
+{
+  "signIn": {
+    "tagline": "Suas aulas e reservas",
+    "google": "Entrar com o Google",
+    "privacy": "Usamos sua conta do Google apenas para identificar você. Não publicamos nada nem acessamos seus contatos.",
+    "unavailable": "O acesso online ainda não está disponível. Fale com a gente e reservamos sua aula.",
+    "loading": "Carregando…",
+    "devOnly": "Só em desenvolvimento",
+    "devEmail": "E-mail do cliente",
+    "devEnter": "Entrar",
+    "devEntering": "Entrando…"
+  },
+  "errors": {
+    "no_account": "Sua conta do Google não está na lista de clientes do estúdio. Fale com a gente e fazemos seu cadastro.",
+    "state": "Sua sessão de acesso expirou. Tente de novo.",
+    "cancelled": "Você cancelou o acesso com o Google.",
+    "google": "O Google não conseguiu confirmar sua identidade. Tente de novo em instantes.",
+    "not_configured": "O acesso online ainda não está disponível. Fale com a gente e reservamos sua aula.",
+    "generic": "Não conseguimos iniciar sua sessão. Tente de novo."
+  },
+  "nav": {
+    "greeting": "Oi, {name}",
+    "classes": "Minhas aulas",
+    "book": "Reservar",
+    "pay": "Comprar aulas",
+    "signOut": "Sair",
+    "sections": "Seções",
+    "language": "Idioma"
+  },
+  "balance": {
+    "title": "Seu pacote",
+    "none": "Você não tem um pacote ativo. Compre aulas ou fale com a gente para registrá-lo.",
+    "available": "aula(s) disponíveis",
+    "detail": "{remaining} de {total} · vence em {date}"
+  },
+  "bookings": {
+    "title": "Suas próximas aulas",
+    "none": "Você não tem aulas reservadas.",
+    "cancel": "Cancelar",
+    "cancelled": "Pronto: cancelamos sua aula e devolvemos o crédito ao seu pacote.",
+    "cancelledLate": "Cancelamos sua aula, mas com tão pouco tempo de aviso o crédito não volta.",
+    "note": "Você pode cancelar até {hours} h antes da aula e usar o crédito outro dia. Depois desse prazo, ou se não aparecer, a aula é perdida.",
+    "historyTitle": "Histórico",
+    "status": {
+      "attended": "Você veio",
+      "absent": "Você faltou",
+      "cancelled_on_time": "Cancelada a tempo",
+      "cancelled_late": "Cancelada em cima da hora"
+    }
+  },
+  "book": {
+    "title": "Reservar uma aula",
+    "none": "Não há horários com vaga nos próximos dias. Tente mais tarde ou fale com a gente.",
+    "reserve": "Reservar",
+    "reserving": "Reservando…",
+    "done": "Pronto! Sua aula está reservada. Você a vê em “Minhas aulas”.",
+    "spots": "{minutes} min · {free} vaga(s)",
+    "note": "Cada reserva usa uma aula do seu pacote. Você pode trocar ou cancelar até {hours} h antes."
+  },
+  "buy": {
+    "title": "Comprar aulas",
+    "none": "Ainda não há pacotes para comprar online. Fale com a gente que resolvemos.",
+    "detail": "{classes} aula(s) · válido por {days} dias",
+    "pay": "Pagar com Mercado Pago",
+    "paying": "Abrindo o pagamento…",
+    "note": "O pagamento é concluído no Mercado Pago. Suas aulas entram assim que for confirmado; se demorar, fale com a gente."
+  },
+  "common": {
+    "loading": "Carregando…",
+    "minutes": "min",
+    "timezone": "Todos os horários são de Buenos Aires (UTC−3)."
+  }
+}

@@ -99,6 +99,7 @@ export async function findOrCreateClient(
   db: Database,
   profile: GoogleProfile,
   allowSelfSignup: boolean,
+  locale: "es" | "en" | "pt" = "es",
 ): Promise<{ id: string } | null> {
   const [bySub] = await db.select().from(clients).where(eq(clients.googleSub, profile.sub)).limit(1);
   if (bySub) {
@@ -124,7 +125,7 @@ export async function findOrCreateClient(
 
   const [created] = await db
     .insert(clients)
-    .values({ name: profile.name, email: profile.email, googleSub: profile.sub })
+    .values({ name: profile.name, email: profile.email, googleSub: profile.sub, locale })
     .returning({ id: clients.id });
   return created ?? null;
 }

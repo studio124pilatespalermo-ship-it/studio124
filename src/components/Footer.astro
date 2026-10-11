@@ -3,7 +3,7 @@ import { studio } from "../content/studio";
 import { interpolate, type Dictionary } from "../i18n";
 import type { Locale } from "../i18n/locales";
 import { formatDays } from "../lib/format";
-import { whatsappUrl } from "../lib/urls";
+import { accountPath, whatsappUrl } from "../lib/urls";
 import Logo from "./brand/Logo.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import Container from "./ui/Container.astro";
@@ -80,6 +80,10 @@ const titleClass = "font-sans text-[0.6875rem] font-semibold tracking-[0.2em] up
           {dict.footer.whatsapp}
         </ExternalLink>{" "}
         {dict.footer.emailLabel} <a href={`mailto:${studio.email}`} class="text-link whitespace-nowrap">{studio.email}</a>
+      </p>
+      <p>
+        {dict.a11y.accountHint}{" "}
+        <a href={accountPath(locale)} class="text-link font-semibold">{dict.a11y.account}</a>
       </p>
       <LanguageSwitcher current={locale} label={dict.a11y.languageNav} class="-ml-1.5 text-ink" />
       <p>&copy; {new Date().getFullYear()} {studio.name}. {dict.footer.rights}</p>

@@ -1,39 +1,32 @@
-import { useState } from "react";
+import { useState, type SubmitEvent } from "react";
 import { api } from "../../client/lib/api";
 import { messageOf, useAsync } from "../../client/lib/useAsync";
 import { Button, ErrorNote, Field, inputClass } from "../../client/components/ui";
-
-/** Motivos por los que Google puede devolver al cliente sin dejarlo entrar. */
-const REASONS: Record<string, string> = {
-  no_account:
-    "Tu cuenta de Google no figura entre los clientes del estudio. Escribinos y te damos de alta.",
-  state: "La sesión de ingreso venció. Probá de nuevo.",
-  cancelled: "Cancelaste el ingreso con Google.",
-  google: "Google no pudo confirmar tu identidad. Probá de nuevo en un momento.",
-  not_configured: "El ingreso con Google todavía no está habilitado. Escribinos y reservamos tu clase.",
-};
+import { usePortalLocale } from "../i18n";
 
 /** El ingreso de prueba sólo existe mientras se desarrolla en la máquina propia. */
 const IS_LOCAL = ["localhost", "127.0.0.1"].includes(window.location.hostname);
 
 export function SignIn({ apiBase }: { apiBase: string }) {
+  const { t } = usePortalLocale();
   const status = useAsync(() => api.get<{ available: boolean }>("/auth/google/status"));
   const reason = new URLSearchParams(window.location.search).get("error");
   const available = status.data?.available === true;
+  const reasons: Record<string, string> = t.errors;
 
   return (
     <div className="grid min-h-screen place-items-center bg-sand px-5">
       <div className="w-full max-w-sm rounded-2xl border border-stone/40 bg-bone p-7 text-center">
         <h1 className="font-serif text-3xl">Studio124</h1>
-        <p className="mt-1 text-sm text-stone-text">Tus clases y tus reservas</p>
+        <p className="mt-1 text-sm text-stone-text">{t.signIn.tagline}</p>
 
         {reason && (
           <div className="mt-5 text-left">
-            <ErrorNote>{REASONS[reason] ?? "No pudimos iniciar tu sesión. Probá de nuevo."}</ErrorNote>
+            <ErrorNote>{reasons[reason] ?? t.errors.generic}</ErrorNote>
           </div>
         )}
 
-        {status.loading && <p className="mt-6 text-sm text-stone-text">Cargando…</p>}
+        {status.loading && <p className="mt-6 text-sm text-stone-text">{t.signIn.loading}</p>}
 
         {!status.loading && available && (
           <a
@@ -46,19 +39,15 @@ export function SignIn({ apiBase }: { apiBase: string }) {
               <path fill="#FBBC05" d="M3.9 10.7a5.4 5.4 0 0 1 0-3.4V5H.9a9 9 0 0 0 0 8l3-2.3z" />
               <path fill="#EA4335" d="M9 3.6c1.3 0 2.5.5 3.4 1.3l2.6-2.6A9 9 0 0 0 .9 5l3 2.3C4.6 5.2 6.6 3.6 9 3.6z" />
             </svg>
-            Ingresar con Google
+            {t.signIn.google}
           </a>
         )}
 
         {!status.loading && !available && (
-          <p className="mt-6 rounded-xl bg-sand px-4 py-3 text-sm text-stone-text">
-            El ingreso online todavía no está habilitado. Escribinos y reservamos tu clase.
-          </p>
+          <p className="mt-6 rounded-xl bg-sand px-4 py-3 text-sm text-stone-text">{t.signIn.unavailable}</p>
         )}
 
-        <p className="mt-6 text-xs text-stone-text">
-          Usamos tu cuenta de Google sólo para identificarte. No publicamos nada ni accedemos a tus contactos.
-        </p>
+        <p className="mt-6 text-xs text-stone-text">{t.signIn.privacy}</p>
 
         {IS_LOCAL && <DevLogin />}
       </div>
@@ -68,11 +57,13 @@ export function SignIn({ apiBase }: { apiBase: string }) {
 
 /** Atajo para probar el portal en local sin configurar Google. No existe en producción. */
 function DevLogin() {
+  const { t } = usePortalLocale();
   const [email, setEmail] = useState("ana@ejemplo.test");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  async function enter() {
+  async function submit(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
     setBusy(true);
     setError(null);
     try {
@@ -85,14 +76,14 @@ function DevLogin() {
   }
 
   return (
-    <div className="mt-6 rounded-xl border border-dashed border-stone/50 bg-sand/60 p-4 text-left">
-      <p className="text-[0.6875rem] font-semibold tracking-[0.14em] uppercase text-stone-text">Sólo en desarrollo</p>
+    <form onSubmit={submit} className="mt-6 rounded-xl border border-dashed border-stone/50 bg-sand/60 p-4 text-left">
+      <p className="text-[0.6875rem] font-semibold tracking-[0.14em] uppercase text-stone-text">{t.signIn.devOnly}</p>
       <div className="mt-2 flex items-end gap-2">
-        <Field label="Email del cliente">
+        <Field label={t.signIn.devEmail}>
           <input value={email} onChange={(event) => setEmail(event.target.value)} className={inputClass} />
         </Field>
-        <Button onClick={() => void enter()} disabled={busy}>
-          {busy ? "Entrando…" : "Entrar"}
+        <Button type="submit" disabled={busy}>
+          {busy ? t.signIn.devEntering : t.signIn.devEnter}
         </Button>
       </div>
       {error && (
@@ -100,6 +91,6 @@ function DevLogin() {
           <ErrorNote>{error}</ErrorNote>
         </div>
       )}
-    </div>
+    </form>
   );
 }

@@ -37,9 +37,16 @@ export function portalRoutes(ctx: AppContext) {
     const [client] = await ctx.db.select().from(clients).where(eq(clients.id, clientId)).limit(1);
     const balances = await clientBalances(ctx.db, clientId);
     return c.json({
-      client: client ? { id: client.id, name: client.name, email: client.email } : null,
+      client: client ? { id: client.id, name: client.name, email: client.email, locale: client.locale } : null,
       balances: balances.filter((balance) => balance.status === "active"),
     });
+  });
+
+  /** Idioma del cliente. Define el portal y, más adelante, el idioma de sus emails. */
+  app.patch("/me", async (c) => {
+    const { locale } = z.object({ locale: z.enum(["es", "en", "pt"]) }).parse(await c.req.json());
+    await ctx.db.update(clients).set({ locale, updatedAt: new Date() }).where(eq(clients.id, clientIdOf(c)));
+    return c.json({ locale });
   });
 
   /** Mis turnos, de hoy en adelante. */

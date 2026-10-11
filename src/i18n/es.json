@@ -10,7 +10,9 @@
     "home": "Studio124, inicio",
     "opensInNewTab": "(se abre en una pestaña nueva)",
     "bookingBar": "Reserva rápida",
-    "chooseLanguage": "Elegí tu idioma"
+    "chooseLanguage": "Elegí tu idioma",
+    "account": "Mi cuenta",
+    "accountHint": "Ya reservaste: entrá a ver tus clases"
   },
   "cta": {
     "book": "Reservá y pagá tu clase",

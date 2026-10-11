@@ -40,6 +40,8 @@ export const bookingStatus = pgEnum("booking_status", [
 export const bookingSource = pgEnum("booking_source", ["fixed", "admin", "client", "change"]);
 export const slotStatus = pgEnum("slot_status", ["scheduled", "cancelled"]);
 export const subjectType = pgEnum("subject_type", ["user", "client"]);
+/** Idioma del cliente: define el portal y, más adelante, sus emails. */
+export const localeCode = pgEnum("locale_code", ["es", "en", "pt"]);
 
 /** Usuarios del panel: administradora e instructoras. */
 export const users = pgTable("users", {
@@ -74,6 +76,7 @@ export const clients = pgTable(
     email: text("email"),
     phone: text("phone"),
     googleSub: text("google_sub").unique(),
+    locale: localeCode("locale").notNull().default("es"),
     status: clientStatus("status").notNull().default("active"),
     notes: text("notes"),
     deactivatedAt: timestamp("deactivated_at", { withTimezone: true }),

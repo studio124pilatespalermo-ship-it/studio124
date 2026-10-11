@@ -14,6 +14,15 @@ import { audit } from "../audit.ts";
 
 const credentials = z.object({ email: z.email(), password: z.string().min(1) });
 
+/** Idioma inicial del cliente, tomado del navegador. Después lo cambia desde el portal. */
+function localeFromHeader(header: string | undefined): "es" | "en" | "pt" {
+  for (const part of (header ?? "").split(",")) {
+    const code = part.trim().slice(0, 2).toLowerCase();
+    if (code === "en" || code === "pt" || code === "es") return code;
+  }
+  return "es";
+}
+
 /** Cookie corta que guarda el `state` de OAuth hasta que Google nos devuelve el control. */
 const STATE_COOKIE = "s124_oauth_state";
 
@@ -83,7 +92,12 @@ export function authRoutes(ctx: AppContext) {
     try {
       const profile = await exchangeCode(config, code);
       const settings = await readSettings(ctx.db);
-      const client = await findOrCreateClient(ctx.db, profile, settings["portal.allowSelfSignup"]);
+      const client = await findOrCreateClient(
+        ctx.db,
+        profile,
+        settings["portal.allowSelfSignup"],
+        localeFromHeader(c.req.header("accept-language")),
+      );
       if (!client) return fail("no_account");
 
       await issueSession(ctx, c, { type: "client", id: client.id });

@@ -10,7 +10,9 @@
     "home": "Studio124, home",
     "opensInNewTab": "(opens in a new tab)",
     "bookingBar": "Quick booking",
-    "chooseLanguage": "Choose your language"
+    "chooseLanguage": "Choose your language",
+    "account": "My account",
+    "accountHint": "Already booked? See your classes"
   },
   "cta": {
     "book": "Book & pay for your class",

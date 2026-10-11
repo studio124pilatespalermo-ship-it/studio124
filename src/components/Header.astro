@@ -1,7 +1,7 @@
 ---
 import type { Dictionary } from "../i18n";
 import type { Locale } from "../i18n/locales";
-import { localePath } from "../lib/urls";
+import { accountPath, localePath } from "../lib/urls";
 import Logo from "./brand/Logo.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import BookButton from "./ui/BookButton.astro";
@@ -21,6 +21,9 @@ const { locale, dict } = Astro.props;
       <Logo variant="on-dark" class="h-16 w-auto md:h-20" />
     </a>
     <div class="flex items-center gap-2 md:gap-6">
+      <a href={accountPath(locale)} class="hidden text-xs font-semibold tracking-[0.12em] uppercase text-bone/85 transition-opacity hover:text-bone sm:inline">
+        {dict.a11y.account}
+      </a>
       <LanguageSwitcher current={locale} label={dict.a11y.languageNav} />
       <BookButton label={dict.cta.bookShort} size="sm" class="hidden min-[370px]:inline-flex" />
     </div>

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { api } from "../../client/lib/api";
-import { shortDate } from "../../client/lib/format";
 import { messageOf, useAsync } from "../../client/lib/useAsync";
 import { useDerivedState } from "../../client/lib/useDerivedState";
 import { Button, Card, Empty, ErrorNote, Spinner } from "../../client/components/ui";
+import { fill, usePortalLocale } from "../i18n";
+import { shortDate } from "../lib/dates";
 import type { PortalConfig, PortalSlot } from "../lib/types";
 
 /**
@@ -11,6 +12,7 @@ import type { PortalConfig, PortalSlot } from "../lib/types";
  * con una fila de fichas y después el horario, que es menos scroll que una grilla mensual.
  */
 export function BookClass({ config }: { config: PortalConfig }) {
+  const { t, locale } = usePortalLocale();
   const [reloadKey, setReloadKey] = useState(0);
   const [note, setNote] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
@@ -26,8 +28,8 @@ export function BookClass({ config }: { config: PortalConfig }) {
     setNote(null);
     try {
       await api.post("/portal/bookings", { slotId });
-      setNote("¡Listo! Reservamos tu clase. La ves en “Mis clases”.");
-      setReloadKey((value) => value + 1);
+      setNote(t.book.done);
+      setReloadKey((key) => key + 1);
     } catch (error) {
       setNote(messageOf(error));
     } finally {
@@ -35,15 +37,15 @@ export function BookClass({ config }: { config: PortalConfig }) {
     }
   }
 
-  if (state.loading) return <Spinner />;
+  if (state.loading) return <Spinner label={t.common.loading} />;
   if (state.error) return <ErrorNote>{state.error}</ErrorNote>;
 
   return (
-    <Card title="Reservar una clase">
+    <Card title={t.book.title}>
       {note && <p className="mb-4 rounded-lg bg-sand px-3 py-2 text-sm">{note}</p>}
 
       {days.length === 0 ? (
-        <Empty>No hay turnos con lugar en los próximos días. Probá más adelante o escribinos.</Empty>
+        <Empty>{t.book.none}</Empty>
       ) : (
         <>
           <ul className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-2">
@@ -57,7 +59,7 @@ export function BookClass({ config }: { config: PortalConfig }) {
                     day === value ? "bg-ink text-bone" : "border border-stone/45 text-ink hover:bg-sand"
                   }`}
                 >
-                  {shortDate(value)}
+                  {shortDate(value, locale)}
                 </button>
               </li>
             ))}
@@ -74,11 +76,11 @@ export function BookClass({ config }: { config: PortalConfig }) {
                   <span>
                     <span className="block font-serif text-xl tabular-nums">{slot.startTime}</span>
                     <span className="text-xs text-stone-text">
-                      {slot.durationMin} min · {slot.free} lugar(es)
+                      {fill(t.book.spots, { minutes: slot.durationMin, free: slot.free })}
                     </span>
                   </span>
                   <Button onClick={() => void book(slot.id)} disabled={busy !== null}>
-                    {busy === slot.id ? "Reservando…" : "Reservar"}
+                    {busy === slot.id ? t.book.reserving : t.book.reserve}
                   </Button>
                 </li>
               ))}
@@ -86,10 +88,7 @@ export function BookClass({ config }: { config: PortalConfig }) {
         </>
       )}
 
-      <p className="mt-4 text-xs text-stone-text">
-        Cada reserva descuenta una clase de tu abono. Podés cambiarla o cancelarla hasta {config.changeWindowHours} h
-        antes.
-      </p>
+      <p className="mt-4 text-xs text-stone-text">{fill(t.book.note, { hours: config.changeWindowHours })}</p>
     </Card>
   );
 }

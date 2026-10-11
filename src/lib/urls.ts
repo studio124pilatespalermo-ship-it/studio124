@@ -5,6 +5,14 @@ export function localePath(locale: Locale): string {
   return `/${locale}/`;
 }
 
+/**
+ * Portal del cliente, con el idioma de la landing. El portal lo usa como idioma inicial;
+ * después manda el que tenga guardado en su ficha.
+ */
+export function accountPath(locale: Locale): string {
+  return `/cuenta/?lang=${locale}`;
+}
+
 export function absoluteUrl(path: string, site: URL): string {
   return new URL(path, site).toString();
 }
