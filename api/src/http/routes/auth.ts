@@ -1,8 +1,8 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { Hono } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { z } from "zod";
-import { users } from "../../db/schema.ts";
+import { clients, users } from "../../db/schema.ts";
 import { randomToken, safeEqual } from "../../lib/crypto.ts";
 import { AppError } from "../../lib/errors.ts";
 import { verifyPassword } from "../../lib/password.ts";
@@ -37,12 +37,10 @@ export function authRoutes(ctx: AppContext) {
     return c.json({ ok: true });
   });
 
-  app.get("/me", (c) => {
-    const principal = c.get("principal");
-    return principal ? c.json({ principal }) : c.json({ principal: null });
-  });
+  /** Qué sesiones hay abiertas en este navegador. Puede haber las dos a la vez. */
+  app.get("/me", (c) => c.json({ staff: c.get("staff") ?? null, client: c.get("client") ?? null }));
 
-  app.get("/panel/me", requireStaff, (c) => c.json({ user: c.get("principal") }));
+  app.get("/panel/me", requireStaff, (c) => c.json({ user: c.get("staff") }));
 
   /** Si Google no está configurado, el portal no ofrece el botón. */
   app.get("/google/status", (c) => c.json({ available: googleConfig(ctx.env) !== null }));
@@ -96,6 +94,27 @@ export function authRoutes(ctx: AppContext) {
       return fail("google");
     }
   });
+
+  /**
+   * Ingreso de prueba al portal, SÓLO en desarrollo.
+   *
+   * Existe para poder probar el portal sin configurar Google. La ruta ni siquiera se
+   * registra cuando NODE_ENV es "production", así que no hay forma de llegar a ella en
+   * el sitio real. Hay un test que lo verifica.
+   */
+  if (ctx.env.NODE_ENV === "development") {
+    app.post("/client/dev-login", async (c) => {
+      const { email } = z.object({ email: z.email() }).parse(await c.req.json());
+      const [client] = await ctx.db
+        .select()
+        .from(clients)
+        .where(sql`lower(${clients.email}) = ${email.toLowerCase()}`)
+        .limit(1);
+      if (!client) throw new AppError("not_found", "No hay ningún cliente con ese email.");
+      await issueSession(ctx, c, { type: "client", id: client.id });
+      return c.json({ client: { id: client.id, name: client.name } });
+    });
+  }
 
   app.post("/client/logout", async (c) => {
     await destroySession(ctx, c, "client");

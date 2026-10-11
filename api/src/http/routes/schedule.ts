@@ -157,9 +157,9 @@ export function scheduleRoutes(ctx: AppContext) {
 
   /** Asistencia: la instructora puede marcarla si la configuración lo permite. */
   app.post("/bookings/:id/attendance", async (c) => {
-    const principal = c.get("principal");
+    const staff = c.get("staff");
     const config = await readSettings(ctx.db);
-    if (principal?.kind === "user" && principal.role !== "admin" && !config["staff.canMarkAttendance"]) {
+    if (staff && staff.role !== "admin" && !config["staff.canMarkAttendance"]) {
       throw new AppError("forbidden", "La toma de asistencia está restringida a administración.");
     }
     const id = c.req.param("id");

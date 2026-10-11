@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { api } from "../../client/lib/api";
-import { useAsync } from "../../client/lib/useAsync";
-import { ErrorNote } from "../../client/components/ui";
+import { messageOf, useAsync } from "../../client/lib/useAsync";
+import { Button, ErrorNote, Field, inputClass } from "../../client/components/ui";
 
 /** Motivos por los que Google puede devolver al cliente sin dejarlo entrar. */
 const REASONS: Record<string, string> = {
@@ -11,6 +12,9 @@ const REASONS: Record<string, string> = {
   google: "Google no pudo confirmar tu identidad. Probá de nuevo en un momento.",
   not_configured: "El ingreso con Google todavía no está habilitado. Escribinos y reservamos tu clase.",
 };
+
+/** El ingreso de prueba sólo existe mientras se desarrolla en la máquina propia. */
+const IS_LOCAL = ["localhost", "127.0.0.1"].includes(window.location.hostname);
 
 export function SignIn({ apiBase }: { apiBase: string }) {
   const status = useAsync(() => api.get<{ available: boolean }>("/auth/google/status"));
@@ -55,7 +59,47 @@ export function SignIn({ apiBase }: { apiBase: string }) {
         <p className="mt-6 text-xs text-stone-text">
           Usamos tu cuenta de Google sólo para identificarte. No publicamos nada ni accedemos a tus contactos.
         </p>
+
+        {IS_LOCAL && <DevLogin />}
       </div>
+    </div>
+  );
+}
+
+/** Atajo para probar el portal en local sin configurar Google. No existe en producción. */
+function DevLogin() {
+  const [email, setEmail] = useState("ana@ejemplo.test");
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  async function enter() {
+    setBusy(true);
+    setError(null);
+    try {
+      await api.post("/auth/client/dev-login", { email });
+      window.location.reload();
+    } catch (err) {
+      setError(messageOf(err));
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="mt-6 rounded-xl border border-dashed border-stone/50 bg-sand/60 p-4 text-left">
+      <p className="text-[0.6875rem] font-semibold tracking-[0.14em] uppercase text-stone-text">Sólo en desarrollo</p>
+      <div className="mt-2 flex items-end gap-2">
+        <Field label="Email del cliente">
+          <input value={email} onChange={(event) => setEmail(event.target.value)} className={inputClass} />
+        </Field>
+        <Button onClick={() => void enter()} disabled={busy}>
+          {busy ? "Entrando…" : "Entrar"}
+        </Button>
+      </div>
+      {error && (
+        <div className="mt-2">
+          <ErrorNote>{error}</ErrorNote>
+        </div>
+      )}
     </div>
   );
 }

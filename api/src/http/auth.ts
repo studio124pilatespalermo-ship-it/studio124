@@ -6,7 +6,7 @@ import type { Database } from "../db/client.ts";
 import { clients, sessions, users } from "../db/schema.ts";
 import { randomToken, sha256 } from "../lib/crypto.ts";
 import { AppError } from "../lib/errors.ts";
-import type { AppContext, Principal, Variables } from "./context.ts";
+import type { AppContext, ClientPrincipal, StaffPrincipal, Variables } from "./context.ts";
 
 /**
  * Sesiones en cookie HttpOnly. En la base se guarda sólo el hash del token: si alguien
@@ -55,63 +55,75 @@ export async function destroySession(ctx: AppContext, c: Context, kind: "user" |
   setCookie(c, name, "", { ...cookieOptions(ctx.env, 0), maxAge: 0 });
 }
 
-async function resolvePrincipal(db: Database, token: string | undefined): Promise<Principal | null> {
+async function subjectOf(db: Database, token: string | undefined, kind: "user" | "client"): Promise<string | null> {
   if (!token) return null;
   const [session] = await db
     .select()
     .from(sessions)
     .where(and(eq(sessions.id, sha256(token)), gt(sessions.expiresAt, new Date())))
     .limit(1);
-  if (!session) return null;
+  if (!session || session.subjectType !== kind) return null;
+  return session.subjectId;
+}
 
-  if (session.subjectType === "user") {
-    const [user] = await db.select().from(users).where(eq(users.id, session.subjectId)).limit(1);
-    if (!user || !user.active) return null;
-    return { kind: "user", id: user.id, role: user.role, name: user.name };
-  }
-  const [client] = await db.select().from(clients).where(eq(clients.id, session.subjectId)).limit(1);
+async function resolveStaff(db: Database, token: string | undefined): Promise<StaffPrincipal | null> {
+  const id = await subjectOf(db, token, "user");
+  if (!id) return null;
+  const [user] = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  if (!user || !user.active) return null;
+  return { kind: "user", id: user.id, role: user.role, name: user.name };
+}
+
+async function resolveClient(db: Database, token: string | undefined): Promise<ClientPrincipal | null> {
+  const id = await subjectOf(db, token, "client");
+  if (!id) return null;
+  const [client] = await db.select().from(clients).where(eq(clients.id, id)).limit(1);
   if (!client || client.status === "inactive") return null;
   return { kind: "client", id: client.id, name: client.name };
 }
 
-/** Carga el principal si hay sesión válida. No exige autenticación. */
+/**
+ * Carga las sesiones que haya, cada una en su variable. No exige autenticación: eso lo
+ * hacen requireStaff y requireClient, que miran sólo la suya.
+ */
 export const withPrincipal = (ctx: AppContext) =>
   createMiddleware<HonoEnv>(async (c, next) => {
-    const panel = await resolvePrincipal(ctx.db, getCookie(c, PANEL_COOKIE));
-    const principal = panel ?? (await resolvePrincipal(ctx.db, getCookie(c, CLIENT_COOKIE)));
-    if (principal) c.set("principal", principal);
+    const [staff, client] = await Promise.all([
+      resolveStaff(ctx.db, getCookie(c, PANEL_COOKIE)),
+      resolveClient(ctx.db, getCookie(c, CLIENT_COOKIE)),
+    ]);
+    if (staff) c.set("staff", staff);
+    if (client) c.set("client", client);
     await next();
   });
 
 export const requireStaff = createMiddleware<HonoEnv>(async (c, next) => {
-  const principal = c.get("principal");
-  if (!principal || principal.kind !== "user") throw new AppError("unauthorized", "Iniciá sesión en el panel.");
+  if (!c.get("staff")) throw new AppError("unauthorized", "Iniciá sesión en el panel.");
   await next();
 });
 
 export const requireAdmin = createMiddleware<HonoEnv>(async (c, next) => {
-  const principal = c.get("principal");
-  if (!principal || principal.kind !== "user") throw new AppError("unauthorized", "Iniciá sesión en el panel.");
-  if (principal.role !== "admin") throw new AppError("forbidden", "Necesitás permisos de administración.");
+  const staff = c.get("staff");
+  if (!staff) throw new AppError("unauthorized", "Iniciá sesión en el panel.");
+  if (staff.role !== "admin") throw new AppError("forbidden", "Necesitás permisos de administración.");
   await next();
 });
 
 export const requireClient = createMiddleware<HonoEnv>(async (c, next) => {
-  const principal = c.get("principal");
-  if (!principal || principal.kind !== "client") throw new AppError("unauthorized", "Iniciá sesión para continuar.");
+  if (!c.get("client")) throw new AppError("unauthorized", "Iniciá sesión para continuar.");
   await next();
 });
 
 export function staffOf(c: Context<HonoEnv>): { type: "user"; id: string } {
-  const principal = c.get("principal");
-  if (!principal || principal.kind !== "user") throw new AppError("unauthorized", "Sesión no válida.");
-  return { type: "user", id: principal.id };
+  const staff = c.get("staff");
+  if (!staff) throw new AppError("unauthorized", "Sesión no válida.");
+  return { type: "user", id: staff.id };
 }
 
 export function clientIdOf(c: Context<HonoEnv>): string {
-  const principal = c.get("principal");
-  if (!principal || principal.kind !== "client") throw new AppError("unauthorized", "Sesión no válida.");
-  return principal.id;
+  const client = c.get("client");
+  if (!client) throw new AppError("unauthorized", "Sesión no válida.");
+  return client.id;
 }
 
 /** Limpieza de sesiones vencidas; la ejecuta la tarea diaria. */

@@ -3,8 +3,11 @@ import { PUBLIC_API_URL } from "astro:env/client";
 /**
  * Cliente de la API del sistema de reservas.
  *
- * Las sesiones viajan en cookie HttpOnly, por eso `credentials: "include"`: el panel
- * nunca guarda tokens en el navegador.
+ * Las sesiones viajan en cookie HttpOnly, por eso `credentials: "include"`: ni el panel
+ * ni el portal guardan tokens en el navegador.
+ *
+ * En producción apunta a api.studio124.com.ar, que comparte sitio con la landing y por eso
+ * el navegador deja pasar la cookie.
  */
 export const API_BASE = PUBLIC_API_URL ?? "http://localhost:3000";
 

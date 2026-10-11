@@ -14,11 +14,21 @@ export function createContext(db: Database, env: Env): AppContext {
   return { db, env, secrets: new SecretStore(db, new SecretBox(env.APP_ENCRYPTION_KEY)) };
 }
 
-/** Usuario del panel o cliente autenticado en la petición en curso. */
-export type Principal =
-  | { readonly kind: "user"; readonly id: string; readonly role: "admin" | "staff"; readonly name: string }
-  | { readonly kind: "client"; readonly id: string; readonly name: string };
+export type StaffPrincipal = {
+  readonly kind: "user";
+  readonly id: string;
+  readonly role: "admin" | "staff";
+  readonly name: string;
+};
+export type ClientPrincipal = { readonly kind: "client"; readonly id: string; readonly name: string };
+export type Principal = StaffPrincipal | ClientPrincipal;
 
+/**
+ * Las dos sesiones conviven: la administradora puede tener abierto el panel y, en la misma
+ * computadora, entrar al portal como clienta. Se resuelven por separado para que una no
+ * tape a la otra.
+ */
 export interface Variables {
-  principal?: Principal;
+  staff?: StaffPrincipal;
+  client?: ClientPrincipal;
 }

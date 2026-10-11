@@ -27,8 +27,26 @@ npm run dev
 npm run dev
 ```
 
-Entrá a http://localhost:4321/admin/. En `.env` de la raíz tiene que estar
-`PUBLIC_API_URL=http://localhost:3000`.
+Hacen falta **dos terminales**: una para la API y otra para el sitio.
+
+| Dónde | Qué es | Cómo entrar |
+| --- | --- | --- |
+| http://localhost:4321/es/ | Landing | — |
+| http://localhost:4321/admin/ | Panel | el email y la contraseña del `seed:admin` |
+| http://localhost:4321/cuenta/ | Portal del cliente | botón **Sólo en desarrollo**, con `ana@ejemplo.test` |
+
+Para tener datos con los que jugar, **con la API parada**:
+
+```bash
+cd api
+npm run seed:demo
+```
+
+Carga dos meses de turnos y tres clientas con abono: `ana@ejemplo.test`,
+`sofia@ejemplo.test` y `lucia@ejemplo.test`.
+
+El recuadro **Sólo en desarrollo** del portal permite entrar sin configurar Google. La ruta
+que usa no existe cuando `NODE_ENV=production`, y hay un test que lo comprueba.
 
 ## Producción
 
