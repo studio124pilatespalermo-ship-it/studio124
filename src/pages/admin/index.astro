@@ -1,11 +1,12 @@
 ---
 import "../../styles/global.css";
-import AdminApp from "../../admin/AdminApp";
 
 /**
- * Panel de administración. Es una aplicación de cliente (`client:only`) para que la
- * landing siga siendo un sitio estático: acá no se renderiza nada en el servidor ni se
- * filtra información del estudio al HTML.
+ * Panel de administración. Es una aplicación de cliente para que la landing siga siendo un
+ * sitio estático: acá no se renderiza nada en el servidor ni se filtra información al HTML.
+ *
+ * Se monta con un script propio (src/client/mount.ts) y no con `client:only`: ese modo deja
+ * código de arranque en línea, y la CSP de producción (`script-src 'self'`) lo bloquea.
  */
 ---
 
@@ -18,10 +19,16 @@ import AdminApp from "../../admin/AdminApp";
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
-  <body class="bg-sand antialiased">
-    <AdminApp client:only="react" />
+  <body class="bg-sand/50 antialiased">
+    <div id="app"></div>
     <noscript>
       <p class="p-8 text-center">El panel necesita JavaScript para funcionar.</p>
     </noscript>
+    <script>
+      import { mount } from "../../client/mount";
+      import AdminApp from "../../admin/AdminApp";
+
+      mount(AdminApp);
+    </script>
   </body>
 </html>

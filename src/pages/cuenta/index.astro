@@ -1,10 +1,12 @@
 ---
 import "../../styles/global.css";
-import PortalApp from "../../portal/PortalApp";
 
 /**
- * Portal del cliente: sus clases, reservas y pagos. Aplicación de cliente, igual que
- * /admin, para que la landing siga siendo un sitio estático.
+ * Portal del cliente: sus clases, reservas y pagos. Aplicación de cliente, igual que /admin,
+ * para que la landing siga siendo un sitio estático.
+ *
+ * Se monta con un script propio (src/client/mount.ts) y no con `client:only`: ese modo deja
+ * código de arranque en línea, y la CSP de producción (`script-src 'self'`) lo bloquea.
  */
 ---
 
@@ -17,10 +19,16 @@ import PortalApp from "../../portal/PortalApp";
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
-  <body class="bg-sand antialiased">
-    <PortalApp client:only="react" />
+  <body class="bg-sand/50 antialiased">
+    <div id="app"></div>
     <noscript>
       <p class="p-8 text-center">Tu cuenta necesita JavaScript. Escribinos y reservamos tu clase.</p>
     </noscript>
+    <script>
+      import { mount } from "../../client/mount";
+      import PortalApp from "../../portal/PortalApp";
+
+      mount(PortalApp);
+    </script>
   </body>
 </html>

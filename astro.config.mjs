@@ -4,6 +4,7 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { loadEnv } from "vite";
+import cspGuard from "./integrations/csp-guard.mjs";
 import placeholderReport from "./integrations/placeholder-report.mjs";
 
 const env = loadEnv(process.env.NODE_ENV ?? "production", process.cwd(), "");
@@ -49,8 +50,12 @@ export default defineConfig({
     }),
     react(),
     placeholderReport(),
+    cspGuard(),
   ],
   vite: {
     plugins: [tailwindcss()],
+    // Nada en línea: la CSP (script-src 'self', font-src 'self') bloquea scripts y
+    // fuentes embebidos. Lo verifica integrations/csp-guard.mjs al terminar el build.
+    build: { assetsInlineLimit: 0 },
   },
 });
