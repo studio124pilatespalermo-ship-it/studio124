@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import mapImage from "../assets/map.png";
 import collage from "../assets/photos/buenos-aires.jpg";
+import { photos } from "../content/photos";
 import { studio } from "../content/studio";
 import type { Dictionary } from "../i18n";
 import { richText, type TextPart } from "../lib/content";
@@ -41,27 +42,39 @@ const paragraphs = body.map(rich);
         class="absolute inset-0 z-0 h-full w-full object-cover"
       />
       {/*
-        Velo negro parejo, como una bajada de exposición de toda la foto (y no un gris que
-        la apaga): así el collage conserva su color. Al 60 % el texto crema llega a 5,1:1
-        contra el píxel más claro de la columna de texto (AA necesita 4,5:1).
+        Velo negro parejo, como una bajada de exposición de toda la foto (y no un gris que la
+        apaga). El collage ya es oscuro de por sí, así que alcanza con un 20 %: conserva su
+        color real (verdes, rosados, el atardecer) y el 99 % de los píxeles detrás del texto
+        crema supera 5:1 de contraste (AA pide 4,5:1). Sobre los pocos reflejos más claros el
+        texto lleva sombra (.on-photo-text).
       */}
-      <div
-        aria-hidden="true"
-        class="absolute inset-0 z-10 bg-black/60"
-      >
-      </div>
+      <div aria-hidden="true" class="absolute inset-0 z-10 bg-black/20"></div>
       {/*
-        El mapa ya viene con las calles en blanco: acá es una trama, no un dato. Va chico y
-        apoyado arriba a la izquierda, sangrando por abajo, para que se vea el collage.
+        El mapa ya viene con las calles en blanco: acá es una trama sobre el collage. Mide dos
+        tercios del alto del panel y arranca al 20 % desde arriba y al 6,5 % desde la izquierda,
+        como en el mockup (con altura en % y no con ancho, así no crece más que el panel).
+        El pin marca dónde está el estudio, justo en el centro.
       */}
-      <img
-        src={mapImage.src}
-        alt=""
-        aria-hidden="true"
-        loading="lazy"
-        decoding="async"
-        class="pointer-events-none absolute top-[16%] left-[6%] z-10 hidden w-[40%] opacity-95 md:block"
-      />
+      <div class="pointer-events-none absolute top-[20%] left-[6.5%] z-10 hidden aspect-square h-[68%] md:block">
+        <img
+          src={mapImage.src}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          class="h-full w-full object-contain"
+        />
+        <span aria-hidden="true" class="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-full flex-col items-center">
+          <Image
+            src={photos.space1}
+            alt=""
+            width={120}
+            height={120}
+            class="size-14 rounded-full object-cover ring-[3px] ring-cream shadow-[0_6px_18px_rgb(0_0_0/0.55)] lg:size-16"
+          />
+          <span class="-mt-2 size-3.5 rotate-45 bg-cream shadow-[0_6px_14px_rgb(0_0_0/0.5)]"></span>
+        </span>
+      </div>
 
       <div class="on-photo-text relative z-20 w-full px-6 py-14 md:py-16 md:pr-14 md:pl-[48%] md:text-right">
         <p class="script -mb-2 text-[2.5rem] leading-[0.95] sm:text-5xl lg:-mb-4 lg:text-6xl">{dict.experience.script}</p>

@@ -36,23 +36,25 @@ const groups = studio.classSchedule.map((group) => {
 ---
 
 {/*
-  Mockup: los horarios van sobre una foto del estudio, dentro de recuadros traslúcidos y
-  todo centrado. La foto lleva un velo negro parejo al 60 % y los recuadros otro 25 % encima.
-  Contraste del texto crema contra el píxel más claro de la foto: 5,1:1 el título y la nota
-  (sólo velo) y más de 6:1 los horarios (velo + recuadro). AA pide 4,5:1.
+  Mockup: los horarios van sobre la foto de los apoyos del reformer, dentro de recuadros
+  traslúcidos y todo centrado.
+  La foto lleva sólo un velo negro del 30 %, así conserva su color (beige cálido, no un gris
+  apagado). El contraste no lo pone el velo sino los recuadros: el texto chico va siempre sobre
+  un recuadro oscuro (velo + 50 % = 65 % efectivo, más de 6:1 contra el píxel más claro del
+  recuadro). El título, que va suelto, es texto grande (AA pide 3:1) y da 4,5:1 en su peor píxel.
 */}
 <section id="horarios" aria-labelledby="horarios-title" class="scroll-mt-4 bg-cream py-2 md:py-3">
   <Container width="full">
     <div class="on-dark relative isolate overflow-hidden rounded-[1.75rem] bg-ink text-cream md:rounded-[2.25rem]">
       <Image
-        src={photos.space2}
+        src={photos.space3}
         alt=""
         aria-hidden="true"
         widths={[768, 1200, 1600]}
         sizes="(min-width: 1280px) 1280px, 100vw"
         class="absolute inset-0 z-0 h-full w-full object-cover"
       />
-      <div aria-hidden="true" class="absolute inset-0 z-10 bg-black/60"></div>
+      <div aria-hidden="true" class="absolute inset-0 z-10 bg-black/30"></div>
 
       <div class="on-photo-text relative z-20 px-5 py-16 text-center md:px-10 md:py-24">
         <h2 id="horarios-title" class="section-title">{dict.schedule.title}</h2>
@@ -62,7 +64,7 @@ const groups = studio.classSchedule.map((group) => {
             groups.map((group) => (
               <div
                 class:list={[
-                  "mx-auto max-w-xl rounded-[1.5rem] bg-black/25 px-6 backdrop-blur-[2px]",
+                  "mx-auto max-w-xl rounded-[1.5rem] bg-black/50 px-6 backdrop-blur-[2px]",
                   group.saturday ? "py-4 md:flex md:items-center md:justify-center md:gap-5" : "py-7",
                 ]}
               >
@@ -81,7 +83,7 @@ const groups = studio.classSchedule.map((group) => {
           }
         </dl>
 
-        <p class="eyebrow mt-8">{dict.schedule.note}</p>
+        <p class="eyebrow mt-8 inline-block rounded-full bg-black/50 px-5 py-2 backdrop-blur-[2px]">{dict.schedule.note}</p>
       </div>
     </div>
   </Container>
