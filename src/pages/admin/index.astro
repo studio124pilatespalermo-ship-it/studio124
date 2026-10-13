@@ -1,5 +1,6 @@
 ---
 import "../../styles/global.css";
+import DevPreamble from "../../client/DevPreamble.astro";
 
 /**
  * Panel de administración. Es una aplicación de cliente para que la landing siga siendo un
@@ -24,6 +25,7 @@ import "../../styles/global.css";
     <noscript>
       <p class="p-8 text-center">El panel necesita JavaScript para funcionar.</p>
     </noscript>
+    <DevPreamble />
     <script>
       import { mount } from "../../client/mount";
       import AdminApp from "../../admin/AdminApp";

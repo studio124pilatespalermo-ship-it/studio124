@@ -1,5 +1,6 @@
 ---
 import "../../styles/global.css";
+import DevPreamble from "../../client/DevPreamble.astro";
 
 /**
  * Portal del cliente: sus clases, reservas y pagos. Aplicación de cliente, igual que /admin,
@@ -24,6 +25,7 @@ import "../../styles/global.css";
     <noscript>
       <p class="p-8 text-center">Tu cuenta necesita JavaScript. Escribinos y reservamos tu clase.</p>
     </noscript>
+    <DevPreamble />
     <script>
       import { mount } from "../../client/mount";
       import PortalApp from "../../portal/PortalApp";
