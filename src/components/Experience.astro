@@ -27,8 +27,8 @@ const paragraphs = body.map(rich);
   todo el texto alineado a la derecha, en crema. El collage y el mapa son decorativos: lo
   que cuentan ya está escrito al lado.
 */}
-<section id="experiencia" aria-labelledby="experiencia-title" class="scroll-mt-4 bg-sand py-10 md:py-14">
-  <Container width="wide">
+<section id="experiencia" aria-labelledby="experiencia-title" class="scroll-mt-4 bg-sand py-2 md:py-3">
+  <Container width="full">
     <div
       class="on-dark relative isolate flex items-center overflow-hidden rounded-[1.75rem] bg-ink text-cream md:min-h-[38rem] md:rounded-[2.25rem] lg:min-h-[42rem]"
     >
@@ -41,14 +41,13 @@ const paragraphs = body.map(rich);
         class="absolute inset-0 z-0 h-full w-full object-cover"
       />
       {/*
-        Sólo se oscurece la columna del texto (la mitad derecha): el collage tiene que verse
-        con su color. El corte del degradado coincide con donde arranca el texto. En mobile
-        el texto ocupa todo el ancho, así que el velo es parejo.
-        El 80 % da 5,4:1 de contraste contra el píxel más claro del collage (AA necesita 4,5).
+        Velo negro parejo, como una bajada de exposición de toda la foto (y no un gris que
+        la apaga): así el collage conserva su color. Al 60 % el texto crema llega a 5,1:1
+        contra el píxel más claro de la columna de texto (AA necesita 4,5:1).
       */}
       <div
         aria-hidden="true"
-        class="absolute inset-0 z-10 bg-ink/80 md:bg-transparent md:bg-gradient-to-l md:from-ink/80 md:from-52% md:via-ink/35 md:via-72% md:to-transparent"
+        class="absolute inset-0 z-10 bg-black/60"
       >
       </div>
       {/*
@@ -65,8 +64,8 @@ const paragraphs = body.map(rich);
       />
 
       <div class="on-photo-text relative z-20 w-full px-6 py-14 md:py-16 md:pr-14 md:pl-[48%] md:text-right">
-        <p class="script text-[2.5rem] leading-none sm:text-5xl lg:text-6xl">{dict.experience.script}</p>
-        <h2 id="experiencia-title" class="mt-1 text-2xl font-semibold tracking-[0.02em] uppercase sm:text-3xl lg:text-4xl">
+        <p class="script -mb-1 text-[2.5rem] leading-none sm:text-5xl lg:-mb-3 lg:text-6xl">{dict.experience.script}</p>
+        <h2 id="experiencia-title" class="text-2xl font-semibold tracking-[0.02em] uppercase sm:text-3xl lg:text-4xl">
           {dict.experience.title}
         </h2>
         <p class="mt-5 text-lg font-semibold md:text-xl">{dict.experience.lead}</p>

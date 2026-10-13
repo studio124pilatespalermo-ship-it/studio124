@@ -37,13 +37,12 @@ const groups = studio.classSchedule.map((group) => {
 
 {/*
   Mockup: los horarios van sobre una foto del estudio, dentro de recuadros traslúcidos y
-  todo centrado. Los recuadros son más oscuros que la foto, como pide el manual de marca
-  para el texto sobre imagen.
-  Contraste contra el píxel más claro de la foto: 5,1:1 el título y la nota (sobre el velo),
-  6,9:1 los horarios (velo + recuadro). AA pide 4,5:1.
+  todo centrado. La foto lleva un velo negro parejo al 60 % y los recuadros otro 25 % encima.
+  Contraste del texto crema contra el píxel más claro de la foto: 5,1:1 el título y la nota
+  (sólo velo) y más de 6:1 los horarios (velo + recuadro). AA pide 4,5:1.
 */}
-<section id="horarios" aria-labelledby="horarios-title" class="scroll-mt-4 bg-cream py-10 md:py-14">
-  <Container width="wide">
+<section id="horarios" aria-labelledby="horarios-title" class="scroll-mt-4 bg-cream py-2 md:py-3">
+  <Container width="full">
     <div class="on-dark relative isolate overflow-hidden rounded-[1.75rem] bg-ink text-cream md:rounded-[2.25rem]">
       <Image
         src={photos.space2}
@@ -53,7 +52,7 @@ const groups = studio.classSchedule.map((group) => {
         sizes="(min-width: 1280px) 1280px, 100vw"
         class="absolute inset-0 z-0 h-full w-full object-cover"
       />
-      <div aria-hidden="true" class="absolute inset-0 z-10 bg-ink/78"></div>
+      <div aria-hidden="true" class="absolute inset-0 z-10 bg-black/60"></div>
 
       <div class="on-photo-text relative z-20 px-5 py-16 text-center md:px-10 md:py-24">
         <h2 id="horarios-title" class="section-title">{dict.schedule.title}</h2>
@@ -63,7 +62,7 @@ const groups = studio.classSchedule.map((group) => {
             groups.map((group) => (
               <div
                 class:list={[
-                  "mx-auto max-w-xl rounded-[1.5rem] bg-ink/45 px-6 backdrop-blur-[2px]",
+                  "mx-auto max-w-xl rounded-[1.5rem] bg-black/25 px-6 backdrop-blur-[2px]",
                   group.saturday ? "py-4 md:flex md:items-center md:justify-center md:gap-5" : "py-7",
                 ]}
               >

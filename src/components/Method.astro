@@ -14,11 +14,11 @@ interface Props {
 const { dict, text } = Astro.props;
 ---
 
-{/* Mockup: foto a la izquierda, y a la derecha el título, la bajada y el texto centrados. */}
+{/* Mockup: foto a la izquierda; el título y el texto van alineados a la izquierda, del lado de la foto. */}
 <section aria-labelledby="metodo-title" class="bg-sand py-16 md:py-24">
   <Container class="grid items-center gap-10 md:grid-cols-2 md:gap-14">
     <Photo src={photos.method} alt={dict.photos.method} ratio="square" sizes="(min-width: 768px) 46vw, 100vw" />
-    <div class="text-center">
+    <div>
       <h2 id="metodo-title" class="section-title">{dict.method.title}</h2>
       <p class="section-title">{dict.method.subtitle}</p>
       <p class="mt-6 text-base leading-relaxed md:text-lg"><Text text={text} /></p>
