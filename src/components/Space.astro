@@ -1,6 +1,5 @@
 ---
-import { getImage } from "astro:assets";
-import { spaceVideoUrl } from "../content/media";
+import { spaceVideoPoster, spaceVideoUrl } from "../content/media";
 import { photos } from "../content/photos";
 import type { Dictionary } from "../i18n";
 import Container from "./ui/Container.astro";
@@ -14,7 +13,6 @@ const { dict } = Astro.props;
 // Tres recuadros del mismo tamaño: foto, video y foto. Si todavía no hay video, el lugar
 // del medio muestra la foto que le corresponde y la sección sigue igual.
 const sizes = "(min-width: 640px) 31vw, 100vw";
-const poster = await getImage({ src: photos.space2, width: 900, height: 1260, fit: "cover", format: "webp" });
 ---
 
 <section aria-labelledby="espacio-title" class="bg-cream py-16 md:py-24">
@@ -36,7 +34,7 @@ const poster = await getImage({ src: photos.space2, width: 900, height: 1260, fi
             <div class="photo-frame aspect-[5/7]">
               <video
                 src={spaceVideoUrl}
-                poster={poster.src}
+                poster={spaceVideoPoster}
                 controls
                 playsinline
                 preload="metadata"
