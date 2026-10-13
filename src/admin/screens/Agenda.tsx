@@ -60,7 +60,7 @@ export function AgendaScreen({ canEdit }: { canEdit: boolean }) {
                   onClick={() => setView(option)}
                   aria-current={view === option ? "true" : undefined}
                   className={`inline-flex h-8 items-center rounded-full px-3.5 text-sm transition-colors ${
-                    view === option ? "bg-ink text-bone" : "text-stone-text"
+                    view === option ? "bg-bubble text-cream" : "text-stone-text"
                   }`}
                 >
                   {option === "week" ? "Semana" : "Mes"}
@@ -156,7 +156,7 @@ function SlotRow({
   return (
     <li className={`rounded-xl border px-3 py-2.5 ${slot.status === "cancelled" ? "border-dashed border-stone/40 opacity-60" : "border-stone/40"}`}>
       <div className="flex items-baseline justify-between gap-3">
-        <span className="font-serif text-lg tabular-nums">{slot.startTime}</span>
+        <span className="font-semibold text-lg tabular-nums">{slot.startTime}</span>
         <span className="text-xs text-stone-text">
           {slot.taken}/{slot.capacity}
           {slot.status === "cancelled" && " · cancelado"}

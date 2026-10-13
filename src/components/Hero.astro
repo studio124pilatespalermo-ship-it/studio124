@@ -2,11 +2,9 @@
 import { Image } from "astro:assets";
 import { heroVideoUrl } from "../content/media";
 import { photos } from "../content/photos";
-import { studio } from "../content/studio";
 import type { Dictionary } from "../i18n";
-import BookButton from "./ui/BookButton.astro";
 import Container from "./ui/Container.astro";
-import ExternalLink from "./ui/ExternalLink.astro";
+import Pill from "./ui/Pill.astro";
 
 interface Props {
   dict: Dictionary;
@@ -15,17 +13,20 @@ interface Props {
 const { dict } = Astro.props;
 ---
 
-<!--
+{/*
+  Hero según el mockup del cliente: el texto va suelto sobre la foto (sin recuadro), con el
+  título alineado a la derecha arriba y los dos adelantos —la experiencia y las membresías—
+  alineados a la izquierda abajo. El contraste lo dan el velo y `.on-photo-text`.
+
   Capas (de abajo hacia arriba): foto (se ve mientras carga el video y si se pide reducir
-  movimiento) → video en loop → degradado → contenido. En mobile el contenido deja lugar
-  abajo para la barra fija de reserva.
--->
-<section aria-labelledby="hero-title" class="on-dark relative isolate flex min-h-[100svh] items-end overflow-hidden bg-ink text-bone">
+  movimiento) → video en loop → velo → texto.
+*/}
+<section aria-labelledby="hero-title" class="on-dark relative isolate flex min-h-[100svh] overflow-hidden bg-ink text-cream">
   <Image
     src={photos.hero}
     alt={dict.photos.hero}
     priority
-    widths={[640, 960, 1200]}
+    widths={[640, 960, 1200, 1600]}
     sizes="100vw"
     class="absolute inset-0 z-0 h-full w-full object-cover"
   />
@@ -46,26 +47,33 @@ const { dict } = Astro.props;
   }
   <div aria-hidden="true" class="hero-scrim absolute inset-0 z-10"></div>
 
-  <Container class="relative z-20 pt-32 pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-20 lg:pb-24">
-    <p class="mb-5 text-[0.6875rem] font-semibold tracking-[0.28em] uppercase text-bone/90">{dict.hero.eyebrow}</p>
-    <h1 id="hero-title" class="max-w-[11ch] font-serif text-[3.5rem] leading-[0.92] italic sm:text-7xl lg:text-[6.5rem]">
-      {dict.hero.title}
-    </h1>
-    <p class="mt-6 max-w-sm text-base leading-relaxed text-bone/90 md:text-lg">{dict.hero.subtitle}</p>
-    <div class="mt-9 flex flex-wrap items-center gap-3">
-      <BookButton label={dict.cta.book} size="lg" />
-      <!-- Secundario a propósito: contorno sin relleno, para no competir con la reserva. -->
-      <ExternalLink
-        href={studio.links.googleMaps}
-        newTabHint={dict.a11y.opensInNewTab}
-        class="inline-flex h-12 items-center gap-2.5 rounded-full border border-bone/60 px-5 text-xs font-semibold tracking-[0.16em] whitespace-nowrap uppercase text-bone transition-colors hover:bg-bone/10 md:h-14 md:px-6 md:text-[0.8125rem]"
-      >
-        <svg aria-hidden="true" width="12" height="15" viewBox="0 0 12 15" fill="none" class="shrink-0">
-          <path d="M6 14s5-4.6 5-8.5A5 5 0 0 0 1 5.5C1 9.4 6 14 6 14Z" stroke="currentColor" stroke-width="1.3"></path>
-          <circle cx="6" cy="5.5" r="1.7" fill="currentColor"></circle>
-        </svg>
-        <span>{dict.hero.directions}</span>
-      </ExternalLink>
+  <Container class="on-photo-text relative z-20 flex flex-1 flex-col justify-between gap-10 pt-24 pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pt-32 md:pb-16">
+    <div class="ml-auto max-w-[46rem] text-right">
+      <h1 id="hero-title">
+        <span class="script block text-[2.5rem] leading-[1.05] sm:text-5xl md:whitespace-nowrap lg:text-[4rem]">
+          {dict.hero.titleScript}
+        </span>
+        {/* El mockup monta "resultados reales" sobre la cola de la caligráfica. */}
+        <span class="-mt-1 block text-2xl font-semibold tracking-[0.01em] sm:text-3xl lg:text-[2.5rem] lg:-mt-3">
+          {dict.hero.titlePlain}
+        </span>
+      </h1>
+      <p class="mt-3 ml-auto max-w-sm text-base leading-relaxed md:text-lg">{dict.hero.lead}</p>
+      <p class="eyebrow mt-4 ml-auto max-w-xs">{dict.hero.tagline}</p>
+    </div>
+
+    <div class="max-w-md space-y-7">
+      <div>
+        <p class="script text-[2.25rem] leading-none sm:text-5xl">{dict.hero.experienceScript}</p>
+        <h2 class="mt-1 text-xl font-semibold tracking-[0.04em] uppercase sm:text-2xl">{dict.hero.experienceTitle}</h2>
+        <p class="mt-3 text-base leading-relaxed md:text-lg">{dict.hero.experienceText}</p>
+        <Pill href="#experiencia" tone="on-photo" size="lg" variant="script" class="mt-4">{dict.cta.info}</Pill>
+      </div>
+      <div>
+        <h2 class="text-lg font-semibold tracking-[0.04em] uppercase sm:text-xl">{dict.hero.membershipTitle}</h2>
+        <p class="mt-2 text-base leading-relaxed">{dict.hero.membershipText}</p>
+        <Pill href="#membresias" tone="on-photo" variant="script" class="mt-4">{dict.cta.more}</Pill>
+      </div>
     </div>
   </Container>
 
@@ -79,7 +87,7 @@ const { dict } = Astro.props;
         data-label-pause={dict.hero.pauseVideo}
         data-label-play={dict.hero.playVideo}
         aria-label={dict.hero.pauseVideo}
-        class="hero-toggle absolute top-24 right-5 z-20 grid size-10 place-items-center rounded-full border border-bone/50 text-bone transition-colors hover:bg-bone/15 md:top-auto md:right-10 md:bottom-10"
+        class="hero-toggle absolute right-5 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-20 grid size-10 place-items-center rounded-full border border-cream/50 text-cream transition-colors hover:bg-cream/15 md:right-10 md:bottom-10"
       >
         <svg class="icon-pause" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
           <path d="M2 1h3v10H2zM7 1h3v10H7z" fill="currentColor"></path>

@@ -11,6 +11,7 @@ import { TemplateScreen } from "./screens/Template";
 import { CatalogScreen } from "./screens/Catalog";
 import { SettingsScreen } from "./screens/Settings";
 import { DashboardScreen } from "./screens/Dashboard";
+import { BrandMark } from "../client/components/BrandMark";
 import { Spinner } from "../client/components/ui";
 
 /**
@@ -85,10 +86,13 @@ export default function AdminApp() {
   const current = NAV.find((item) => item.match === route.name)?.match ?? "dashboard";
 
   return (
-    <div className="min-h-screen bg-sand">
-      <header className="border-b border-stone/40 bg-bone">
+    <div className="min-h-screen bg-sand/50">
+      <header className="border-b border-sand bg-cream">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-8">
-          <span className="font-serif text-xl">Studio124 · Panel</span>
+          <span className="flex items-center gap-3">
+            <BrandMark size="sm" />
+            <span className="text-lg font-semibold text-graphite">Panel</span>
+          </span>
           <div className="flex items-center gap-3 text-sm">
             <span className="text-stone-text">
               {user.name} · {isAdmin ? "Administración" : "Instructora"}
@@ -106,7 +110,7 @@ export default function AdminApp() {
                   href={item.hash}
                   aria-current={current === item.match ? "page" : undefined}
                   className={`inline-flex h-9 items-center rounded-full px-3.5 text-sm whitespace-nowrap transition-colors ${
-                    current === item.match ? "bg-ink text-bone" : "text-stone-text hover:bg-sand"
+                    current === item.match ? "bg-bubble text-cream" : "text-stone-text hover:bg-sand"
                   }`}
                 >
                   {item.label}

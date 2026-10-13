@@ -1,4 +1,5 @@
-export const LOCALES = ["en", "pt", "es"] as const;
+/** El orden es el del selector de idioma del mockup: inglés, español, portugués. */
+export const LOCALES = ["en", "es", "pt"] as const;
 
 export type Locale = (typeof LOCALES)[number];
 

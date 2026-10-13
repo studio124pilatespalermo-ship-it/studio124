@@ -1,0 +1,36 @@
+---
+/**
+ * Pinta un párrafo ya resuelto por `richText()`: lugares enlazados a Google Maps (en
+ * negrita, como el mockup), `*negrita*`, `_itálica_` y datos pendientes resaltados.
+ */
+import type { TextPart } from "../../lib/content";
+import ExternalLink from "./ExternalLink.astro";
+import Text from "./Text.astro";
+
+interface Props {
+  parts: readonly TextPart[];
+  newTabHint: string;
+}
+
+const { parts, newTabHint } = Astro.props;
+---
+
+{
+  parts.map((part) =>
+    part.href !== undefined ? (
+      <ExternalLink href={part.href} newTabHint={newTabHint} class="link-bold font-semibold">
+        {part.text}
+      </ExternalLink>
+    ) : part.strong === true ? (
+      <strong class="font-semibold">
+        <Text text={part.text} />
+      </strong>
+    ) : part.italic === true ? (
+      <em>
+        <Text text={part.text} />
+      </em>
+    ) : (
+      <Text text={part.text} />
+    ),
+  )
+}

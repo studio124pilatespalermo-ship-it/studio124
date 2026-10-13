@@ -1,0 +1,103 @@
+---
+import { Image } from "astro:assets";
+import mapImage from "../assets/map.png";
+import collage from "../assets/photos/buenos-aires.jpg";
+import { studio } from "../content/studio";
+import type { Dictionary } from "../i18n";
+import { richText, type TextPart } from "../lib/content";
+import BookButton from "./ui/BookButton.astro";
+import Container from "./ui/Container.astro";
+import Pill from "./ui/Pill.astro";
+import RichText from "./ui/RichText.astro";
+
+interface Props {
+  dict: Dictionary;
+  /** Párrafos ya interpolados (duración, personas por clase). */
+  body: readonly string[];
+}
+
+const { dict, body } = Astro.props;
+const rich = (text: string): readonly TextPart[] => richText(text, dict.experience.places, studio.nearbyPlaces);
+const paragraphs = body.map(rich);
+---
+
+{/*
+  "The Experience" es el bloque distintivo del mockup: un panel a sangre con el collage de
+  Buenos Aires de fondo, el mapa del barrio dibujado en blanco sobre la mitad izquierda y
+  todo el texto alineado a la derecha, en crema. El collage y el mapa son decorativos: lo
+  que cuentan ya está escrito al lado.
+*/}
+<section id="experiencia" aria-labelledby="experiencia-title" class="scroll-mt-4 bg-sand py-10 md:py-14">
+  <Container width="wide">
+    <div
+      class="on-dark relative isolate flex items-center overflow-hidden rounded-[1.75rem] bg-ink text-cream md:min-h-[38rem] md:rounded-[2.25rem] lg:min-h-[42rem]"
+    >
+      <Image
+        src={collage}
+        alt=""
+        aria-hidden="true"
+        widths={[768, 1200, 1600, 1920]}
+        sizes="(min-width: 1280px) 1280px, 100vw"
+        class="absolute inset-0 z-0 h-full w-full object-cover"
+      />
+      {/*
+        Sólo se oscurece la columna del texto (la mitad derecha): el collage tiene que verse
+        con su color. El corte del degradado coincide con donde arranca el texto. En mobile
+        el texto ocupa todo el ancho, así que el velo es parejo.
+        El 80 % da 5,4:1 de contraste contra el píxel más claro del collage (AA necesita 4,5).
+      */}
+      <div
+        aria-hidden="true"
+        class="absolute inset-0 z-10 bg-ink/80 md:bg-transparent md:bg-gradient-to-l md:from-ink/80 md:from-52% md:via-ink/35 md:via-72% md:to-transparent"
+      >
+      </div>
+      {/*
+        El mapa ya viene con las calles en blanco: acá es una trama, no un dato. Va chico y
+        apoyado arriba a la izquierda, sangrando por abajo, para que se vea el collage.
+      */}
+      <img
+        src={mapImage.src}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        class="pointer-events-none absolute top-[16%] left-[6%] z-10 hidden w-[40%] opacity-95 md:block"
+      />
+
+      <div class="on-photo-text relative z-20 w-full px-6 py-14 md:py-16 md:pr-14 md:pl-[48%] md:text-right">
+        <p class="script text-[2.5rem] leading-none sm:text-5xl lg:text-6xl">{dict.experience.script}</p>
+        <h2 id="experiencia-title" class="mt-1 text-2xl font-semibold tracking-[0.02em] uppercase sm:text-3xl lg:text-4xl">
+          {dict.experience.title}
+        </h2>
+        <p class="mt-5 text-lg font-semibold md:text-xl">{dict.experience.lead}</p>
+        <div class="mt-5 space-y-4 text-base leading-relaxed md:text-lg">
+          {
+            paragraphs.map((parts) => (
+              <p>
+                <RichText parts={parts} newTabHint={dict.a11y.opensInNewTab} />
+              </p>
+            ))
+          }
+        </div>
+        <p class="mt-5 text-base font-semibold md:text-lg">{dict.experience.note}</p>
+
+        <div class="mt-8 flex flex-wrap gap-3 md:justify-end">
+          <BookButton label={dict.cta.book} variant="plain" size="lg" tone="on-photo" />
+          <Pill
+            href={studio.links.googleMaps}
+            tone="on-photo"
+            size="lg"
+            variant="script"
+            newTabHint={dict.a11y.opensInNewTab}
+          >
+            <svg aria-hidden="true" width="13" height="16" viewBox="0 0 12 15" fill="none" class="shrink-0">
+              <path d="M6 14s5-4.6 5-8.5A5 5 0 0 0 1 5.5C1 9.4 6 14 6 14Z" stroke="currentColor" stroke-width="1.3"></path>
+              <circle cx="6" cy="5.5" r="1.7" fill="currentColor"></circle>
+            </svg>
+            {dict.cta.directions}
+          </Pill>
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>

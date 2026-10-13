@@ -1,53 +1,97 @@
 @import "tailwindcss";
-@import "@fontsource-variable/cormorant-garamond/wght.css";
-@import "@fontsource-variable/cormorant-garamond/wght-italic.css";
-@import "@fontsource-variable/manrope/wght.css";
+@import "@fontsource-variable/quicksand/wght.css";
+@import "@fontsource/pinyon-script/400.css";
 
 /*
- * Tokens de diseño. Cambiar un color o una fuente acá lo cambia en todo el sitio.
- * Contraste verificado (WCAG 2.2 AA):
- *   ink / bone ............ 15.9:1
- *   stone-text / bone ..... 5.3:1  · stone-text / sand ... 4.7:1
- *   white / terracotta .... 5.0:1  (texto del botón principal)
- * `stone` (#7C756D) queda sólo para filetes y detalles decorativos: con texto chico
- * no llega a 4.5:1 sobre los fondos claros, por eso existe `stone-text`.
+ * Tokens de diseño según el manual de marca de Studio124 ("Tipografías y colores").
+ *
+ * Paleta del manual: crema, arena, piedra y grafito. No hay color de acento: los botones
+ * se resuelven con los mismos neutros, en píldoras de borde redondeado.
+ *
+ * Contraste medido (WCAG 2.2 AA: 4.5:1 texto normal, 3:1 texto grande, ≥24 px o ≥18.7 px
+ * en negrita). El grafito del manual NO alcanza para texto chico, así que el texto corrido
+ * usa `text`, un grafito más profundo de la misma gama:
+ *   text / cream .......... 5.87:1  ✔ texto corrido
+ *   text / sand ........... 4.53:1  ✔ texto corrido
+ *   graphite / cream ...... 4.19:1  ✔ sólo títulos (texto grande)
+ *   graphite / sand ....... 3.23:1  ✔ sólo títulos (texto grande)
+ *   cream / bubble ........ 5.35:1  ✔ texto crema en botones y globos oscuros
+ *   cream / stone-deep .... 3.14:1  ✔ sólo títulos crema sobre la piedra profunda
+ *   stone / cream ......... 2.32:1  ✘ nunca texto: filetes y detalles
  */
 @theme {
-  --color-sand: #ece4d9;
-  --color-bone: #f6f2ec;
-  --color-ink: #1f1d1b;
-  --color-stone: #7c756d;
-  --color-stone-text: #6a635b;
-  --color-olive: #3d3a2f;
-  --color-terracotta: #a45d41;
-  --color-terracotta-deep: #8a4b33;
+  --color-cream: #f6f0e8;
+  --color-sand: #dbd4cc;
+  --color-stone: #a49f99;
+  --color-graphite: #737373;
 
-  --font-serif: "Cormorant Garamond Variable", "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --font-sans: "Manrope Variable", Manrope, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Derivados de la paleta para cumplir contraste (ver tabla de arriba). */
+  --color-text: #5f5c58;
+  --color-bubble: #66625d;
+  --color-stone-deep: #8c8781;
 
-  --radius-arch: 9999px;
+  /*
+   * Alias heredados del diseño anterior, remapeados a la paleta del manual para que
+   * el backoffice (/admin) y el portal (/cuenta) sigan en la misma gama. La landing
+   * usa siempre los nombres nuevos.
+   *   ink ......... neutro oscuro de los recuadros sobre foto (11.6:1 con crema)
+   *   bone ........ igual que cream
+   *   stone-text .. igual que text (el gris del texto secundario)
+   *   terracotta .. único color fuera de la paleta: avisos y acciones destructivas
+   *                 del backoffice. Nunca se usa en la landing.
+   */
+  --color-ink: #3c3a38;
+  --color-bone: #f6f0e8;
+  --color-stone-text: #5f5c58;
+  --color-terracotta: #8f5f4f;
+  /* Estados del panel y del portal: sólo para avisos, nunca en la landing.
+     olive 4.9:1 y terracotta-deep 5.2:1 sobre su propio fondo al 15 %. */
+  --color-terracotta-deep: #7a4a3c;
+  --color-olive: #4f5f44;
+
+  /*
+   * Cocomat Pro es la fuente de la marca, pero es comercial: hasta que llegue su
+   * licencia web se usa Quicksand, la geométrica redondeada libre más parecida.
+   * Ver src/assets/fonts/README.md para cambiarla sin tocar componentes.
+   */
+  --font-sans: "Quicksand Variable", Quicksand, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-script: "Pinyon Script", "Apple Chancery", cursive;
+  /* `font-serif` quedó en el backoffice y el portal: lo llevamos a la tipografía de marca. */
+  --font-serif: var(--font-sans);
 }
+
+/*
+ * Cocomat Pro: descomentar cuando estén los archivos de la licencia web y cambiar
+ * `--font-sans` para que empiece por "Cocomat Pro".
+ *
+ * @font-face {
+ *   font-family: "Cocomat Pro";
+ *   src: url("/src/assets/fonts/cocomat-pro-400.woff2") format("woff2");
+ *   font-weight: 400;
+ *   font-display: swap;
+ * }
+ */
 
 @layer base {
   html {
-    background-color: var(--color-bone);
-    color: var(--color-ink);
+    background-color: var(--color-cream);
+    color: var(--color-text);
     font-family: var(--font-sans);
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }
 
   body {
-    background-color: var(--color-bone);
+    background-color: var(--color-cream);
     min-height: 100svh;
   }
 
   h1,
   h2,
   h3 {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    line-height: 1.05;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    line-height: 1.15;
     letter-spacing: -0.01em;
     text-wrap: balance;
   }
@@ -56,14 +100,22 @@
     text-wrap: pretty;
   }
 
+  /*
+   * Los títulos llevan el grafito del manual, salvo dentro de un bloque oscuro (.on-dark),
+   * donde heredan el crema. :where() deja la especificidad en cero: cualquier utilidad gana.
+   */
+  :where(h1, h2, h3):not(:where(.on-dark *)) {
+    color: var(--color-graphite);
+  }
+
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 2px solid var(--color-text);
     outline-offset: 3px;
     border-radius: 2px;
   }
 
   .on-dark :focus-visible {
-    outline-color: var(--color-bone);
+    outline-color: var(--color-cream);
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -85,83 +137,93 @@
 }
 
 @layer components {
-  /* Motivo del estudio: arco de medio punto. El radio gigante se recorta al ancho del marco. */
-  .arch {
-    border-radius: var(--radius-arch) var(--radius-arch) 0 0;
-    overflow: hidden;
+  /* Caligráfica de los títulos destacados: "Movimiento consciente", "The Experience". */
+  .script {
+    font-family: var(--font-script);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
   }
 
-  /* Arco de una sola esquina, como las aberturas laterales del estudio. */
-  .arch-corner {
-    border-top-right-radius: clamp(7rem, 38vw, 16rem);
+  /*
+   * Manual de marca: el texto sobre una foto va dentro de un recuadro transparente
+   * apenas más oscuro, con la tipografía en el color más claro.
+   */
+  .photo-panel {
+    background-color: rgb(60 58 56 / 0.42);
+    backdrop-filter: blur(2px);
+    border-radius: 1.25rem;
+    color: var(--color-cream);
+  }
+
+  /* Manual de marca: imágenes cuadradas o rectangulares, de bordes redondeados. */
+  .photo-frame {
+    border-radius: 1.5rem;
     overflow: hidden;
+    background-color: var(--color-sand);
+  }
+
+  /* Botones: píldoras neutras, sin color de acento. */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border-radius: 9999px;
+    white-space: nowrap;
+    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+  }
+
+  .pill-light {
+    background-color: rgb(246 240 232 / 0.22);
+    border: 1px solid rgb(246 240 232 / 0.65);
+    color: var(--color-cream);
+    backdrop-filter: blur(2px);
+  }
+
+  .pill-light:hover {
+    background-color: rgb(246 240 232 / 0.35);
+  }
+
+  .pill-solid {
+    background-color: var(--color-bubble);
+    color: var(--color-cream);
+  }
+
+  .pill-solid:hover {
+    background-color: var(--color-ink);
+  }
+
+  .pill-outline {
+    border: 1px solid var(--color-stone);
+    color: var(--color-text);
+  }
+
+  .pill-outline:hover {
+    background-color: var(--color-sand);
   }
 
   .eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--color-stone-text);
-  }
-
-  .eyebrow::after {
-    content: "";
-    width: 4.5rem;
-    height: 1px;
-    background-color: color-mix(in srgb, var(--color-stone) 55%, transparent);
   }
 
   .section-title {
-    font-size: clamp(2.25rem, 1.6rem + 3vw, 3.5rem);
+    font-size: clamp(1.75rem, 1.2rem + 2.4vw, 2.75rem);
+    font-weight: 500;
   }
 
   /* Datos pendientes de completar: visibles a propósito para que nadie los publique sin querer. */
   .is-placeholder {
-    background-color: color-mix(in srgb, var(--color-terracotta) 12%, transparent);
-    outline: 1px dashed var(--color-terracotta-deep);
+    background-color: rgb(164 159 153 / 0.25);
+    outline: 1px dashed var(--color-text);
     outline-offset: 1px;
     padding-inline: 0.2em;
     font-family: ui-monospace, "Cascadia Mono", Menlo, monospace;
     font-size: 0.85em;
     letter-spacing: 0;
-    font-style: normal;
-  }
-
-  /*
-   * Degradado del hero, más denso donde va el texto: abajo en mobile, a la izquierda en
-   * desktop. La franja superior oscurece el techo claro de las fotos para que se lea el header.
-   */
-  .hero-scrim {
-    background:
-      linear-gradient(to bottom, rgb(31 29 27 / 0.6) 0%, rgb(31 29 27 / 0) 24%),
-      linear-gradient(to top, rgb(31 29 27 / 0.9) 0%, rgb(31 29 27 / 0.62) 42%, rgb(31 29 27 / 0.12) 78%);
-  }
-
-  @media (min-width: 768px) {
-    .hero-scrim {
-      background:
-        linear-gradient(to bottom, rgb(31 29 27 / 0.55) 0%, rgb(31 29 27 / 0) 22%),
-        linear-gradient(to right, rgb(31 29 27 / 0.88) 0%, rgb(31 29 27 / 0.55) 45%, rgb(31 29 27 / 0.1) 82%);
-    }
-  }
-
-  .hero-toggle[data-state="playing"] .icon-play,
-  .hero-toggle[data-state="paused"] .icon-pause {
-    display: none;
-  }
-
-  /* Acordeón nativo: se oculta el triángulo del navegador y se usa el chevron propio. */
-  .faq-item summary {
-    list-style: none;
-  }
-
-  .faq-item summary::-webkit-details-marker {
-    display: none;
   }
 
   .text-link {
@@ -174,5 +236,106 @@
 
   .text-link:hover {
     text-decoration-color: currentColor;
+  }
+}
+
+@layer components {
+  /*
+   * Hero: velo sobre el video para que el recuadro de texto tenga el contraste del manual.
+   * Más oscuro abajo, donde está el texto, y apenas presente arriba.
+   */
+  .hero-scrim {
+    background:
+      linear-gradient(to top, rgb(40 38 36 / 0.74) 0%, rgb(40 38 36 / 0.34) 45%, rgb(40 38 36 / 0.22) 100%);
+  }
+
+  /* Botón de pausa del video: muestra un ícono u otro según `data-state`. */
+  .hero-toggle[data-state="playing"] .icon-play,
+  .hero-toggle[data-state="paused"] .icon-pause {
+    display: none;
+  }
+}
+
+@layer components {
+  /*
+   * Texto suelto sobre la foto del hero (sin recuadro, como el mockup del cliente): la
+   * sombra le da el contraste que antes daba el recuadro, sin ensuciar la imagen.
+   */
+  .on-photo-text {
+    text-shadow: 0 1px 14px rgb(32 30 28 / 0.55), 0 1px 3px rgb(32 30 28 / 0.45);
+  }
+
+  /* Píldoras del hero: minúscula e itálica, como las muestra el mockup. */
+  .pill-script {
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+}
+
+@layer components {
+  /*
+   * Links dentro del texto de "The Experience": el mockup los distingue con la negrita,
+   * no con el subrayado. El subrayado aparece al pasar por encima y al enfocar, para que
+   * también se note sin mirar el grosor de la letra.
+   */
+  .link-bold:hover,
+  .link-bold:focus-visible {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+  }
+}
+
+@layer components {
+  /*
+   * Globos de chat de las preguntas frecuentes. La colita es un triángulo con bordes, del
+   * mismo color que el globo (currentColor del pseudo-elemento = fondo, vía --bubble).
+   */
+  .bubble {
+    position: relative;
+    border-radius: 1rem;
+    padding: 0.7rem 1rem 1.35rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .bubble-in {
+    border-bottom-left-radius: 0.2rem;
+  }
+
+  .bubble-out {
+    border-bottom-right-radius: 0.2rem;
+  }
+
+  .bubble::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+
+  .bubble-in::after {
+    left: -0.45rem;
+    border-width: 0 0 0.6rem 0.6rem;
+    border-color: transparent transparent var(--color-cream) transparent;
+  }
+
+  .bubble-out::after {
+    right: -0.45rem;
+    border-width: 0 0.6rem 0.6rem 0;
+    border-color: transparent transparent var(--color-bubble) transparent;
+  }
+
+  .bubble-stamp {
+    position: absolute;
+    bottom: 0.3rem;
+    font-size: 0.625rem;
+    font-weight: 500;
+    opacity: 0.7;
   }
 }

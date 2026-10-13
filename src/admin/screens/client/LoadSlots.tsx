@@ -89,7 +89,7 @@ export function LoadSlotsPanel({ packId, onDone }: { packId: string; onDone: () 
         ))}
       </ul>
 
-      {result && <p className="mt-3 rounded-lg bg-bone px-3 py-2 text-sm">{result}</p>}
+      {result && <p className="mt-3 rounded-lg bg-cream px-3 py-2 text-sm">{result}</p>}
       {error && <div className="mt-3"><ErrorNote>{error}</ErrorNote></div>}
 
       <div className="mt-4 flex items-center gap-3">

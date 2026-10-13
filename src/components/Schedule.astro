@@ -1,0 +1,89 @@
+---
+import { Image } from "astro:assets";
+import { photos } from "../content/photos";
+import { studio, type TimeValue } from "../content/studio";
+import type { Dictionary } from "../i18n";
+import { formatTime } from "../lib/format";
+import Container from "./ui/Container.astro";
+import Text from "./ui/Text.astro";
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+
+/** El mockup muestra los horarios de la semana de a tres por renglón. */
+function rowsOfThree(times: readonly TimeValue[]): string[] {
+  const rows: string[] = [];
+  for (let i = 0; i < times.length; i += 3) {
+    rows.push(times.slice(i, i + 3).map(formatTime).join(" - "));
+  }
+  return rows;
+}
+
+// Dos bloques, como los publica el estudio: semana y sábado. La etiqueta sale de los
+// textos del cliente, no se arma con los nombres de los días.
+const groups = studio.classSchedule.map((group) => {
+  const saturday = group.days.includes("sat");
+  return {
+    saturday,
+    label: saturday ? dict.schedule.saturday : dict.schedule.weekdays,
+    // El sábado entra en un renglón; la semana va de a tres, como el mockup.
+    rows: saturday ? [group.times.map(formatTime).join(" - ")] : rowsOfThree(group.times),
+  };
+});
+---
+
+{/*
+  Mockup: los horarios van sobre una foto del estudio, dentro de recuadros traslúcidos y
+  todo centrado. Los recuadros son más oscuros que la foto, como pide el manual de marca
+  para el texto sobre imagen.
+  Contraste contra el píxel más claro de la foto: 5,1:1 el título y la nota (sobre el velo),
+  6,9:1 los horarios (velo + recuadro). AA pide 4,5:1.
+*/}
+<section id="horarios" aria-labelledby="horarios-title" class="scroll-mt-4 bg-cream py-10 md:py-14">
+  <Container width="wide">
+    <div class="on-dark relative isolate overflow-hidden rounded-[1.75rem] bg-ink text-cream md:rounded-[2.25rem]">
+      <Image
+        src={photos.space2}
+        alt=""
+        aria-hidden="true"
+        widths={[768, 1200, 1600]}
+        sizes="(min-width: 1280px) 1280px, 100vw"
+        class="absolute inset-0 z-0 h-full w-full object-cover"
+      />
+      <div aria-hidden="true" class="absolute inset-0 z-10 bg-ink/78"></div>
+
+      <div class="on-photo-text relative z-20 px-5 py-16 text-center md:px-10 md:py-24">
+        <h2 id="horarios-title" class="section-title">{dict.schedule.title}</h2>
+
+        <dl class="mt-10 space-y-4">
+          {
+            groups.map((group) => (
+              <div
+                class:list={[
+                  "mx-auto max-w-xl rounded-[1.5rem] bg-ink/45 px-6 backdrop-blur-[2px]",
+                  group.saturday ? "py-4 md:flex md:items-center md:justify-center md:gap-5" : "py-7",
+                ]}
+              >
+                <dt class:list={["eyebrow", group.saturday ? "text-base md:text-lg" : "text-xl md:text-2xl"]}>
+                  {group.label}
+                </dt>
+                <dd class:list={["tabular-nums", group.saturday ? "mt-2 text-base md:mt-0 md:text-lg" : "mt-5 text-2xl md:text-3xl"]}>
+                  {group.rows.map((row) => (
+                    <span class="block">
+                      <Text text={row} />
+                    </span>
+                  ))}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <p class="eyebrow mt-8">{dict.schedule.note}</p>
+      </div>
+    </div>
+  </Container>
+</section>

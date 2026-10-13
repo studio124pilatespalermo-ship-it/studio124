@@ -213,7 +213,7 @@ function AdjustButton({
           type="number"
           value={delta}
           onChange={(event) => setDelta(Number(event.target.value))}
-          className="w-20 rounded-lg border border-stone/50 bg-bone px-2 py-1.5 text-sm"
+          className="w-20 rounded-lg border border-stone/50 bg-cream px-2 py-1.5 text-sm"
         />
       </label>
       <label className="flex-1 text-sm">
@@ -224,7 +224,7 @@ function AdjustButton({
           value={note}
           onChange={(event) => setNote(event.target.value)}
           placeholder="Ej. clase de cortesía por feriado"
-          className="w-full rounded-lg border border-stone/50 bg-bone px-2 py-1.5 text-sm"
+          className="w-full rounded-lg border border-stone/50 bg-cream px-2 py-1.5 text-sm"
         />
       </label>
       <Button type="submit">Guardar</Button>

@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Reformer Pilates drop-in class in Palermo Soho | Studio124",
-    "description": "Drop-in Reformer Pilates class at a boutique studio in Palermo Soho, Buenos Aires. Groups of up to {max} people. Book and pay online in minutes.",
+    "title": "Reformer Pilates in Palermo Soho for visitors | Studio124",
+    "description": "A Reformer Pilates class in a boutique studio in Palermo Soho, Buenos Aires. Groups of up to {max} people. Book and pay online in minutes.",
     "ogImageAlt": "Studio124, a boutique Reformer Pilates studio in Palermo Soho"
   },
   "a11y": {
@@ -15,52 +15,71 @@
     "accountHint": "Already booked? See your classes"
   },
   "cta": {
-    "book": "Book & pay for your class",
-    "bookShort": "Book"
+    "book": "Book and pay for your class",
+    "bookShort": "Book",
+    "info": "+ info",
+    "more": "learn more",
+    "directions": "Get directions",
+    "whatsapp": "Tap to get in touch",
+    "bookClass": "Tap to book a class"
   },
   "hero": {
-    "eyebrow": "Palermo Soho · Buenos Aires",
-    "title": "Buenos Aires + Pilates",
-    "subtitle": "See the city. Live the experience. Move your body.",
+    "titleScript": "Mindful movement",
+    "titlePlain": "real results",
+    "lead": "A space to connect with your body and find your own rhythm in the heart of Buenos Aires",
+    "tagline": "Reformer Pilates · Palermo Soho · Small-group classes",
+    "experienceScript": "The Experience",
+    "experienceTitle": "Pilates + Buenos Aires",
+    "experienceText": "Discover the Studio124 experience. A wellness pause during your stay in Buenos Aires.",
+    "membershipTitle": "Choose your membership",
+    "membershipText": "Want to train regularly at Studio124?",
     "pauseVideo": "Pause background video",
-    "playVideo": "Play background video",
-    "directions": "Get directions"
+    "playVideo": "Play background video"
   },
-  "intro": {
-    "eyebrow": "For visitors",
-    "title": "One class. One pause. A new way to experience Buenos Aires.",
-    "lead": "Visiting Buenos Aires or planning your trip?",
+  "space": {
+    "title": "Our space, for you",
+    "videoLabel": "Studio video: a look around the reformer room"
+  },
+  "experience": {
+    "script": "The Experience",
+    "title": "Pilates + Buenos Aires",
+    "lead": "Visiting Buenos Aires, or planning your trip?",
     "body": [
-      "Between cafés, restaurants, shopping, long walks and late porteño nights, make room for a moment that's just for you.",
-      "At Studio124 we invite you to a Reformer Pilates experience in a warm, thoughtfully designed boutique space, right in the heart of Palermo Soho."
+      "Between cafes, restaurants, shopping, long walks and late nights, make room for a moment of wellbeing too.",
+      "We are two blocks from Don Julio, next door to El Preferido de Palermo, and a short walk from the Botanical Garden, Plaza Serrano, Distrito Arcos and La Rural.",
+      "{minutes} minutes of Reformer Pilates, groups of up to {max} people and a *boutique experience* in the heart of Palermo Soho."
     ],
-    "note": "No membership needed, and you don't have to live in the city. Just book a drop-in class.",
-    "tag": "Max. {max} people per class"
+    "note": "You do not need to be a Studio124 member or live in the city",
+    "mapAlt": "Map of the streets of Palermo Soho, the neighbourhood where the studio is",
+    "places": {
+      "don-julio": "Don Julio",
+      "el-preferido": "El Preferido de Palermo",
+      "jardin-botanico": "Botanical Garden",
+      "plaza-serrano": "Plaza Serrano",
+      "distrito-arcos": "Distrito Arcos",
+      "la-rural": "La Rural"
+    }
   },
-  "pillars": {
-    "eyebrow": "Studio124",
-    "title": "Why come to us",
-    "items": [
-      {
-        "label": "Palermo Soho",
-        "text": "The perfect spot to pair your class with a day exploring the city."
-      },
-      {
-        "label": "Boutique Pilates Studio",
-        "text": "Small groups and personal attention, with a maximum of {max} people per class."
-      },
-      {
-        "label": "Visitors welcome",
-        "text": "Classes designed for people visiting Buenos Aires."
-      }
-    ]
+  "about": {
+    "title": "Studio124 is your place to pause, reconnect and grow stronger from the inside out",
+    "text": "We are a space designed to reconnect body and mind through mindful movement. You will find a warm, calm environment where every class becomes a moment of pause, balance and wellbeing, because whole-body work adapted to you gives you back control of your body."
+  },
+  "method": {
+    "title": "Reformer Pilates",
+    "subtitle": "What is it?",
+    "text": "It is a discipline that combines strength, flexibility, postural control and breathing on a bed (the reformer) built specifically to get the most out of every exercise. Through mindful, guided work it improves posture, tones the body, increases mobility and releases tension. It is an ideal method to build strength from the inside out. Classes are in groups of up to {max} people, so we can watch every movement you make and follow your progress at your own pace."
+  },
+  "schedule": {
+    "title": "Our timetable",
+    "weekdays": "Monday to Friday",
+    "saturday": "Sat",
+    "note": "*Ask us about availability"
   },
   "steps": {
-    "eyebrow": "How it works",
-    "title": "Book in four simple steps",
+    "title": "Book in four steps",
     "items": [
       {
-        "title": "Pick your day & time",
+        "title": "Pick a day and time",
         "text": "Check availability and choose the class that fits your plans."
       },
       {
@@ -69,145 +88,56 @@
       },
       {
         "title": "Pay online",
-        "text": "Pay for your class right in the same app."
+        "text": "Pay for your class in the same app."
       },
       {
-        "title": "Come to class",
+        "title": "Come to your class",
         "text": "Arrive a few minutes early, settle in and enjoy."
-      }
-    ],
-    "note": "Sign-up and payment happen in the studio's booking app. No need to message us to book."
-  },
-  "pricing": {
-    "eyebrow": "Price & schedule",
-    "title": "Drop-in class",
-    "priceNote": "Per person, per class.",
-    "duration": "{minutes}-minute class",
-    "scheduleTitle": "Class times",
-    "availability": "Real-time availability and open spots are shown when you book."
-  },
-  "space": {
-    "title": "The space",
-    "caption": "A warm, thoughtfully designed space in the heart of Palermo Soho."
-  },
-  "photos": {
-    "hero": "A student holding a backbend on the reformer, with warm light and sheer white curtains",
-    "classroom": "Wooden reformers by the windows, with plants and mirrors",
-    "detail": "A foot resting on the reformer, with the lit arched mirrors behind",
-    "space1": "The lounge area with a sofa and reformers by the windows",
-    "space2": "A class in progress seen from the front desk, beneath the Studio124 sign",
-    "space3": "Hands holding a Pilates ring by the window",
-    "pillarPalermo": "A woman walking her bike past brick arches and shops on a tree-lined street in Palermo",
-    "pillarVisitors": "Travelers watching a couple dance tango on a colorful Buenos Aires street"
-  },
-  "nearby": {
-    "eyebrow": "Pilates + Buenos Aires",
-    "title": "Everything is close by",
-    "lead": "Your class in the heart of Palermo Soho",
-    "body": "Studio124 is surrounded by some of Palermo's best-known and best-loved spots. Come for your class, then keep exploring on foot: cafés, restaurants, squares, shops, galleries and some of Buenos Aires' most iconic places.",
-    "places": [
-      {
-        "id": "plaza-serrano",
-        "name": "Plaza Serrano",
-        "kind": "Square",
-        "detail": "A few minutes' walk away."
-      },
-      {
-        "id": "plaza-armenia",
-        "name": "Plaza Armenia",
-        "kind": "Square",
-        "detail": "Very close to the studio."
-      },
-      {
-        "id": "don-julio",
-        "name": "Don Julio",
-        "kind": "Steakhouse",
-        "detail": "One of Palermo's most celebrated restaurants."
-      },
-      {
-        "id": "el-preferido",
-        "name": "El Preferido de Palermo",
-        "kind": "Restaurant",
-        "detail": "Right next door."
-      },
-      {
-        "id": "corazon-social",
-        "name": "Corazón Social",
-        "kind": "Bar",
-        "detail": "Just across the street."
-      },
-      {
-        "id": "distrito-arcos",
-        "name": "Distrito Arcos",
-        "kind": "Shopping",
-        "detail": "About five blocks away."
-      }
-    ],
-    "note": "Neighborhood landmarks to help you plan your day.",
-    "closingLine": "Make Studio124 one more stop on your Buenos Aires itinerary.",
-    "motto": "Come in. Explore. Enjoy Palermo.",
-    "mapHint": "View on Google Maps"
-  },
-  "location": {
-    "title": "Location",
-    "addressLabel": "Address",
-    "mapAlt": "Map of Palermo Soho showing the location of Studio124",
-    "openMap": "Get directions on Google Maps",
-    "between": "between {a} and {b}"
-  },
-  "faq": {
-    "title": "Frequently asked questions",
-    "items": [
-      {
-        "question": "What should I wear?",
-        "answer": "Comfortable clothing, ideally close-fitting. Please avoid anything with zippers or metal details."
-      },
-      {
-        "question": "Is it OK if I've never done Pilates?",
-        "answer": "Yes. With a maximum of {max} people per class, we can guide you closely and adapt every exercise to your level."
-      },
-      {
-        "question": "What is the cancellation policy?",
-        "answer": "You can reschedule your class to another day or time with at least {hours} hours' notice. Classes are non-refundable."
-      },
-      {
-        "question": "Can I train with an injury?",
-        "answer": "Yes, as long as you're not in acute pain and your doctor has cleared you. Let us know before class so we can adapt the exercises."
-      },
-      {
-        "question": "Is Pilates a rehabilitation method?",
-        "answer": "No. Pilates helps prevent injuries and improve mobility, but it doesn't replace medical rehabilitation."
-      },
-      {
-        "question": "Can I do Pilates while pregnant?",
-        "answer": "Absolutely, as long as your OB-GYN has given you the OK. Ideally, start from the third month onward."
-      },
-      {
-        "question": "Is there a minimum age?",
-        "answer": "Yes: from age {age} and up, you're more than welcome!"
-      },
-      {
-        "question": "Is Pilates just for women?",
-        "answer": "Not at all! It's a complete workout designed for anyone, regardless of gender."
       }
     ]
   },
-  "closing": {
-    "title": "Book your class",
-    "body": "Pilates, movement and well-being in the heart of Palermo. Book your class and experience Buenos Aires through movement."
+  "membership": {
+    "title": "Want to come regularly?",
+    "body": [
+      "We also offer packs of {packs} classes, to be used within a {weeks}-week period.",
+      "You do not have to wait for the start of the month: _you can begin your membership whenever you like_, and your {weeks} weeks start from that moment.",
+      "To hear the prices, pick the frequency that suits you best and set your regular time slots, message us on WhatsApp and book your membership. We will help you find the right option for your routine."
+    ]
+  },
+  "prices": {
+    "title": "Prices",
+    "single": "Single class",
+    "trial": "Trial class",
+    "duo": "Duo class",
+    "classes": "{count} classes",
+    "weeks": "to use within {weeks} weeks",
+    "days": "to use within {days} days"
+  },
+  "photos": {
+    "hero": "A student arching back on the reformer in front of the studio windows",
+    "space1": "The studio floor: warm-lit arches, the reformers and plants by the window",
+    "space2": "Cream boucle sofa in reception, with the reformers and the windows behind it",
+    "space3": "Close-up of a reformer's shoulder rests, with a plant out of focus behind",
+    "about": "Two students kneeling on the reformers, pulling the straps in front of the arches",
+    "method": "Close-up of a hand holding the reformer strap handle"
   },
   "footer": {
-    "addressTitle": "Address",
+    "neighbourhood": "Palermo Soho",
+    "betweenStreets": "between {a} and {b}",
     "hoursTitle": "Opening hours",
-    "hoursRange": "{opens} – {closes}",
+    "hoursRange": "{opens} to {closes}",
+    "weekdays": "Monday to Friday",
+    "saturday": "Saturdays",
+    "sundayClosed": "Closed on Sundays",
+    "addressTitle": "Where we are",
     "followTitle": "Follow us",
+    "contactTitle": "Get in touch",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
     "instagram": "Instagram",
     "facebook": "Facebook",
     "reviews": "Google reviews",
-    "help": "Other questions?",
-    "whatsapp": "Message us on WhatsApp",
-    "rights": "All rights reserved.",
-    "emailLabel": "or email us at"
+    "rights": "All rights reserved."
   },
   "days": {
     "mon": "Monday",
@@ -221,7 +151,37 @@
   },
   "notFound": {
     "title": "Page not found",
-    "body": "The page you're looking for doesn't exist or has moved.",
+    "body": "The page you are looking for does not exist or has moved.",
     "back": "Back to home"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "closing": "Just ask us anything!",
+    "items": [
+      {
+        "question": "What age can I start at?",
+        "answer": "From {age} years old you are very welcome!"
+      },
+      {
+        "question": "Is Pilates a rehabilitation method?",
+        "answer": "No. Pilates helps prevent injuries and improve mobility, but it does not replace medical rehabilitation."
+      },
+      {
+        "question": "What if I have an injury?",
+        "answer": "You can train! As long as you are not in acute pain and your doctor has cleared you."
+      },
+      {
+        "question": "Can I do Pilates while pregnant?",
+        "answer": "Absolutely! As long as your obstetrician agrees. It is best to start from the third month."
+      },
+      {
+        "question": "What should I wear?",
+        "answer": "Comfortable clothes, ideally close-fitting. Please avoid anything with zips or metal details!"
+      },
+      {
+        "question": "Is Pilates only for women?",
+        "answer": "Not at all! It is a complete workout for anyone, whatever their gender."
+      }
+    ]
   }
 }

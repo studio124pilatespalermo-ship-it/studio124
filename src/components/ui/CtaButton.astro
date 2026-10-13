@@ -1,0 +1,30 @@
+---
+/**
+ * Botón de llamada a la acción del mockup ("Clickeá para contactarte"): bloque de esquinas
+ * redondeadas, texto en negrita subrayado y en dos renglones, con un ícono opcional.
+ * Fondo `bubble` para que el crema llegue a 5.35:1.
+ */
+interface Props {
+  href: string;
+  /** Abre en otra pestaña (WhatsApp); la reserva va en la misma, para no perder al visitante. */
+  external?: boolean;
+  newTabHint?: string;
+  class?: string;
+}
+
+const { href, external = false, newTabHint, class: className } = Astro.props;
+---
+
+<a
+  href={href}
+  target={external ? "_blank" : undefined}
+  rel={external ? "noopener noreferrer" : "noopener"}
+  class:list={[
+    "inline-flex min-h-14 max-w-[15rem] items-center justify-center gap-3 rounded-2xl bg-bubble px-5 py-2.5 text-center text-[0.9375rem] leading-tight font-semibold text-cream underline decoration-1 underline-offset-[0.2em] transition-colors hover:bg-ink",
+    className,
+  ]}
+>
+  <slot name="icon" />
+  <span class="text-balance"><slot /></span>
+  {external && newTabHint && <span class="sr-only"> {newTabHint}</span>}
+</a>

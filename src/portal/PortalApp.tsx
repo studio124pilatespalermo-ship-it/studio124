@@ -14,6 +14,7 @@ import {
   type PortalLocale,
 } from "./i18n";
 import type { PortalClient, PortalConfig } from "./lib/types";
+import { BrandMark } from "../client/components/BrandMark";
 import { SignIn } from "./screens/SignIn";
 import { MyClasses } from "./screens/MyClasses";
 import { BookClass } from "./screens/BookClass";
@@ -88,12 +89,12 @@ export default function PortalApp() {
 
   return (
     <PortalLocaleContext.Provider value={value}>
-      <div className="min-h-screen bg-sand">
-        <header className="border-b border-stone/40 bg-bone">
+      <div className="min-h-screen bg-sand/50">
+        <header className="border-b border-sand bg-cream">
           <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3 px-5 py-4 md:px-8">
-            <div>
-              <p className="font-serif text-2xl">Studio124</p>
-              <p className="text-sm text-stone-text">{fill(t.nav.greeting, { name: client.name.split(" ")[0] ?? "" })}</p>
+            <div className="flex items-center gap-3">
+              <BrandMark size="sm" />
+              <p className="script text-3xl text-graphite">{fill(t.nav.greeting, { name: client.name.split(" ")[0] ?? "" })}</p>
             </div>
             <div className="flex items-center gap-3">
               <LocaleSwitcher />
@@ -112,7 +113,7 @@ export default function PortalApp() {
                       onClick={() => setTab(item.id)}
                       aria-current={active === item.id ? "page" : undefined}
                       className={`inline-flex h-10 items-center rounded-full px-4 text-sm whitespace-nowrap transition-colors ${
-                        active === item.id ? "bg-ink text-bone" : "text-stone-text hover:bg-sand"
+                        active === item.id ? "bg-bubble text-cream" : "text-stone-text hover:bg-sand"
                       }`}
                     >
                       {item.label}

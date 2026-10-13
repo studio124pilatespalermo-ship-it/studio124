@@ -1,0 +1,48 @@
+---
+/**
+ * Píldora de acción secundaria: "+ info", "Cómo llegar", "saber más". Puede ser un link
+ * interno, un link externo (abre en pestaña nueva) o nada si la URL está pendiente.
+ */
+import { isPlaceholder } from "../../lib/placeholders";
+
+interface Props {
+  href: string;
+  tone?: "outline" | "on-photo" | "solid";
+  size?: "sm" | "md" | "lg";
+  /** `script` es la variante en itálica y minúscula del hero. */
+  variant?: "label" | "script";
+  /** Texto para lector de pantalla cuando el link abre en otra pestaña. */
+  newTabHint?: string;
+  class?: string;
+}
+
+const { href, tone = "outline", size = "md", variant = "label", newTabHint, class: className } = Astro.props;
+const external = /^https?:\/\//.test(href);
+const pending = isPlaceholder(href);
+
+const tones = { outline: "pill-outline", "on-photo": "pill-light", solid: "pill-solid" } as const;
+const sizes = { sm: "h-9 px-4 text-[0.6875rem]", md: "h-11 px-5 text-xs", lg: "h-14 px-7 text-lg" } as const;
+const classes = [
+  "pill",
+  variant === "script" ? "pill-script" : "font-semibold tracking-[0.14em] uppercase",
+  tones[tone],
+  sizes[size],
+  className,
+];
+---
+
+{
+  pending ? (
+    <span class="is-placeholder">{href}</span>
+  ) : (
+    <a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      class:list={classes}
+    >
+      <slot />
+      {external && newTabHint && <span class="sr-only"> {newTabHint}</span>}
+    </a>
+  )
+}

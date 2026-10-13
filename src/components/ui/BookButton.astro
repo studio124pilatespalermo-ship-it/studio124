@@ -1,6 +1,7 @@
 ---
 /**
- * Botón principal de reserva: el único elemento en terracota del sitio.
+ * Botón principal de reserva. El manual de marca no tiene color de acento: es una píldora
+ * neutra, sólida sobre fondo claro y traslúcida sobre foto.
  * Lleva a la app externa en la misma pestaña para no perder al visitante en mobile.
  */
 import { PUBLIC_BOOKING_URL } from "astro:env/client";
@@ -8,16 +9,26 @@ import { PUBLIC_BOOKING_URL } from "astro:env/client";
 interface Props {
   label: string;
   size?: "sm" | "md" | "lg";
+  /** `on-photo` para los botones que van encima de una imagen. */
+  tone?: "solid" | "on-photo";
+  /** `plain` es la variante en caja baja del encabezado, como la muestra el mockup. */
+  variant?: "label" | "plain";
   block?: boolean;
   class?: string;
 }
 
-const { label, size = "md", block = false, class: className } = Astro.props;
+const { label, size = "md", tone = "solid", variant = "label", block = false, class: className } = Astro.props;
 
 const sizes = {
-  sm: "h-10 px-4 text-[0.6875rem] gap-2",
-  md: "h-12 px-6 text-xs gap-3",
-  lg: "h-14 px-8 text-[0.8125rem] gap-3",
+  sm: "h-10 px-4 text-[0.6875rem]",
+  md: "h-12 px-6 text-xs",
+  lg: "h-14 px-7 text-[0.8125rem]",
+} as const;
+
+const plainSizes = {
+  sm: "h-11 px-5 text-sm",
+  md: "h-12 px-6 text-base",
+  lg: "h-14 px-8 text-lg",
 } as const;
 ---
 
@@ -25,8 +36,10 @@ const sizes = {
   href={PUBLIC_BOOKING_URL}
   rel="noopener"
   class:list={[
-    "inline-flex shrink-0 items-center justify-center rounded-full bg-terracotta font-semibold uppercase tracking-[0.16em] whitespace-nowrap text-white transition-colors duration-200 hover:bg-terracotta-deep",
-    sizes[size],
+    "pill",
+    variant === "plain" ? "font-medium" : "font-semibold tracking-[0.14em] uppercase",
+    tone === "on-photo" ? "pill-light" : "pill-solid",
+    variant === "plain" ? plainSizes[size] : sizes[size],
     block && "w-full",
     className,
   ]}

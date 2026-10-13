@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
-import serifItalicFont from "@fontsource-variable/cormorant-garamond/files/cormorant-garamond-latin-wght-italic.woff2?url";
-import sansFont from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
+import scriptFont from "@fontsource/pinyon-script/files/pinyon-script-latin-400-normal.woff2?url";
+import sansFont from "@fontsource-variable/quicksand/files/quicksand-latin-wght-normal.woff2?url";
 import { studio } from "../content/studio";
 import { LOCALE_META, LOCALES, type Locale } from "../i18n/locales";
 import { absoluteUrl, alternates } from "../lib/urls";
@@ -39,11 +39,11 @@ const otherOgLocales = LOCALES.filter((code) => code !== locale).map((code) => L
     {indexable && <link rel="canonical" href={canonical} />}
     {indexable && alternates(site).map((alt) => <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />)}
 
-    <link rel="preload" href={serifItalicFont} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={sansFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={scriptFont} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta name="theme-color" content="#f6f2ec" />
+    <meta name="theme-color" content="#f6f0e8" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={studio.name} />

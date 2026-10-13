@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent } from "react";
 import { api, ApiError } from "../../client/lib/api";
+import { BrandMark } from "../../client/components/BrandMark";
 import { Button, ErrorNote, Field, inputClass } from "../../client/components/ui";
 
 export function LoginScreen({ onLogin }: { onLogin: () => Promise<void> }) {
@@ -23,10 +24,12 @@ export function LoginScreen({ onLogin }: { onLogin: () => Promise<void> }) {
   }
 
   return (
-    <div className="grid min-h-screen place-items-center bg-sand px-5">
-      <form onSubmit={submit} className="w-full max-w-sm rounded-2xl border border-stone/40 bg-bone p-7">
-        <h1 className="font-serif text-3xl">Studio124</h1>
-        <p className="mt-1 text-sm text-stone-text">Panel de administración</p>
+    <div className="grid min-h-screen place-items-center bg-sand/50 px-5">
+      <form onSubmit={submit} className="w-full max-w-sm rounded-3xl border border-sand bg-cream p-8">
+        <h1 className="flex items-center gap-3">
+          <BrandMark size="md" />
+          <span className="text-xl font-semibold text-graphite">Panel de administración</span>
+        </h1>
 
         <div className="mt-6 space-y-4">
           <Field label="Email">

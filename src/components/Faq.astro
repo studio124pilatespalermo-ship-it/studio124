@@ -10,34 +10,48 @@ interface Props {
 }
 
 const { dict, items } = Astro.props;
+/** Hora decorativa de los globos, como un chat: 8:21, 8:22… (no la leen los lectores de pantalla). */
+const stamp = (index: number): string => `8:${String(21 + index).padStart(2, "0")}`;
 ---
 
-<section aria-labelledby="faq-title" class="bg-sand py-20 md:py-28">
-  <Container class="max-w-3xl">
-    <h2 id="faq-title" class="section-title">{dict.faq.title}</h2>
-    <div class="mt-10 space-y-3">
+{/*
+  Mockup: las preguntas frecuentes son una conversación. La pregunta va en un globo crema
+  a la izquierda y la respuesta en un globo oscuro a la derecha, tres por fila, todas a la
+  vista (sin acordeón).
+  El fondo es `stone-deep` y no la piedra del manual: el título crema necesita 3:1 y sobre
+  la piedra da 2.3:1.
+*/}
+<section aria-labelledby="faq-title" class="on-dark bg-stone-deep py-16 text-cream md:py-20">
+  <Container>
+    <div class="flex items-center gap-6">
+      <h2 id="faq-title" class="shrink-0 text-2xl font-bold md:text-3xl">{dict.faq.title}</h2>
+      <span aria-hidden="true" class="h-0.5 max-w-md flex-1 rounded-full bg-cream/70"></span>
+    </div>
+
+    <dl class="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
       {
-        items.map((item) => (
-          <details class="faq-item group rounded-xl border border-stone/45 bg-bone/80">
-            <summary class="flex cursor-pointer items-center justify-between gap-6 rounded-xl px-5 py-4 text-[0.9375rem] font-medium md:px-6">
-              <span>{item.question}</span>
-              <svg
-                aria-hidden="true"
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                class="shrink-0 text-stone-text transition-transform duration-200 group-open:rotate-180"
-              >
-                <path d="M2 5l5 5 5-5" stroke="currentColor" stroke-width="1.25" />
-              </svg>
-            </summary>
-            <p class="px-5 pb-5 text-sm leading-relaxed text-stone-text md:px-6">
+        items.map((item, index) => (
+          <div class="flex flex-col gap-3">
+            <dt class="bubble bubble-in max-w-[88%] self-start bg-cream text-text">
+              <Text text={item.question} />
+              <span aria-hidden="true" class="bubble-stamp right-3">
+                {stamp(index)}
+              </span>
+            </dt>
+            <dd class="bubble bubble-out max-w-[88%] self-end bg-bubble text-right text-cream">
               <Text text={item.answer} />
-            </p>
-          </details>
+              <span aria-hidden="true" class="bubble-stamp left-3">
+                {stamp(index)}
+              </span>
+            </dd>
+          </div>
         ))
       }
+    </dl>
+
+    <div class="mt-12 flex items-center gap-6">
+      <p class="shrink-0 text-xl font-bold md:text-2xl">{dict.faq.closing}</p>
+      <span aria-hidden="true" class="h-0.5 max-w-md flex-1 rounded-full bg-cream/70"></span>
     </div>
   </Container>
 </section>

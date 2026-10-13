@@ -44,3 +44,10 @@ export function googleMapsUrl(queryOrUrl: string): string {
 export function whatsappUrl(number: string): string {
   return isPlaceholder(number) ? number : `https://wa.me/${number.replace(/\D/g, "")}`;
 }
+
+/** Usuario de Instagram a partir de la URL del perfil: ".../studio124.pilates/" → "studio124.pilates". */
+export function instagramHandle(url: string): string {
+  if (isPlaceholder(url)) return url;
+  const path = new URL(url).pathname.split("/").filter(Boolean);
+  return path[0] ?? url;
+}

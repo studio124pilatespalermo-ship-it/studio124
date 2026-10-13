@@ -35,7 +35,9 @@ export function CatalogScreen() {
 
       <Card title="Categorías de pago">
         <p className="mb-4 text-sm text-stone-text">
-          Definen cuántas clases da cada pago y por cuánto tiempo. “Venta online” habilita comprarlo desde el portal.
+          Definen cuántas clases da cada pago y por cuánto tiempo. “Venta online” habilita comprarlo desde el portal;
+          “En la landing” muestra el precio a los turistas en la página. Un cambio de precio se ve en la landing en
+          menos de cinco minutos.
         </p>
         <NewCategoryForm onCreated={() => state.reload()} />
         {state.data?.categories.length === 0 ? (
@@ -43,33 +45,7 @@ export function CatalogScreen() {
         ) : (
           <ul className="mt-4 space-y-2">
             {state.data?.categories.map((category) => (
-              <li key={category.id} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-stone/40 px-3 py-2.5 text-sm">
-                <span>
-                  <strong>{category.name}</strong>{" "}
-                  <span className="text-stone-text">
-                    · {CATEGORY_KIND_LABEL[category.kind]} · {category.classes} clase(s) · {category.validityDays} días ·{" "}
-                    {money(category.priceMinor, category.currency)}
-                  </span>
-                </span>
-                <span className="flex items-center gap-2">
-                  {category.sellOnline && <Badge tone="ok">Venta online</Badge>}
-                  {!category.active && <Badge>Inactiva</Badge>}
-                  <button
-                    type="button"
-                    onClick={() => void act(() => api.patch(`/catalog/categories/${category.id}`, { active: !category.active }))}
-                    className="text-link text-xs"
-                  >
-                    {category.active ? "Desactivar" : "Activar"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => void act(() => api.patch(`/catalog/categories/${category.id}`, { sellOnline: !category.sellOnline }))}
-                    className="text-link text-xs"
-                  >
-                    {category.sellOnline ? "Quitar de venta online" : "Vender online"}
-                  </button>
-                </span>
-              </li>
+              <CategoryRow key={category.id} category={category} onAction={act} />
             ))}
           </ul>
         )}
@@ -138,6 +114,78 @@ export function CatalogScreen() {
         )}
       </Card>
     </>
+  );
+}
+
+/** Una categoría del catálogo: datos, estado y acciones (precio, activa, portal, landing). */
+function CategoryRow({
+  category,
+  onAction,
+}: {
+  category: PaymentCategory;
+  onAction: (action: () => Promise<unknown>) => Promise<void>;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [price, setPrice] = useState(category.priceMinor / 100);
+  // PATCH parcial: la API sólo toca el campo que se manda.
+  const update = (body: Partial<PaymentCategory>) => onAction(() => api.patch(`/catalog/categories/${category.id}`, body));
+
+  async function savePrice(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+    await update({ priceMinor: Math.round(price * 100) });
+    setEditing(false);
+  }
+
+  return (
+    <li className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-stone/40 bg-cream px-4 py-3 text-sm">
+      <span>
+        <strong>{category.name}</strong>{" "}
+        <span className="text-stone-text">
+          · {CATEGORY_KIND_LABEL[category.kind]} · {category.classes} clase(s) · {category.validityDays} días ·{" "}
+        </span>
+        {editing ? (
+          <form onSubmit={savePrice} className="mt-2 flex items-center gap-2">
+            <label className="sr-only" htmlFor={`price-${category.id}`}>
+              Precio de {category.name}
+            </label>
+            <input
+              id={`price-${category.id}`}
+              type="number"
+              min={0}
+              step={100}
+              value={price}
+              onChange={(e) => setPrice(Number(e.target.value))}
+              className={`${inputClass} w-32`}
+            />
+            <Button type="submit">Guardar</Button>
+            <Button variant="ghost" onClick={() => setEditing(false)}>
+              Cancelar
+            </Button>
+          </form>
+        ) : (
+          <strong className="tabular-nums">{money(category.priceMinor, category.currency)}</strong>
+        )}
+      </span>
+      <span className="flex flex-wrap items-center gap-2">
+        {category.showOnLanding && <Badge tone="ok">En la landing</Badge>}
+        {category.sellOnline && <Badge tone="ok">Venta online</Badge>}
+        {!category.active && <Badge>Inactiva</Badge>}
+        {!editing && (
+          <button type="button" onClick={() => setEditing(true)} className="text-link text-xs">
+            Cambiar precio
+          </button>
+        )}
+        <button type="button" onClick={() => void update({ active: !category.active })} className="text-link text-xs">
+          {category.active ? "Desactivar" : "Activar"}
+        </button>
+        <button type="button" onClick={() => void update({ sellOnline: !category.sellOnline })} className="text-link text-xs">
+          {category.sellOnline ? "Quitar de venta online" : "Vender online"}
+        </button>
+        <button type="button" onClick={() => void update({ showOnLanding: !category.showOnLanding })} className="text-link text-xs">
+          {category.showOnLanding ? "Quitar de la landing" : "Mostrar en la landing"}
+        </button>
+      </span>
+    </li>
   );
 }
 

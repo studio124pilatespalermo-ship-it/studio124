@@ -2,6 +2,7 @@ import { useState, type SubmitEvent } from "react";
 import { api } from "../../client/lib/api";
 import { messageOf, useAsync } from "../../client/lib/useAsync";
 import { Button, ErrorNote, Field, inputClass } from "../../client/components/ui";
+import { BrandMark } from "../../client/components/BrandMark";
 import { usePortalLocale } from "../i18n";
 
 /** El ingreso de prueba sólo existe mientras se desarrolla en la máquina propia. */
@@ -15,10 +16,12 @@ export function SignIn({ apiBase }: { apiBase: string }) {
   const reasons: Record<string, string> = t.errors;
 
   return (
-    <div className="grid min-h-screen place-items-center bg-sand px-5">
-      <div className="w-full max-w-sm rounded-2xl border border-stone/40 bg-bone p-7 text-center">
-        <h1 className="font-serif text-3xl">Studio124</h1>
-        <p className="mt-1 text-sm text-stone-text">{t.signIn.tagline}</p>
+    <div className="grid min-h-screen place-items-center bg-sand/50 px-5">
+      <div className="w-full max-w-sm rounded-3xl border border-sand bg-cream p-8 text-center">
+        <h1 className="flex justify-center">
+          <BrandMark size="lg" />
+        </h1>
+        <p className="script mt-3 text-3xl text-graphite">{t.signIn.tagline}</p>
 
         {reason && (
           <div className="mt-5 text-left">
@@ -31,7 +34,7 @@ export function SignIn({ apiBase }: { apiBase: string }) {
         {!status.loading && available && (
           <a
             href={`${apiBase}/api/auth/google/start`}
-            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-3 rounded-full bg-ink px-5 text-sm font-semibold text-bone transition-colors hover:bg-ink/90"
+            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-3 rounded-full bg-bubble px-5 text-sm font-semibold text-cream transition-colors hover:bg-ink"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
               <path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.3-.2-1.9H9v3.5h4.8a4.1 4.1 0 0 1-1.8 2.7v2.2h2.9c1.7-1.6 2.7-3.9 2.7-6.5z" />

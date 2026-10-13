@@ -37,7 +37,7 @@ export function MyClasses({ config }: { config: PortalConfig }) {
         {!me.loading && balances.length === 0 && <Empty>{t.balance.none}</Empty>}
         {balances.length > 0 && (
           <>
-            <p className="font-serif text-4xl tabular-nums">
+            <p className="font-semibold text-4xl tabular-nums">
               {totalRemaining} <span className="text-xl text-stone-text">{t.balance.available}</span>
             </p>
             <ul className="mt-3 space-y-1 text-sm text-stone-text">
@@ -69,7 +69,7 @@ export function MyClasses({ config }: { config: PortalConfig }) {
                 className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-stone/40 px-4 py-3"
               >
                 <span>
-                  <span className="block font-serif text-xl">{shortDate(booking.date, locale)}</span>
+                  <span className="block font-semibold text-xl">{shortDate(booking.date, locale)}</span>
                   <span className="text-sm text-stone-text">
                     {booking.startTime} · {booking.durationMin} {t.common.minutes}
                   </span>

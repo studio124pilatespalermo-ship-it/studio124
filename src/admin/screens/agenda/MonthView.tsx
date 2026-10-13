@@ -73,7 +73,7 @@ export function MonthView({
               className={`min-h-[4.5rem] rounded-lg border p-1.5 text-left transition-colors ${
                 slots.length === 0
                   ? "border-dashed border-stone/30 text-stone-text"
-                  : "border-stone/45 hover:border-ink hover:bg-sand"
+                  : "border-stone/45 hover:border-text hover:bg-sand"
               }`}
             >
               <span className="block text-sm tabular-nums">{Number(date.slice(8))}</span>

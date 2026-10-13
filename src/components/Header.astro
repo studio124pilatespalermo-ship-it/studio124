@@ -1,7 +1,7 @@
 ---
 import type { Dictionary } from "../i18n";
 import type { Locale } from "../i18n/locales";
-import { accountPath, localePath } from "../lib/urls";
+import { localePath } from "../lib/urls";
 import Logo from "./brand/Logo.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import BookButton from "./ui/BookButton.astro";
@@ -15,17 +15,22 @@ interface Props {
 const { locale, dict } = Astro.props;
 ---
 
-<header class="on-dark absolute inset-x-0 top-0 z-20 text-bone">
-  <Container class="flex items-center justify-between gap-3 py-3 md:py-5">
-    <a href={localePath(locale)} aria-label={dict.a11y.home} class="block shrink-0">
-      <Logo variant="on-dark" class="h-16 w-auto md:h-20" />
+{/*
+  Encabezado del mockup: logo sobre círculo traslúcido, el selector de idioma y el botón
+  de reserva. El acceso a "Mi cuenta" vive en el pie, donde lo busca quien ya reservó.
+*/}
+<header class="on-dark absolute inset-x-0 top-0 z-20 text-cream">
+  <Container class="flex items-center justify-between gap-3 py-4 md:py-6">
+    <a
+      href={localePath(locale)}
+      aria-label={dict.a11y.home}
+      class="grid size-16 shrink-0 place-items-center rounded-full bg-cream/15 backdrop-blur-[2px] md:size-20"
+    >
+      <Logo variant="on-dark" class="h-11 w-auto md:h-14" />
     </a>
-    <div class="flex items-center gap-2 md:gap-6">
-      <a href={accountPath(locale)} class="hidden text-xs font-semibold tracking-[0.12em] uppercase text-bone/85 transition-opacity hover:text-bone sm:inline">
-        {dict.a11y.account}
-      </a>
+    <div class="flex items-center gap-2 md:gap-7">
       <LanguageSwitcher current={locale} label={dict.a11y.languageNav} />
-      <BookButton label={dict.cta.bookShort} size="sm" class="hidden min-[370px]:inline-flex" />
+      <BookButton label={dict.cta.bookShort} variant="plain" tone="on-photo" class="hidden min-[370px]:inline-flex" />
     </div>
   </Container>
 </header>

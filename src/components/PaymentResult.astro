@@ -1,4 +1,5 @@
 ---
+import Logo from "./brand/Logo.astro";
 import "../styles/global.css";
 
 /**
@@ -28,14 +29,16 @@ const colors = {
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
-  <body class="grid min-h-screen place-items-center bg-sand px-5 antialiased">
-    <main class="w-full max-w-md rounded-2xl border border-stone/40 bg-bone p-7 text-center">
-      <p class="font-serif text-2xl">Studio124</p>
-      <h1 class="mt-5 font-serif text-3xl">{title}</h1>
+  <body class="grid min-h-screen place-items-center bg-sand/50 px-5 antialiased">
+    <main class="w-full max-w-md rounded-3xl border border-sand bg-cream p-8 text-center">
+      <div class="mx-auto grid size-24 place-items-center rounded-full bg-sand/70">
+        <Logo variant="on-light" label="Studio124" class="h-[72%] w-auto" />
+      </div>
+      <h1 class="mt-5 text-3xl font-semibold">{title}</h1>
       <p class:list={["mt-4 rounded-xl border px-4 py-3 text-sm", colors[tone]]}>{message}</p>
       <a
         href="/cuenta/"
-        class="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-ink px-6 text-sm font-semibold text-bone"
+        class="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-bubble px-6 text-sm font-semibold text-cream"
       >
         Ir a mi cuenta
       </a>

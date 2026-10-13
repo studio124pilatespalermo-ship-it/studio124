@@ -56,7 +56,7 @@ export function BookClass({ config }: { config: PortalConfig }) {
                   onClick={() => setDay(value)}
                   aria-current={day === value ? "true" : undefined}
                   className={`inline-flex h-11 items-center rounded-full px-4 text-sm whitespace-nowrap transition-colors ${
-                    day === value ? "bg-ink text-bone" : "border border-stone/45 text-ink hover:bg-sand"
+                    day === value ? "bg-bubble text-cream" : "border border-stone/45 text-text hover:bg-sand"
                   }`}
                 >
                   {shortDate(value, locale)}
@@ -74,7 +74,7 @@ export function BookClass({ config }: { config: PortalConfig }) {
                   className="flex items-center justify-between gap-3 rounded-xl border border-stone/40 px-4 py-3"
                 >
                   <span>
-                    <span className="block font-serif text-xl tabular-nums">{slot.startTime}</span>
+                    <span className="block font-semibold text-xl tabular-nums">{slot.startTime}</span>
                     <span className="text-xs text-stone-text">
                       {fill(t.book.spots, { minutes: slot.durationMin, free: slot.free })}
                     </span>

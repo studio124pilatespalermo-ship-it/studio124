@@ -62,6 +62,8 @@ export interface PaymentCategory {
   readonly priceMinor: number;
   readonly currency: string;
   readonly sellOnline: boolean;
+  /** Se muestra con su precio en la landing. */
+  readonly showOnLanding: boolean;
   readonly active: boolean;
   readonly sortOrder: number;
 }

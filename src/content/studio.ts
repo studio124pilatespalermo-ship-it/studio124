@@ -39,6 +39,10 @@ export interface StudioData {
   readonly minimumAge: number | null;
   /** Anticipación mínima para reprogramar una clase, en horas. */
   readonly rescheduleNoticeHours: number | null;
+  /** Cantidades de clases que vende el estudio en pack. */
+  readonly packSizes: readonly number[];
+  /** Semanas de validez de un pack, contadas desde la compra. `null` = pendiente. */
+  readonly packValidityWeeks: number | null;
   readonly classSchedule: readonly ScheduleGroup[];
   readonly openingHours: readonly OpeningHours[];
   readonly address: {
@@ -62,7 +66,8 @@ export interface StudioData {
   readonly whatsappNumber: string;
   readonly email: string;
   /**
-   * Lugares de "Todo está cerca", por id (el mismo `id` que en `nearby.places` de i18n).
+   * Lugares que nombra el párrafo de "The Experience", por id (los mismos ids que en
+   * `experience.places` de i18n, donde está el nombre en cada idioma).
    * Valor: texto de búsqueda en Google Maps, o una URL completa de la ficha si la tenés.
    */
   readonly nearbyPlaces: Readonly<Record<string, string>>;
@@ -74,10 +79,15 @@ export const studio = {
   name: "Studio124",
 
   dropInPrice: { amountMinor: null, currency: "ARS" },
-  classDurationMinutes: null,
+  classDurationMinutes: 50,
   maxPeoplePerClass: 6,
   minimumAge: 14,
   rescheduleNoticeHours: null,
+
+  // Packs publicados por el estudio: se usan dentro de 4 semanas contadas desde la compra,
+  // no desde el inicio del mes.
+  packSizes: [4, 8, 12, 16],
+  packValidityWeeks: 4,
 
   // Grilla publicada por el estudio. La disponibilidad real de cada turno se ve al reservar.
   classSchedule: [
@@ -113,11 +123,11 @@ export const studio = {
   email: "studio124pilates.palermo@gmail.com",
 
   nearbyPlaces: {
-    "plaza-serrano": "Plaza Serrano, Palermo Soho, Buenos Aires",
-    "plaza-armenia": "Plaza Armenia, Palermo, Buenos Aires",
     "don-julio": "Parrilla Don Julio, Palermo, Buenos Aires",
     "el-preferido": "El Preferido de Palermo, Buenos Aires",
-    "corazon-social": "Corazón Social, Palermo, Buenos Aires",
+    "jardin-botanico": "Jardín Botánico Carlos Thays, Palermo, Buenos Aires",
+    "plaza-serrano": "Plaza Serrano, Palermo Soho, Buenos Aires",
     "distrito-arcos": "Distrito Arcos, Palermo, Buenos Aires",
+    "la-rural": "La Rural, Predio Ferial de Buenos Aires",
   },
 } as const satisfies StudioData;

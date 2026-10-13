@@ -43,7 +43,7 @@ export function DashboardScreen() {
           <ul className="space-y-2 text-sm">
             {todaySlots.map((slot) => (
               <li key={slot.id} className="flex items-baseline justify-between gap-3 border-b border-stone/25 pb-2 last:border-0">
-                <span className="font-serif text-lg tabular-nums">{slot.startTime}</span>
+                <span className="font-semibold text-lg tabular-nums">{slot.startTime}</span>
                 <span className="flex-1 px-4 text-stone-text">
                   {slot.bookings
                     .filter((booking) => !booking.status.startsWith("cancelled"))
@@ -118,9 +118,9 @@ function SimpleList({
 
 function Metric({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-2xl border border-stone/40 bg-bone p-5">
+    <div className="rounded-2xl border border-stone/40 bg-cream p-5">
       <p className="text-[0.6875rem] font-semibold tracking-[0.14em] uppercase text-stone-text">{label}</p>
-      <p className="mt-2 font-serif text-3xl tabular-nums">{value}</p>
+      <p className="mt-2 font-semibold text-3xl tabular-nums">{value}</p>
     </div>
   );
 }

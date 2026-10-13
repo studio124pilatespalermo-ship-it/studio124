@@ -43,11 +43,11 @@ export function BuyPack() {
       <ul className="grid gap-3 sm:grid-cols-2">
         {categories.map((category) => (
           <li key={category.id} className="rounded-xl border border-stone/40 p-5">
-            <h3 className="font-serif text-2xl">{category.name}</h3>
+            <h3 className="font-semibold text-2xl">{category.name}</h3>
             <p className="mt-1 text-sm text-stone-text">
               {fill(t.buy.detail, { classes: category.classes, days: category.validityDays })}
             </p>
-            <p className="mt-3 font-serif text-3xl">{money(category.priceMinor, category.currency, locale)}</p>
+            <p className="mt-3 font-semibold text-3xl">{money(category.priceMinor, category.currency, locale)}</p>
             <Button onClick={() => void checkout(category.id)} disabled={busy !== null} className="mt-4 w-full">
               {busy === category.id ? t.buy.paying : t.buy.pay}
             </Button>

@@ -1,11 +1,14 @@
 ---
 interface Props {
+  /** `wide` es el ancho de las secciones de fotos del mockup, algo mayor que el de texto. */
+  width?: "default" | "wide";
   class?: string;
 }
 
-const { class: className } = Astro.props;
+const { width = "default", class: className } = Astro.props;
+const widths = { default: "max-w-6xl", wide: "max-w-7xl" } as const;
 ---
 
-<div class:list={["mx-auto w-full max-w-6xl px-5 md:px-10", className]}>
+<div class:list={["mx-auto w-full px-5 md:px-10", widths[width], className]}>
   <slot />
 </div>

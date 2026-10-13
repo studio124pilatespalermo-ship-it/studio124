@@ -41,7 +41,7 @@ export function PaymentsScreen() {
                   onClick={() => setTab(item.id)}
                   aria-current={tab === item.id ? "true" : undefined}
                   className={`inline-flex h-9 items-center rounded-full px-3.5 text-sm transition-colors ${
-                    tab === item.id ? "bg-ink text-bone" : "text-stone-text hover:bg-sand"
+                    tab === item.id ? "bg-bubble text-cream" : "text-stone-text hover:bg-sand"
                   }`}
                 >
                   {item.label}

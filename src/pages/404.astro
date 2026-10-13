@@ -13,7 +13,7 @@ const dict = getDictionary(DEFAULT_LOCALE);
 <BaseLayout
   locale={DEFAULT_LOCALE}
   title={`${dict.notFound.title} | ${studio.name}`}
-  description={interpolate(dict.meta.description, templateVars(studio))}
+  description={interpolate(dict.meta.description, templateVars(studio, DEFAULT_LOCALE))}
   ogImageAlt={dict.meta.ogImageAlt}
   indexable={false}
 >

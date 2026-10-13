@@ -1,0 +1,57 @@
+---
+import { getImage } from "astro:assets";
+import { spaceVideoUrl } from "../content/media";
+import { photos } from "../content/photos";
+import type { Dictionary } from "../i18n";
+import Container from "./ui/Container.astro";
+import Photo from "./ui/Photo.astro";
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+// Tres recuadros del mismo tamaño: foto, video y foto. Si todavía no hay video, el lugar
+// del medio muestra la foto que le corresponde y la sección sigue igual.
+const sizes = "(min-width: 640px) 31vw, 100vw";
+const poster = await getImage({ src: photos.space2, width: 900, height: 1260, fit: "cover", format: "webp" });
+---
+
+<section aria-labelledby="espacio-title" class="bg-cream py-16 md:py-24">
+  <Container width="wide">
+    {/* Título centrado, grande y en un solo renglón desde tablet, como el mockup. */}
+    <h2
+      id="espacio-title"
+      class="text-center text-[clamp(1.75rem,1rem+3.4vw,3.25rem)] leading-tight font-semibold md:whitespace-nowrap"
+    >
+      {dict.space.title}
+    </h2>
+    <ul class="mt-10 grid gap-5 sm:grid-cols-3 md:mt-14 md:gap-7">
+      <li>
+        <Photo src={photos.space1} alt={dict.photos.space1} ratio="tall" sizes={sizes} />
+      </li>
+      <li>
+        {
+          spaceVideoUrl ? (
+            <div class="photo-frame aspect-[5/7]">
+              <video
+                src={spaceVideoUrl}
+                poster={poster.src}
+                controls
+                playsinline
+                preload="metadata"
+                aria-label={dict.space.videoLabel}
+                class="h-full w-full object-cover"
+              />
+            </div>
+          ) : (
+            <Photo src={photos.space2} alt={dict.photos.space2} ratio="tall" sizes={sizes} />
+          )
+        }
+      </li>
+      <li>
+        <Photo src={photos.space3} alt={dict.photos.space3} ratio="tall" sizes={sizes} />
+      </li>
+    </ul>
+  </Container>
+</section>

@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { studio, type StudioData } from "../src/content/studio";
 import { getDictionary, interpolate } from "../src/i18n";
-import { nearbyPlaceMapsUrl, resolveFaq } from "../src/lib/content";
-import { formatDays, formatMoney, moneyToSchemaPrice } from "../src/lib/format";
+import { linkPlaces, resolveFaq, richText } from "../src/lib/content";
+import { formatClock, formatDays, formatMoney, formatPhone, formatTime, moneyToSchemaPrice } from "../src/lib/format";
 import { buildJsonLd } from "../src/lib/jsonld";
 import { displayValue, isPlaceholder } from "../src/lib/placeholders";
 import { LOCALES } from "../src/i18n/locales";
-import { alternates, googleMapsUrl, whatsappUrl } from "../src/lib/urls";
+import { alternates, googleMapsUrl, instagramHandle, whatsappUrl } from "../src/lib/urls";
 
 describe("placeholders", () => {
   it("reconoce {{DATOS}} pendientes", () => {
@@ -43,7 +43,7 @@ describe("formato", () => {
 describe("urls", () => {
   it("genera hreflang recíprocos y x-default", () => {
     const list = alternates(new URL("https://example.com"));
-    expect(list.map((alt) => alt.hreflang)).toEqual(["en", "pt-BR", "es", "x-default"]);
+    expect(list.map((alt) => alt.hreflang)).toEqual(["en", "es", "pt-BR", "x-default"]);
     expect(list.at(-1)?.href).toBe("https://example.com/en/");
   });
 
@@ -54,13 +54,24 @@ describe("urls", () => {
     expect(googleMapsUrl("https://maps.app.goo.gl/abc")).toBe("https://maps.app.goo.gl/abc");
   });
 
-  it("cada lugar de 'Todo está cerca' tiene su link de Maps en studio.ts", () => {
-    const missing = LOCALES.flatMap((locale) =>
-      getDictionary(locale)
-        .nearby.places.filter((place) => nearbyPlaceMapsUrl(studio, place.id) === undefined)
-        .map((place) => `${locale}:${place.id}`),
-    );
+  it("cada lugar que nombra el texto tiene su link de Maps en studio.ts", () => {
+    const missing = LOCALES.flatMap((locale) => {
+      const dict = getDictionary(locale);
+      // El párrafo del medio de "The Experience" es el que nombra los lugares.
+      const parts = linkPlaces(dict.experience.body[1] ?? "", dict.experience.places, studio.nearbyPlaces);
+      const linked = new Set(parts.filter((part) => part.href !== undefined).map((part) => part.text));
+      return Object.values(dict.experience.places)
+        .filter((name) => !linked.has(name))
+        .map((name) => `${locale}:${name}`);
+    });
     expect(missing).toEqual([]);
+  });
+
+  it("deja el texto intacto al enlazar los lugares", () => {
+    const dict = getDictionary("es");
+    const text = dict.experience.body[1] ?? "";
+    const parts = linkPlaces(text, dict.experience.places, studio.nearbyPlaces);
+    expect(parts.map((part) => part.text).join("")).toBe(text);
   });
 
   it("no arma un link de WhatsApp con un número pendiente", () => {
@@ -81,7 +92,7 @@ describe("JSON-LD", () => {
         description: "desc",
         offerName: "Drop-in class",
         bookingUrl: "https://webapp.siguefit.com/",
-        faq: resolveFaq(getDictionary("en"), data),
+        faq: resolveFaq(getDictionary("en"), data, "en"),
       }),
     ) as { "@graph": [Record<string, unknown>, { mainEntity: unknown[] }] };
 
@@ -99,5 +110,33 @@ describe("JSON-LD", () => {
   it("refleja todas las preguntas visibles en el FAQPage", () => {
     const [, faqPage] = build(studio)["@graph"];
     expect(faqPage.mainEntity).toHaveLength(getDictionary("en").faq.items.length);
+  });
+});
+
+describe("textos con formato", () => {
+  it("resuelve *negrita* e _itálica_ sin dejar las marcas", () => {
+    const parts = richText("a *b* c _d_ e");
+    expect(parts.map((part) => part.text).join("")).toBe("a b c d e");
+    expect(parts.find((part) => part.text === "b")?.strong).toBe(true);
+    expect(parts.find((part) => part.text === "d")?.italic).toBe(true);
+  });
+});
+
+describe("teléfono y horas del mockup", () => {
+  it("da formato internacional y local a un celular de Buenos Aires", () => {
+    expect(formatPhone("5491168309759", "international")).toBe("+54 9 11 6830-9759");
+    expect(formatPhone("5491168309759", "local")).toBe("11 6830-9759");
+    expect(formatPhone("+1 555 123 4567", "local")).toBe("+15551234567");
+  });
+
+  it("escribe las horas como el estudio", () => {
+    expect(formatTime("08:00")).toBe("08hs");
+    expect(formatTime("16:30")).toBe("16:30hs");
+    expect(formatClock("08:00")).toBe("8:00hs");
+    expect(formatClock("21:00")).toBe("21:00hs");
+  });
+
+  it("saca el usuario de Instagram de la URL del perfil", () => {
+    expect(instagramHandle("https://www.instagram.com/studio124.pilates/")).toBe("studio124.pilates");
   });
 });

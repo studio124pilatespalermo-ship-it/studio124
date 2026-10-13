@@ -1,0 +1,23 @@
+---
+import { photos } from "../content/photos";
+import type { Dictionary } from "../i18n";
+import Container from "./ui/Container.astro";
+import Photo from "./ui/Photo.astro";
+
+interface Props {
+  dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+---
+
+{/* Mockup: texto a la izquierda, foto a la derecha. */}
+<section aria-labelledby="estudio-title" class="bg-cream py-16 md:py-24">
+  <Container class="grid items-center gap-10 md:grid-cols-2 md:gap-14">
+    <div>
+      <h2 id="estudio-title" class="section-title">{dict.about.title}</h2>
+      <p class="mt-5 text-base leading-relaxed md:text-lg">{dict.about.text}</p>
+    </div>
+    <Photo src={photos.about} alt={dict.photos.about} ratio="square" sizes="(min-width: 768px) 46vw, 100vw" />
+  </Container>
+</section>

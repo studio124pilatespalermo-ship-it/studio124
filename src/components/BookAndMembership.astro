@@ -1,0 +1,85 @@
+---
+import { PUBLIC_BOOKING_URL } from "astro:env/client";
+import { studio } from "../content/studio";
+import type { Dictionary } from "../i18n";
+import { richText } from "../lib/content";
+import { formatPhone } from "../lib/format";
+import type { Locale } from "../i18n/locales";
+import { whatsappUrl } from "../lib/urls";
+import Container from "./ui/Container.astro";
+import Prices from "./Prices.astro";
+import CtaButton from "./ui/CtaButton.astro";
+import RichText from "./ui/RichText.astro";
+
+interface Props {
+  locale: Locale;
+  dict: Dictionary;
+  /** Párrafos de membresías ya interpolados (packs y semanas de validez). */
+  membership: readonly string[];
+}
+
+const { locale, dict, membership } = Astro.props;
+const whatsapp = whatsappUrl(studio.whatsappNumber);
+const titleClass = "text-xl font-bold tracking-[0.02em] uppercase md:text-2xl";
+---
+
+{/*
+  Mockup: dos columnas sobre el mismo fondo. A la izquierda los cuatro pasos, numerados en
+  el margen y separados por filetes crema; a la derecha las membresías con el teléfono y
+  los dos botones.
+  El mockup pinta en blanco los títulos de los pasos y el primer párrafo, pero el blanco
+  sobre este fondo da 1.1:1 y no se lee: la jerarquía se marca con el peso de la letra.
+*/}
+<section class="bg-sand/50 py-16 md:py-24">
+  <Container class="grid gap-14 md:grid-cols-2 md:gap-16">
+    <div id="reservar" class="scroll-mt-4 md:pl-10">
+      <h2 class={titleClass}>{dict.steps.title}</h2>
+      <ol class="mt-4">
+        {
+          dict.steps.items.map((item, index) => (
+            <li class="grid grid-cols-[1.75rem_1fr] gap-x-3 md:-ml-10">
+              <span aria-hidden="true" class="pt-3 text-2xl leading-none font-bold text-graphite">
+                {index + 1}
+              </span>
+              <div class="border-t-2 border-cream py-3">
+                <h3 class="text-lg font-bold md:text-xl">{item.title}</h3>
+                <p class="mt-1 text-[0.9375rem] leading-snug">{item.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <div id="membresias" class="scroll-mt-4">
+      <h2 class={titleClass}>{dict.membership.title}</h2>
+      <div class="mt-4 space-y-4 text-[0.9375rem] leading-snug">
+        {
+          membership.map((text, index) => (
+            <p class:list={[index === 0 && "font-semibold"]}>
+              <RichText parts={richText(text)} newTabHint={dict.a11y.opensInNewTab} />
+            </p>
+          ))
+        }
+        <Prices locale={locale} dict={dict} />
+        <p class="tabular-nums">
+          <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="text-link">
+            {formatPhone(studio.whatsappNumber, "international")}
+            <span class="sr-only"> {dict.a11y.opensInNewTab}</span>
+          </a>
+        </p>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <CtaButton href={whatsapp} external newTabHint={dict.a11y.opensInNewTab}>
+          <svg slot="icon" aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" class="shrink-0">
+            <path
+              d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"
+            ></path>
+          </svg>
+          {dict.cta.whatsapp}
+        </CtaButton>
+        <CtaButton href={PUBLIC_BOOKING_URL}>{dict.cta.bookClass}</CtaButton>
+      </div>
+    </div>
+  </Container>
+</section>
