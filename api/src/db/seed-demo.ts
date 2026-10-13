@@ -33,12 +33,15 @@ const db = handle.db;
 
 const [professional] = await db.insert(professionals).values({ name: "Karina" }).returning();
 
+// Precios de demostración (no son los del estudio). Los packs siguen la oferta publicada:
+// 4, 8, 12 y 16 clases para usar en 4 semanas desde la compra.
 const CATEGORIES = [
-  { name: "Clase de prueba", kind: "trial" as const, classes: 1, validityDays: 15, priceMinor: 0, sellOnline: false },
-  { name: "Clase única", kind: "single" as const, classes: 1, validityDays: 30, priceMinor: 1_200_000, sellOnline: true },
-  { name: "Pack 4 clases", kind: "pack" as const, classes: 4, validityDays: 30, priceMinor: 4_000_000, sellOnline: true },
-  { name: "Pack 8 clases", kind: "pack" as const, classes: 8, validityDays: 30, priceMinor: 7_200_000, sellOnline: true },
-  { name: "Pack 12 clases", kind: "pack" as const, classes: 12, validityDays: 30, priceMinor: 10_000_000, sellOnline: true },
+  { name: "Clase de prueba", kind: "trial" as const, classes: 1, validityDays: 15, priceMinor: 0, sellOnline: false, showOnLanding: false, sortOrder: 0 },
+  { name: "Clase única", kind: "single" as const, classes: 1, validityDays: 30, priceMinor: 1_200_000, sellOnline: true, showOnLanding: true, sortOrder: 1 },
+  { name: "Pack 4 clases", kind: "pack" as const, classes: 4, validityDays: 28, priceMinor: 4_000_000, sellOnline: true, showOnLanding: true, sortOrder: 2 },
+  { name: "Pack 8 clases", kind: "pack" as const, classes: 8, validityDays: 28, priceMinor: 7_200_000, sellOnline: true, showOnLanding: true, sortOrder: 3 },
+  { name: "Pack 12 clases", kind: "pack" as const, classes: 12, validityDays: 28, priceMinor: 10_000_000, sellOnline: true, showOnLanding: true, sortOrder: 4 },
+  { name: "Pack 16 clases", kind: "pack" as const, classes: 16, validityDays: 28, priceMinor: 12_800_000, sellOnline: true, showOnLanding: true, sortOrder: 5 },
 ];
 const inserted = await db.insert(paymentCategories).values(CATEGORIES).returning();
 const pack4 = inserted.find((category) => category.name === "Pack 4 clases");
@@ -59,7 +62,7 @@ const templates = await db
       times.map((startTime) => ({
         weekday,
         startTime,
-        durationMin: 55,
+        durationMin: 50,
         capacity: 6,
         professionalId: professional?.id ?? null,
       })),

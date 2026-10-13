@@ -10,6 +10,7 @@ import { catalogRoutes } from "./routes/catalog.ts";
 import { clientRoutes } from "./routes/clients.ts";
 import { paymentRoutes } from "./routes/payments.ts";
 import { portalRoutes } from "./routes/portal.ts";
+import { publicRoutes } from "./routes/public.ts";
 import { scheduleRoutes } from "./routes/schedule.ts";
 import { settingsRoutes } from "./routes/settings.ts";
 import { tasksRoutes } from "./routes/tasks.ts";
@@ -74,6 +75,7 @@ export function createApp(ctx: AppContext): Hono<HonoEnv> {
   app.route("/api/payments", paymentRoutes(ctx));
   app.route("/api/settings", settingsRoutes(ctx));
   app.route("/api/portal", portalRoutes(ctx));
+  app.route("/api/public", publicRoutes(ctx));
   app.route("/api/tasks", tasksRoutes(ctx));
 
   return app;

@@ -15,6 +15,13 @@
       "when": 1791731148878,
       "tag": "0001_client_locale",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791860928986,
+      "tag": "0002_landing_prices",
+      "breakpoints": true
     }
   ]
 }

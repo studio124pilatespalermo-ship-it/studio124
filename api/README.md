@@ -41,6 +41,16 @@ las devuelve (sólo informa si están cargadas y su pista `••••1234`).
 
 La única clave que sí va en el entorno es `APP_ENCRYPTION_KEY`, con la que se cifran las demás.
 
+## Precios en la landing
+
+La landing pide `GET /api/public/prices` al abrirse: devuelve las categorías **activas** que
+tienen tildado "Mostrar en la landing" en `/admin → Catálogo` (tipo, clases, vigencia y precio;
+nunca el nombre interno). No pide sesión y se cachea cinco minutos, así que un cambio de precio
+se ve en la landing enseguida, sin volver a publicar el sitio. Si la API no responde, la landing
+simplemente no muestra el bloque de valores.
+
+La columna `show_on_landing` llega con la migración `0002`, que se aplica sola al arrancar.
+
 ## Reglas principales
 
 - Un pago crea el abono y carga sus créditos. **No genera turnos solos**: la administradora

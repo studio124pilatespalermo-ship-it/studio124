@@ -9,17 +9,34 @@ import { audit } from "../audit.ts";
 
 /** Catálogo editable desde el panel: categorías, medios de pago, profesionales y feriados. */
 
-const categoryInput = z.object({
+/**
+ * Campos de una categoría, sin valores por defecto. Los defaults van sólo al crear: si
+ * estuvieran acá, `.partial()` los aplicaría también al editar, y un PATCH que cambia un
+ * solo campo (por ejemplo `{ active: false }`) pisaría el resto con sus defaults.
+ */
+const categoryFields = {
   name: z.string().min(2).max(80),
   kind: z.enum(["trial", "single", "single_duo", "pack", "monthly"]),
   classes: z.number().int().min(1).max(60),
   validityDays: z.number().int().min(1).max(400),
   priceMinor: z.number().int().min(0),
-  currency: z.enum(["ARS", "USD"]).default("ARS"),
-  sellOnline: z.boolean().default(false),
-  active: z.boolean().default(true),
-  sortOrder: z.number().int().min(0).max(999).default(0),
+  currency: z.enum(["ARS", "USD"]),
+  sellOnline: z.boolean(),
+  showOnLanding: z.boolean(),
+  active: z.boolean(),
+  sortOrder: z.number().int().min(0).max(999),
+};
+
+const categoryCreate = z.object({
+  ...categoryFields,
+  currency: categoryFields.currency.default("ARS"),
+  sellOnline: categoryFields.sellOnline.default(false),
+  showOnLanding: categoryFields.showOnLanding.default(false),
+  active: categoryFields.active.default(true),
+  sortOrder: categoryFields.sortOrder.default(0),
 });
+
+const categoryPatch = z.object(categoryFields).partial();
 
 export function catalogRoutes(ctx: AppContext) {
   const app = new Hono<{ Variables: Variables }>();
@@ -41,7 +58,7 @@ export function catalogRoutes(ctx: AppContext) {
   });
 
   app.post("/categories", requireAdmin, async (c) => {
-    const input = categoryInput.parse(await c.req.json());
+    const input = categoryCreate.parse(await c.req.json());
     const [created] = await ctx.db.insert(paymentCategories).values(input).returning();
     if (!created) throw new AppError("conflict", "No se pudo crear la categoría.");
     await audit(ctx.db, staffOf(c), "category.create", "payment_category", created.id, input);
@@ -50,7 +67,7 @@ export function catalogRoutes(ctx: AppContext) {
 
   app.patch("/categories/:id", requireAdmin, async (c) => {
     const id = c.req.param("id");
-    const input = categoryInput.partial().parse(await c.req.json());
+    const input = categoryPatch.parse(await c.req.json());
     const [updated] = await ctx.db.update(paymentCategories).set(input).where(eq(paymentCategories.id, id)).returning();
     if (!updated) throw notFound("Categoría");
     await audit(ctx.db, staffOf(c), "category.update", "payment_category", id, input);

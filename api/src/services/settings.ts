@@ -12,7 +12,7 @@ export const SETTINGS_SCHEMA = {
   "booking.cancelWindowHours": z.number().int().min(0).max(168).default(2),
   /** Con cuánta anticipación máxima puede reservar un cliente. */
   "booking.horizonDays": z.number().int().min(1).max(180).default(30),
-  "schedule.defaultDurationMin": z.number().int().min(15).max(180).default(55),
+  "schedule.defaultDurationMin": z.number().int().min(15).max(180).default(50),
   "schedule.defaultCapacity": z.number().int().min(1).max(30).default(6),
   /** El portal del cliente permite reservar, no sólo mirar. */
   "portal.allowBooking": z.boolean().default(true),

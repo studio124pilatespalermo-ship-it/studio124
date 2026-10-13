@@ -151,3 +151,68 @@ describe("permisos", () => {
     expect(response.status).toBe(200);
   });
 });
+
+describe("precios del catálogo", () => {
+  beforeEach(async () => {
+    server = await createServer("development");
+  });
+
+  async function adminCookie(): Promise<string> {
+    await server.db.insert(users).values({
+      email: "admin@studio124.test",
+      name: "Admin",
+      role: "admin",
+      passwordHash: await hashPassword("clave-larga-de-prueba"),
+    });
+    const login = await server.app.request("/api/auth/panel/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "admin@studio124.test", password: "clave-larga-de-prueba" }),
+    });
+    return login.headers.getSetCookie()[0]?.split(";")[0] ?? "";
+  }
+
+  async function createCategory(cookie: string, body: Record<string, unknown>) {
+    const response = await server.app.request("/api/catalog/categories", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", cookie },
+      body: JSON.stringify({ kind: "pack", classes: 4, validityDays: 28, priceMinor: 4_000_000, ...body }),
+    });
+    return ((await response.json()) as { category: { id: string } }).category.id;
+  }
+
+  /** Antes, `{ active: false }` también ponía `sellOnline` en false por el default de zod. */
+  it("editar un campo no pisa los demás", async () => {
+    const cookie = await adminCookie();
+    const id = await createCategory(cookie, { name: "Pack 4", sellOnline: true, showOnLanding: true });
+    const response = await server.app.request(`/api/catalog/categories/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", cookie },
+      body: JSON.stringify({ priceMinor: 4_500_000 }),
+    });
+    const { category } = (await response.json()) as {
+      category: { priceMinor: number; sellOnline: boolean; showOnLanding: boolean; active: boolean };
+    };
+    expect(category).toMatchObject({ priceMinor: 4_500_000, sellOnline: true, showOnLanding: true, active: true });
+  });
+
+  it("la landing ve sólo lo marcado y activo, sin sesión", async () => {
+    const cookie = await adminCookie();
+    await createCategory(cookie, { name: "Pack 4", showOnLanding: true, sortOrder: 2 });
+    await createCategory(cookie, { name: "Clase suelta", kind: "single", classes: 1, showOnLanding: true, sortOrder: 1 });
+    await createCategory(cookie, { name: "Interna", showOnLanding: false });
+    await createCategory(cookie, { name: "Vieja", showOnLanding: true, active: false });
+
+    const response = await server.app.request("/api/public/prices");
+    expect(response.status).toBe(200);
+    expect(response.headers.get("cache-control")).toContain("max-age=300");
+    const { prices } = (await response.json()) as { prices: { kind: string; classes: number }[] };
+    expect(prices.map((price) => [price.kind, price.classes])).toEqual([
+      ["single", 1],
+      ["pack", 4],
+    ]);
+    // No viaja el nombre interno ni ningún dato de configuración.
+    expect(JSON.stringify(prices)).not.toContain("Interna");
+    expect(Object.keys(prices[0] ?? {})).not.toContain("name");
+  });
+});

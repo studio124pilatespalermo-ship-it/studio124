@@ -1,0 +1,1 @@
+ALTER TABLE "payment_categories" ADD COLUMN "show_on_landing" boolean DEFAULT false NOT NULL;

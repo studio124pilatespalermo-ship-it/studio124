@@ -104,6 +104,8 @@ export const paymentCategories = pgTable("payment_categories", {
   currency: text("currency").notNull().default("ARS"),
   /** Se ofrece en el portal del cliente para pagar con Mercado Pago. */
   sellOnline: boolean("sell_online").notNull().default(false),
+  /** Se muestra con su precio en la landing (lo que ve el turista antes de reservar). */
+  showOnLanding: boolean("show_on_landing").notNull().default(false),
   active: boolean("active").notNull().default(true),
   sortOrder: smallint("sort_order").notNull().default(0),
   createdAt: createdAt(),
