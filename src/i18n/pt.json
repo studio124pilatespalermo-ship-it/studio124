@@ -10,13 +10,11 @@
     "home": "Studio124, início",
     "opensInNewTab": "(abre em uma nova aba)",
     "bookingBar": "Reserva rápida",
-    "chooseLanguage": "Escolha seu idioma",
-    "account": "Minha conta",
-    "accountHint": "Já reservou? Veja suas aulas"
+    "chooseLanguage": "Escolha seu idioma"
   },
   "cta": {
     "book": "Reserve e pague sua aula",
-    "bookShort": "Reservar",
+    "bookShort": "Reservar aula",
     "info": "+ info",
     "more": "saber mais",
     "directions": "Como chegar",
@@ -73,7 +71,8 @@
     "title": "Nossos horários",
     "weekdays": "Segunda a sexta",
     "saturday": "Sáb",
-    "note": "*Consulte a disponibilidade"
+    "note": "*Consulte a disponibilidade",
+    "singleClass": "Aula avulsa"
   },
   "steps": {
     "title": "Reserve em quatro passos",
@@ -102,16 +101,8 @@
       "Também temos pacotes de {packs} aulas, para usar dentro de um período de {weeks} semanas.",
       "Você não precisa esperar o começo do mês: _pode começar seu plano quando quiser_, e as suas {weeks} semanas passam a contar a partir desse momento.",
       "Para saber os valores, escolher a frequência que melhor combina com você e definir seus horários fixos, fale com a gente pelo WhatsApp e reserve seu plano. Vamos ajudar você a encontrar a opção ideal para a sua rotina."
-    ]
-  },
-  "prices": {
-    "title": "Valores",
-    "single": "Aula avulsa",
-    "trial": "Aula experimental",
-    "duo": "Aula em dupla",
-    "classes": "{count} aulas",
-    "weeks": "para usar em {weeks} semanas",
-    "days": "para usar em {days} dias"
+    ],
+    "whatsappMessage": "Olá! Quero informações sobre os planos"
   },
   "photos": {
     "hero": "Aluna fazendo uma ponte no reformer, em frente às janelas do estúdio",

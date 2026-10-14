@@ -29,10 +29,8 @@ const SECRET_PATTERNS: readonly [string, RegExp][] = [
   ["clave de cifrado asignada", /APP_ENCRYPTION_KEY\s*=\s*[A-Za-z0-9+/]{32,}/],
 ];
 
-/** Excepciones revisadas a mano: valores falsos que sólo existen para probar que NO se filtran. */
-const ALLOWED: Readonly<Record<string, readonly string[]>> = {
-  "api/tests/security.test.ts": ["token de Mercado Pago"],
-};
+/** Excepciones revisadas a mano (archivo -> tipos de clave permitidos). Hoy no hay ninguna. */
+const ALLOWED: Readonly<Record<string, readonly string[]>> = {};
 
 const isText = (file: string) => !/\.(png|jpe?g|webp|avif|gif|ico|mp4|mov|woff2?|pdf|zip)$/i.test(file);
 const skipContent = (file: string) => /(^|\/)package-lock\.json$/.test(file) || file === "tests/secrets.test.ts";

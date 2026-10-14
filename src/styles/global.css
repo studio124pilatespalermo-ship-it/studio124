@@ -31,23 +31,11 @@
   --color-stone-deep: #8c8781;
 
   /*
-   * Alias heredados del diseño anterior, remapeados a la paleta del manual para que
-   * el backoffice (/admin) y el portal (/cuenta) sigan en la misma gama. La landing
-   * usa siempre los nombres nuevos.
-   *   ink ......... neutro oscuro de los recuadros sobre foto (11.6:1 con crema)
-   *   bone ........ igual que cream
-   *   stone-text .. igual que text (el gris del texto secundario)
-   *   terracotta .. único color fuera de la paleta: avisos y acciones destructivas
-   *                 del backoffice. Nunca se usa en la landing.
+   * Neutros de apoyo: `ink` es el oscuro de los recuadros sobre foto y `stone-text` el gris
+   * del texto secundario (igual que `text`).
    */
   --color-ink: #3c3a38;
-  --color-bone: #f6f0e8;
   --color-stone-text: #5f5c58;
-  --color-terracotta: #8f5f4f;
-  /* Estados del panel y del portal: sólo para avisos, nunca en la landing.
-     olive 4.9:1 y terracotta-deep 5.2:1 sobre su propio fondo al 15 %. */
-  --color-terracotta-deep: #7a4a3c;
-  --color-olive: #4f5f44;
 
   /*
    * Cocomat Pro es la fuente de la marca, pero es comercial: hasta que llegue su
@@ -56,8 +44,6 @@
    */
   --font-sans: "Quicksand Variable", Quicksand, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-script: "Pinyon Script", "Apple Chancery", cursive;
-  /* `font-serif` quedó en el backoffice y el portal: lo llevamos a la tipografía de marca. */
-  --font-serif: var(--font-sans);
 }
 
 /*
@@ -183,6 +169,18 @@
 
   .pill-light:hover {
     background-color: rgb(246 240 232 / 0.35);
+  }
+
+  /* Crema sólido: el botón de reservar sobre la foto del hero, que la gente tiene que encontrar. */
+  .pill-bright {
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-cream);
+    color: var(--color-text);
+    box-shadow: 0 2px 14px rgb(0 0 0 / 0.28);
+  }
+
+  .pill-bright:hover {
+    background-color: #fff;
   }
 
   .pill-solid {

@@ -4,22 +4,20 @@ import { studio } from "../content/studio";
 import type { Dictionary } from "../i18n";
 import { richText } from "../lib/content";
 import { formatPhone } from "../lib/format";
-import type { Locale } from "../i18n/locales";
 import { whatsappUrl } from "../lib/urls";
 import Container from "./ui/Container.astro";
-import Prices from "./Prices.astro";
 import CtaButton from "./ui/CtaButton.astro";
 import RichText from "./ui/RichText.astro";
 
 interface Props {
-  locale: Locale;
   dict: Dictionary;
   /** Párrafos de membresías ya interpolados (packs y semanas de validez). */
   membership: readonly string[];
 }
 
-const { locale, dict, membership } = Astro.props;
-const whatsapp = whatsappUrl(studio.whatsappNumber);
+const { dict, membership } = Astro.props;
+// Las membresías no se venden online: el link abre WhatsApp con el mensaje ya escrito, en el idioma de la página.
+const whatsapp = whatsappUrl(studio.whatsappNumber, dict.membership.whatsappMessage);
 const titleClass = "text-xl font-bold tracking-[0.02em] uppercase md:text-2xl";
 ---
 
@@ -61,7 +59,6 @@ const titleClass = "text-xl font-bold tracking-[0.02em] uppercase md:text-2xl";
             </p>
           ))
         }
-        <Prices locale={locale} dict={dict} />
         <p class="tabular-nums">
           <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="text-link">
             {formatPhone(studio.whatsappNumber, "international")}
@@ -78,7 +75,7 @@ const titleClass = "text-xl font-bold tracking-[0.02em] uppercase md:text-2xl";
           </svg>
           {dict.cta.whatsapp}
         </CtaButton>
-        <CtaButton href={PUBLIC_BOOKING_URL}>{dict.cta.bookClass}</CtaButton>
+        <CtaButton href={PUBLIC_BOOKING_URL} external newTabHint={dict.a11y.opensInNewTab}>{dict.cta.bookClass}</CtaButton>
       </div>
     </div>
   </Container>

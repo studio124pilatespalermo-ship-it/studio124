@@ -1,23 +1,25 @@
 ---
 /**
- * Botón principal de reserva. El manual de marca no tiene color de acento: es una píldora
- * neutra, sólida sobre fondo claro y traslúcida sobre foto.
- * Lleva a la app externa en la misma pestaña para no perder al visitante en mobile.
+ * Botón de reserva: lleva a SigueFit (PUBLIC_BOOKING_URL), donde el visitante se registra,
+ * elige el día y paga. Abre en una pestaña nueva para que la landing quede abierta.
+ * El manual de marca no tiene color de acento: es una píldora neutra, sólida o traslúcida.
  */
 import { PUBLIC_BOOKING_URL } from "astro:env/client";
 
 interface Props {
   label: string;
+  /** Aviso para lectores de pantalla: el link abre en otra pestaña. */
+  newTabHint: string;
   size?: "sm" | "md" | "lg";
-  /** `on-photo` para los botones que van encima de una imagen. */
-  tone?: "solid" | "on-photo";
+  /** `solid` sobre fondo claro, `on-photo` traslúcido y `bright` crema sólido, el más visible sobre una foto. */
+  tone?: "solid" | "on-photo" | "bright";
   /** `plain` es la variante en caja baja del encabezado, como la muestra el mockup. */
   variant?: "label" | "plain";
   block?: boolean;
   class?: string;
 }
 
-const { label, size = "md", tone = "solid", variant = "label", block = false, class: className } = Astro.props;
+const { label, newTabHint, size = "md", tone = "solid", variant = "label", block = false, class: className } = Astro.props;
 
 const sizes = {
   sm: "h-10 px-4 text-[0.6875rem]",
@@ -30,15 +32,18 @@ const plainSizes = {
   md: "h-12 px-6 text-base",
   lg: "h-14 px-8 text-lg",
 } as const;
+
+const tones = { solid: "pill-solid", "on-photo": "pill-light", bright: "pill-bright" } as const;
 ---
 
 <a
   href={PUBLIC_BOOKING_URL}
-  rel="noopener"
+  target="_blank"
+  rel="noopener noreferrer"
   class:list={[
     "pill",
-    variant === "plain" ? "font-medium" : "font-semibold tracking-[0.14em] uppercase",
-    tone === "on-photo" ? "pill-light" : "pill-solid",
+    variant === "plain" ? "font-semibold" : "font-semibold tracking-[0.14em] uppercase",
+    tones[tone],
     variant === "plain" ? plainSizes[size] : sizes[size],
     block && "w-full",
     className,
@@ -46,4 +51,5 @@ const plainSizes = {
 >
   <span>{label}</span>
   <span aria-hidden="true" class="text-[1.2em] leading-none">&rarr;</span>
+  <span class="sr-only"> {newTabHint}</span>
 </a>

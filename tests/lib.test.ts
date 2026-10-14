@@ -140,3 +140,24 @@ describe("teléfono y horas del mockup", () => {
     expect(instagramHandle("https://www.instagram.com/studio124.pilates/")).toBe("studio124.pilates");
   });
 });
+
+describe("WhatsApp de membresías", () => {
+  it("abre el chat con el mensaje ya escrito y bien codificado", () => {
+    const url = whatsappUrl("5491168309759", "Hola! Quiero info sobre las membresías");
+    expect(url).toBe("https://wa.me/5491168309759?text=Hola!%20Quiero%20info%20sobre%20las%20membres%C3%ADas");
+  });
+
+  it("sin mensaje, abre el chat vacío", () => {
+    expect(whatsappUrl("5491168309759")).toBe("https://wa.me/5491168309759");
+  });
+
+  it("cada idioma trae su propio mensaje y su propio botón de reserva", () => {
+    const messages = LOCALES.map((locale) => getDictionary(locale).membership.whatsappMessage);
+    const labels = LOCALES.map((locale) => getDictionary(locale).cta.bookShort);
+    expect(new Set(messages).size).toBe(LOCALES.length);
+    expect(new Set(labels).size).toBe(LOCALES.length);
+    expect(getDictionary("es").cta.bookShort).toBe("Reservar clase");
+    expect(getDictionary("en").cta.bookShort).toBe("Book a class");
+    expect(getDictionary("pt").cta.bookShort).toBe("Reservar aula");
+  });
+});

@@ -17,7 +17,7 @@ const { locale, dict } = Astro.props;
 
 {/*
   Encabezado del mockup: logo sobre círculo traslúcido, el selector de idioma y el botón
-  de reserva. El acceso a "Mi cuenta" vive en el pie, donde lo busca quien ya reservó.
+  de reserva.
 */}
 <header class="on-dark absolute inset-x-0 top-0 z-20 text-cream">
   <Container class="flex items-center justify-between gap-3 py-4 md:py-6">
@@ -30,7 +30,7 @@ const { locale, dict } = Astro.props;
     </a>
     <div class="flex items-center gap-2 md:gap-7">
       <LanguageSwitcher current={locale} label={dict.a11y.languageNav} />
-      <BookButton label={dict.cta.bookShort} variant="plain" tone="on-photo" class="hidden min-[370px]:inline-flex" />
+      <BookButton label={dict.cta.bookShort} newTabHint={dict.a11y.opensInNewTab} variant="plain" tone="bright" class="hidden md:inline-flex" />
     </div>
   </Container>
 </header>

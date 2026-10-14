@@ -5,14 +5,6 @@ export function localePath(locale: Locale): string {
   return `/${locale}/`;
 }
 
-/**
- * Portal del cliente, con el idioma de la landing. El portal lo usa como idioma inicial;
- * después manda el que tenga guardado en su ficha.
- */
-export function accountPath(locale: Locale): string {
-  return `/cuenta/?lang=${locale}`;
-}
-
 export function absoluteUrl(path: string, site: URL): string {
   return new URL(path, site).toString();
 }
@@ -40,9 +32,14 @@ export function googleMapsUrl(queryOrUrl: string): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(queryOrUrl)}`;
 }
 
-/** Link de WhatsApp o placeholder si el número todavía no está cargado. */
-export function whatsappUrl(number: string): string {
-  return isPlaceholder(number) ? number : `https://wa.me/${number.replace(/\D/g, "")}`;
+/**
+ * Link de WhatsApp o placeholder si el número todavía no está cargado. Con `message`, el chat
+ * se abre con el texto ya escrito (en el idioma de la página), listo para enviar.
+ */
+export function whatsappUrl(number: string, message?: string): string {
+  if (isPlaceholder(number)) return number;
+  const base = `https://wa.me/${number.replace(/\D/g, "")}`;
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 
 /** Usuario de Instagram a partir de la URL del perfil: ".../studio124.pilates/" → "studio124.pilates". */

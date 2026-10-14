@@ -1,12 +1,11 @@
 ---
 import { Image } from "astro:assets";
-import { PUBLIC_API_URL } from "astro:env/client";
 import { footerBackground } from "../content/photos";
 import { studio } from "../content/studio";
 import { interpolate, type Dictionary } from "../i18n";
 import type { Locale } from "../i18n/locales";
 import { formatClock, formatDays, formatPhone } from "../lib/format";
-import { accountPath, instagramHandle, whatsappUrl } from "../lib/urls";
+import { instagramHandle, whatsappUrl } from "../lib/urls";
 import { LOGO_FIGURE_PATH } from "./brand/logo-paths";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import Container from "./ui/Container.astro";
@@ -98,23 +97,9 @@ const hours = studio.openingHours.map((entry) => ({
     </Container>
   </div>
 
-  {/*
-    Franja legal debajo de la foto (no está en el mockup): el acceso a "Mi cuenta" es la única
-    entrada al portal de reservas, y el selector de idioma y el © tienen que estar en algún lado.
-  */}
+  {/* Franja de abajo (no está en el mockup): el selector de idioma y el © tienen que estar en algún lado. */}
   <div class="bg-cream py-6 text-xs">
     <Container class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-      {/* Sin API configurada el portal no funciona: no se ofrece un link que lleve a un error. */}
-      {
-        PUBLIC_API_URL && (
-          <p>
-            {dict.a11y.accountHint}{" "}
-            <a href={accountPath(locale)} class="text-link font-semibold">
-              {dict.a11y.account}
-            </a>
-          </p>
-        )
-      }
       <LanguageSwitcher current={locale} label={dict.a11y.languageNav} class="-ml-1.5" />
       <p>&copy; {new Date().getFullYear()} {studio.name}. {dict.footer.rights}</p>
     </Container>

@@ -1,10 +1,10 @@
 // @ts-check
 import { defineConfig, envField } from "astro/config";
-import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { loadEnv } from "vite";
 import cspGuard from "./integrations/csp-guard.mjs";
+import landingGuard from "./integrations/landing-guard.mjs";
 import placeholderReport from "./integrations/placeholder-report.mjs";
 
 const env = loadEnv(process.env.NODE_ENV ?? "production", process.cwd(), "");
@@ -30,8 +30,6 @@ export default defineConfig({
     schema: {
       // Validado al compilar: si falta o no es una URL, `astro build` y `astro dev` fallan.
       PUBLIC_BOOKING_URL: envField.string({ context: "client", access: "public", url: true }),
-      // Dirección de la API del sistema de reservas (panel /admin y portal /cuenta).
-      PUBLIC_API_URL: envField.string({ context: "client", access: "public", url: true, optional: true }),
     },
     validateSecrets: true,
   },
@@ -48,9 +46,9 @@ export default defineConfig({
         locales: { en: "en", pt: "pt-BR", es: "es" },
       },
     }),
-    react(),
     placeholderReport(),
     cspGuard(),
+    landingGuard(),
   ],
   vite: {
     plugins: [tailwindcss()],

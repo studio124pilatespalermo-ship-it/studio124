@@ -94,7 +94,7 @@ const paragraphs = body.map(rich);
         <p class="mt-5 text-base font-semibold md:text-lg">{dict.experience.note}</p>
 
         <div class="mt-8 flex flex-wrap gap-3 md:justify-end">
-          <BookButton label={dict.cta.book} variant="plain" size="lg" tone="on-photo" />
+          <BookButton label={dict.cta.book} newTabHint={dict.a11y.opensInNewTab} variant="plain" size="lg" tone="on-photo" />
           <Pill
             href={studio.links.googleMaps}
             tone="on-photo"

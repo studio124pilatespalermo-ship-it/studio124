@@ -10,13 +10,11 @@
     "home": "Studio124, inicio",
     "opensInNewTab": "(se abre en una pestaña nueva)",
     "bookingBar": "Reserva rápida",
-    "chooseLanguage": "Elegí tu idioma",
-    "account": "Mi cuenta",
-    "accountHint": "Ya reservaste: entrá a ver tus clases"
+    "chooseLanguage": "Elegí tu idioma"
   },
   "cta": {
     "book": "Reservá y pagá tu clase",
-    "bookShort": "Reservar",
+    "bookShort": "Reservar clase",
     "info": "+ info",
     "more": "saber más",
     "directions": "Cómo llegar",
@@ -73,7 +71,8 @@
     "title": "Nuestros horarios",
     "weekdays": "Lunes a viernes",
     "saturday": "Sáb",
-    "note": "*Consultanos por disponibilidad"
+    "note": "*Consultanos por disponibilidad",
+    "singleClass": "Clase única"
   },
   "steps": {
     "title": "Reservá en cuatro pasos",
@@ -102,16 +101,8 @@
       "También contamos con packs de {packs} clases, que podés realizar dentro de un período de {weeks} semanas.",
       "No necesitás esperar al comienzo del mes: _podés empezar tu membresía cuando quieras_ y tus {weeks} semanas comienzan a correr desde ese momento.",
       "Para conocer los valores, elegir la frecuencia que mejor se adapte a vos y tus turnos fijos, escribinos por WhatsApp y reservá tu membresía. Te ayudamos a encontrar la opción ideal para tu rutina."
-    ]
-  },
-  "prices": {
-    "title": "Valores",
-    "single": "Clase suelta",
-    "trial": "Clase de prueba",
-    "duo": "Clase dúo",
-    "classes": "{count} clases",
-    "weeks": "para usar en {weeks} semanas",
-    "days": "para usar en {days} días"
+    ],
+    "whatsappMessage": "Hola! Quiero info sobre las membresías"
   },
   "photos": {
     "hero": "Alumna haciendo un puente sobre el reformer, frente a los ventanales del estudio",

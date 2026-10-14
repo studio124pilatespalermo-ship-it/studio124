@@ -10,13 +10,11 @@
     "home": "Studio124, home",
     "opensInNewTab": "(opens in a new tab)",
     "bookingBar": "Quick booking",
-    "chooseLanguage": "Choose your language",
-    "account": "My account",
-    "accountHint": "Already booked? See your classes"
+    "chooseLanguage": "Choose your language"
   },
   "cta": {
     "book": "Book and pay for your class",
-    "bookShort": "Book",
+    "bookShort": "Book a class",
     "info": "+ info",
     "more": "learn more",
     "directions": "Get directions",
@@ -73,7 +71,8 @@
     "title": "Our timetable",
     "weekdays": "Monday to Friday",
     "saturday": "Sat",
-    "note": "*Ask us about availability"
+    "note": "*Ask us about availability",
+    "singleClass": "Single class"
   },
   "steps": {
     "title": "Book in four steps",
@@ -102,16 +101,8 @@
       "We also offer packs of {packs} classes, to be used within a {weeks}-week period.",
       "You do not have to wait for the start of the month: _you can begin your membership whenever you like_, and your {weeks} weeks start from that moment.",
       "To hear the prices, pick the frequency that suits you best and set your regular time slots, message us on WhatsApp and book your membership. We will help you find the right option for your routine."
-    ]
-  },
-  "prices": {
-    "title": "Prices",
-    "single": "Single class",
-    "trial": "Trial class",
-    "duo": "Duo class",
-    "classes": "{count} classes",
-    "weeks": "to use within {weeks} weeks",
-    "days": "to use within {days} days"
+    ],
+    "whatsappMessage": "Hi! I'd like info about the memberships"
   },
   "photos": {
     "hero": "A student arching back on the reformer in front of the studio windows",

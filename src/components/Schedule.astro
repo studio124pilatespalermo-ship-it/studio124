@@ -3,15 +3,19 @@ import { Image } from "astro:assets";
 import { photos } from "../content/photos";
 import { studio, type TimeValue } from "../content/studio";
 import type { Dictionary } from "../i18n";
-import { formatTime } from "../lib/format";
+import { LOCALE_META, type Locale } from "../i18n/locales";
+import { formatMoney, formatTime } from "../lib/format";
 import Container from "./ui/Container.astro";
 import Text from "./ui/Text.astro";
 
 interface Props {
+  locale: Locale;
   dict: Dictionary;
 }
 
-const { dict } = Astro.props;
+const { locale, dict } = Astro.props;
+// Precio de la clase única (la única que se vende online, en SigueFit). Pendiente = {{PRECIO}} visible.
+const singleClassPrice = formatMoney(studio.dropInPrice, LOCALE_META[locale].intl);
 
 /** El mockup muestra los horarios de la semana de a tres por renglón. */
 function rowsOfThree(times: readonly TimeValue[]): string[] {
@@ -81,6 +85,12 @@ const groups = studio.classSchedule.map((group) => {
               </div>
             ))
           }
+          <div class="mx-auto max-w-xl rounded-[1.5rem] bg-black/50 px-6 py-4 backdrop-blur-[2px] md:flex md:items-center md:justify-center md:gap-5">
+            <dt class="eyebrow text-base md:text-lg">{dict.schedule.singleClass}</dt>
+            <dd class="mt-2 text-xl font-semibold tabular-nums md:mt-0 md:text-2xl">
+              <Text text={singleClassPrice.text} />
+            </dd>
+          </div>
         </dl>
 
         <p class="eyebrow mt-8 inline-block rounded-full bg-black/50 px-5 py-2 backdrop-blur-[2px]">{dict.schedule.note}</p>

@@ -1,3 +1,0 @@
-# Vercel trata una carpeta api/ en la raiz como funciones serverless (max. 12 en el plan Hobby).
-# La nuestra es el backend completo, que corre en Railway: no tiene que subirse a Vercel.
-api/
