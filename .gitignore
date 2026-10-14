@@ -8,3 +8,18 @@ dist/
 npm-debug.log*
 .DS_Store
 docs/pdf/
+
+# Configuración local de Claude Code (rutas de la máquina de cada persona, nunca al repo)
+.claude/
+
+# Credenciales y claves: jamás van al repositorio
+*.pem
+*.key
+*.p12
+*.pfx
+credenciales*
+*credentials*.txt
+.data/
+
+# Logs y archivos temporales
+*.log
