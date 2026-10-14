@@ -68,7 +68,7 @@ const jsonLd = buildJsonLd({
     <Experience dict={dict} body={dict.experience.body.map((text) => interpolate(text, vars))} />
     <About dict={dict} />
     <Method dict={dict} text={interpolate(dict.method.text, vars)} />
-    <Schedule locale={lang} dict={dict} />
+    <Schedule dict={dict} />
     <BookAndMembership dict={dict} membership={dict.membership.body.map((text) => interpolate(text, vars))} />
     <Faq dict={dict} items={faq} />
   </main>

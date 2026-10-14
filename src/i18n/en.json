@@ -71,8 +71,7 @@
     "title": "Our timetable",
     "weekdays": "Monday to Friday",
     "saturday": "Sat",
-    "note": "*Ask us about availability",
-    "singleClass": "Single class"
+    "note": "*Ask us about availability"
   },
   "steps": {
     "title": "Book in four steps",

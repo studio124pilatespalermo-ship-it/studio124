@@ -78,6 +78,8 @@ const WEEKDAYS: readonly DayKey[] = ["mon", "tue", "wed", "thu", "fri"];
 export const studio = {
   name: "Studio124",
 
+  // El precio no se publica en la landing: se ve dentro de SigueFit. Queda `null` a propósito;
+  // si se carga, el JSON-LD lo incluye como oferta (la página no lo muestra).
   dropInPrice: { amountMinor: null, currency: "ARS" },
   classDurationMinutes: 50,
   maxPeoplePerClass: 6,

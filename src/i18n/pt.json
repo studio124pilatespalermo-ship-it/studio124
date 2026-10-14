@@ -71,8 +71,7 @@
     "title": "Nossos horários",
     "weekdays": "Segunda a sexta",
     "saturday": "Sáb",
-    "note": "*Consulte a disponibilidade",
-    "singleClass": "Aula avulsa"
+    "note": "*Consulte a disponibilidade"
   },
   "steps": {
     "title": "Reserve em quatro passos",

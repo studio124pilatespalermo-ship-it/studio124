@@ -1,14 +1,15 @@
 # Studio124 · Landing para visitantes
 
 Landing de **Studio124**, estudio boutique de Pilates Reformer en Palermo Soho, Buenos Aires.
-Un visitante extranjero, desde el celular, entiende la propuesta en su idioma, ve horarios y el precio de la
-clase única y reserva en **SigueFit**, donde se registra, elige el día y paga.
+Un visitante extranjero, desde el celular, entiende la propuesta en su idioma, ve los horarios y reserva en
+**SigueFit**, donde se registra, ve el precio, elige el día y paga.
 
 ## Alcance de esta versión
 
 - **Se publica sólo la landing.** No hay backend, ni base de datos, ni panel, ni portal de clientes.
 - Tres idiomas con ruta propia: `/en/`, `/pt/`, `/es/`. La raíz `/` redirige según el idioma del navegador.
 - **Clase única:** todos los botones de reserva llevan a SigueFit (`PUBLIC_BOOKING_URL`) y abren en pestaña nueva.
+  El precio no se muestra en la landing: se ve dentro de SigueFit.
 - **Membresías y packs:** no se venden online. Los botones abren WhatsApp con un mensaje ya escrito en el idioma
   de la página. No se muestran precios de membresías: se consultan por WhatsApp.
 - El sistema de reservas propio (API, panel `/admin` y portal `/cuenta`) está guardado en la rama
@@ -44,20 +45,16 @@ Abrí http://localhost:4321/.
 
 ## Qué se cambia y dónde
 
-### Precio, horarios y datos del estudio: `src/content/studio.ts`
+### Horarios y datos del estudio: `src/content/studio.ts`
 
 ```ts
-// Precio de la clase única, en unidades menores (centavos). null = pendiente ({{PRECIO}} visible).
-dropInPrice: { amountMinor: 2_500_000, currency: "ARS" },   // → ARS 25,000 / ARS 25.000 según el idioma
-
 classDurationMinutes: 50,
 classSchedule: [ /* grupos de días con los mismos horarios */ ],
 openingHours:  [ /* horario de atención del pie y de los datos estructurados */ ],
 whatsappNumber: "5491168309759",
 ```
 
-El precio de la clase única se muestra junto a los horarios. TypeScript valida el formato: una hora mal escrita
-o un día inexistente no compila.
+TypeScript valida el formato: una hora mal escrita o un día inexistente no compila.
 
 ### Link de reserva (SigueFit): variable `PUBLIC_BOOKING_URL`
 
@@ -159,7 +156,6 @@ tests/                  Vitest
 
 El build lista al final los `{{PENDIENTES}}` que quedan en el HTML; en la página se ven resaltados.
 
-- `{{PRECIO}}`: precio de la clase única → `dropInPrice.amountMinor` en `src/content/studio.ts`.
 - Link de la clase única en SigueFit → `PUBLIC_BOOKING_URL` (hoy apunta a la página general de SigueFit).
 - Fotos y video definitivos de la clienta (ver tabla de arriba).
 - Licencia web de Cocomat Pro (opcional).
